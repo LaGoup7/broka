@@ -261,10 +261,29 @@
     @media (min-width: 640px) {
       .form-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
     }
-    .form-success { display: none; text-align: center; padding: 40px 0; }
-    .form-success .check { font-size: 3rem; margin-bottom: 12px; }
-    .form-success h3 { color: white; margin-bottom: 8px; }
-    .form-success p { color: rgba(255,255,255,.65); }
+    .form-success {
+      display: none; text-align: center; padding: 8px 0 16px;
+    }
+    .form-success-card {
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      border-radius: var(--r-lg); padding: 40px 28px;
+    }
+    .form-success-icon {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(74,222,128,.15); border: 2px solid rgba(74,222,128,.4);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .form-success h3 { color: white; font-size: 1.5rem; margin-bottom: 10px; }
+    .form-success .sub { color: rgba(255,255,255,.65); margin-bottom: 28px; font-size: .95rem; }
+    .btn-pdf {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--brown); color: white; border-radius: var(--r-pill);
+      padding: 14px 28px; font-family: var(--ff-body); font-weight: 700;
+      font-size: .95rem; transition: var(--tr); margin-bottom: 20px;
+    }
+    .btn-pdf:hover { background: #7a5e34; transform: translateY(-2px); }
+    .form-success .note { font-size: .78rem; color: rgba(255,255,255,.35); }
 
     /* ── MARCHÉS ── */
     #marches { background: var(--cream-dark); }
@@ -513,9 +532,18 @@
       </form>
     </div>
     <div class="form-success" id="form-success">
-      <div class="check">✅</div>
-      <h3>C'est envoyé !</h3>
-      <p>Vérifiez votre boîte mail — le guide arrive dans quelques minutes.</p>
+      <div class="form-success-card">
+        <div class="form-success-icon">
+          <svg width="28" height="28" fill="none" stroke="#4ADE80" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+        </div>
+        <h3>Guide envoyé !</h3>
+        <p class="sub">Vérifiez votre boîte mail — le lien de téléchargement arrive dans quelques minutes.</p>
+        <a href="Guide_BroKa_7_idees_vinaigre_pomme.pdf" target="_blank" class="btn-pdf">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+          Télécharger maintenant
+        </a>
+        <p class="note">Vous pouvez aussi le télécharger directement ci-dessus — sans attendre l'email.</p>
+      </div>
     </div>
   </div>
 </section>
