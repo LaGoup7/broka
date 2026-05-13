@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "nodemailer": "^6.10.1",
     "stripe": "^17.0.0"
   }
 }

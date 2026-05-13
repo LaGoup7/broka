@@ -10,18 +10,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --green-deep:  #1E3A1F;
-      --green-mid:   #2D5A2E;
-      --green-light: #4A7C4E;
-      --cream:       #F8F4ED;
-      --cream-dark:  #EDE7D9;
-      --cream-bd:    #D8CFC0;
-      --brown:       #8B6B3D;
-      --brown-lt:    #C4A882;
+      --green-deep:  #112015;
+      --green-mid:   #1C3D22;
+      --green-light: #2D6035;
+      --basque:      #8C1F22;
+      --cream:       #F4EFE6;
+      --cream-dark:  #E8E0D0;
+      --cream-bd:    #D2C9B5;
+      --brown:       #A67C30;
+      --brown-lt:    #C9A45A;
       --white:       #FFFFFF;
-      --txt-dk:      #1A1A1A;
-      --txt-md:      #4A4A4A;
-      --txt-lt:      #7A7A7A;
+      --txt-dk:      #0E160F;
+      --txt-md:      #38352E;
+      --txt-lt:      #78746C;
       --ff-disp: 'Playfair Display', Georgia, serif;
       --ff-body: 'Lato', system-ui, sans-serif;
       --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-pill: 100px;
@@ -51,17 +52,41 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
       padding: 14px 28px; border-radius: var(--r-pill);
-      font-family: var(--ff-body); font-size: .95rem; font-weight: 700;
-      cursor: pointer; border: none; transition: var(--tr); white-space: nowrap;
+      font-family: var(--ff-body); font-size: .88rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      cursor: pointer; border: none;
+      transition: transform .32s cubic-bezier(.4,0,.2,1), box-shadow .32s cubic-bezier(.4,0,.2,1);
+      white-space: nowrap; position: relative; overflow: hidden;
     }
-    .btn-primary { background: var(--green-deep); color: var(--white); }
-    .btn-primary:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: var(--sh-md); }
-    .btn-brown { background: var(--brown); color: var(--white); }
-    .btn-brown:hover { background: #7a5e34; transform: translateY(-2px); box-shadow: var(--sh-md); }
-    .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.55); }
-    .btn-outline:hover { background: rgba(255,255,255,.1); border-color: white; }
+    .btn::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.13) 50%, transparent 60%);
+      transform: translateX(-110%); transition: transform .55s ease; pointer-events: none;
+    }
+    .btn:hover::after { transform: translateX(110%); }
+    .btn-primary {
+      background: linear-gradient(145deg, #1C3D22 0%, #0E1A0F 100%);
+      color: var(--white);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(14,26,15,.5); }
+    .btn-brown {
+      background: linear-gradient(145deg, #BA8C38 0%, #876420 100%);
+      color: var(--white);
+    }
+    .btn-brown:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(166,124,48,.45); }
+    .btn-basque {
+      background: linear-gradient(145deg, #A52428 0%, #6E1518 100%);
+      color: var(--white);
+    }
+    .btn-basque:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(140,31,34,.5); }
+    .btn-outline {
+      background: transparent; color: var(--white);
+      border: 1.5px solid rgba(255,255,255,.38);
+      backdrop-filter: blur(6px);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.75); transform: translateY(-2px); }
     .btn-full { width: 100%; }
-    .btn-lg { padding: 17px 36px; font-size: 1rem; }
+    .btn-lg { padding: 18px 40px; font-size: .9rem; }
     .btn:disabled, button:disabled { opacity: .6; cursor: not-allowed; transform: none !important; }
 
     /* Fade-in */
@@ -154,7 +179,7 @@
     #hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; }
     .hero-bg {
       position: absolute; inset: 0;
-      background: url('images/broka_bouteille_verger.jpg') center/cover no-repeat;
+      background: url('images/header.jpg') center/cover no-repeat;
     }
     .hero-bg::after {
       content: ''; position: absolute; inset: 0;
@@ -193,7 +218,7 @@
       background: var(--green-deep); border-radius: var(--r-lg);
       overflow: hidden; box-shadow: var(--sh-lg); display: flex; flex-direction: column;
     }
-    .pack-img { aspect-ratio: 16/9; overflow: hidden; }
+    .pack-img { aspect-ratio: 4/3; overflow: hidden; }
     .pack-img img { width: 100%; height: 100%; object-fit: cover; }
     .pack-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
     .badge-pop {
@@ -223,9 +248,9 @@
       display: flex; flex-direction: column; transition: var(--tr);
     }
     .product-card:hover { transform: translateY(-3px); box-shadow: var(--sh-md); }
-    .prod-img { aspect-ratio: 4/3; overflow: hidden; }
-    .prod-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
-    .product-card:hover .prod-img img { transform: scale(1.04); }
+    .prod-img { aspect-ratio: 1/1; overflow: hidden; background: white; display: flex; align-items: center; justify-content: center; }
+    .prod-img img { width: 100%; height: 100%; object-fit: contain; padding: 8px; box-sizing: border-box; transition: transform .4s ease; }
+    .product-card:hover .prod-img img { transform: scale(1.03); }
     .prod-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
     .prod-body h4 { font-family: var(--ff-disp); font-size: 1rem; color: var(--green-deep); margin-bottom: 4px; }
     .prod-desc { font-size: .82rem; color: var(--txt-lt); margin-bottom: 14px; flex: 1; }
@@ -233,12 +258,15 @@
     .prod-price { font-size: 1.15rem; font-weight: 700; color: var(--green-deep); font-family: var(--ff-disp); line-height: 1.1; }
     .prod-price small { font-size: .68rem; font-weight: 400; color: var(--txt-lt); display: block; }
     .btn-add {
-      background: var(--green-deep); color: white; border: none;
-      border-radius: var(--r-pill); padding: 9px 16px;
-      font-size: .8rem; font-weight: 700; cursor: pointer;
-      font-family: var(--ff-body); transition: var(--tr); white-space: nowrap;
+      background: linear-gradient(145deg, #1C3D22 0%, #0E1A0F 100%);
+      color: white; border: none;
+      border-radius: var(--r-pill); padding: 9px 18px;
+      font-size: .72rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      cursor: pointer; font-family: var(--ff-body);
+      transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s;
+      white-space: nowrap;
     }
-    .btn-add:hover { background: var(--green-mid); transform: translateY(-1px); }
+    .btn-add:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(14,26,15,.45); }
 
     /* ── GUIDE ── */
     #guide { background: var(--green-deep); }
@@ -278,11 +306,20 @@
     .form-success .sub { color: rgba(255,255,255,.65); margin-bottom: 28px; font-size: .95rem; }
     .btn-pdf {
       display: inline-flex; align-items: center; gap: 10px;
-      background: var(--brown); color: white; border-radius: var(--r-pill);
-      padding: 14px 28px; font-family: var(--ff-body); font-weight: 700;
-      font-size: .95rem; transition: var(--tr); margin-bottom: 20px;
+      background: linear-gradient(145deg, #BA8C38 0%, #876420 100%);
+      color: white; border-radius: var(--r-pill);
+      padding: 15px 32px; font-family: var(--ff-body); font-weight: 700;
+      font-size: .85rem; letter-spacing: .06em; text-transform: uppercase;
+      transition: transform .32s cubic-bezier(.4,0,.2,1), box-shadow .32s;
+      margin-bottom: 20px; position: relative; overflow: hidden;
     }
-    .btn-pdf:hover { background: #7a5e34; transform: translateY(-2px); }
+    .btn-pdf::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.13) 50%, transparent 60%);
+      transform: translateX(-110%); transition: transform .55s ease; pointer-events: none;
+    }
+    .btn-pdf:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(166,124,48,.45); }
+    .btn-pdf:hover::after { transform: translateX(110%); }
     .form-success .note { font-size: .78rem; color: rgba(255,255,255,.35); }
 
     /* ── MARCHÉS ── */
@@ -297,7 +334,11 @@
     .marche-card.active .marche-day { color: var(--brown-lt); }
     .marche-card h3 { font-size: 1.1rem; color: var(--green-deep); margin-bottom: 3px; }
     .marche-card.active h3 { color: white; }
-    .marche-city { font-size: .88rem; color: var(--txt-lt); }
+    .marche-city { font-size: .88rem; color: var(--txt-lt); margin-bottom: 6px; }
+    .marche-addr { font-size: .8rem; color: var(--txt-lt); margin-bottom: 2px; }
+    .marche-hours { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--brown); margin-bottom: 12px; }
+    .marche-card.active .marche-addr { color: rgba(255,255,255,.5); }
+    .marche-card.active .marche-hours { color: var(--brown-lt); }
     .marche-card.active .marche-city { color: rgba(255,255,255,.6); }
     .marche-live { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 700; color: #4ADE80; margin-top: 12px; }
 
@@ -323,24 +364,51 @@
     .histoire-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 
     /* ── FOOTER ── */
-    footer { background: var(--green-deep); color: rgba(255,255,255,.6); padding: 48px 0 32px; font-size: .85rem; }
-    .footer-inner { display: flex; flex-direction: column; gap: 24px; }
-    @media (min-width: 640px) {
-      .footer-inner { flex-direction: row; flex-wrap: wrap; gap: 32px 48px; align-items: flex-start; }
-      .footer-legal { width: 100%; }
+    footer { background: #0B1A0E; color: rgba(255,255,255,.5); font-size: .85rem; }
+    .footer-stripe { height: 4px; background: linear-gradient(90deg, var(--basque) 0%, #B02A2E 100%); }
+    .footer-grid {
+      display: grid; grid-template-columns: 1fr; gap: 40px;
+      padding: 60px 0 44px;
     }
-    .footer-brand h3 { color: white; font-size: 1.25rem; margin-bottom: 4px; }
+    @media (min-width: 640px) {
+      .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px 48px; }
+    }
+    .footer-logo { font-family: var(--ff-disp); font-size: 1.7rem; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: .03em; }
+    .footer-motto { color: rgba(255,255,255,.42); font-size: .82rem; line-height: 1.75; margin-bottom: 22px; }
+    .footer-heading {
+      font-family: var(--ff-body); font-size: .68rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--brown-lt); margin-bottom: 16px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-links a { color: rgba(255,255,255,.48); transition: color .2s; }
+    .footer-links a:hover { color: white; }
+    .footer-txt { color: rgba(255,255,255,.45); font-size: .85rem; line-height: 1.75; }
+    .footer-contact-link { color: var(--brown-lt); display: block; margin-top: 10px; font-size: .85rem; transition: color .2s; }
+    .footer-contact-link:hover { color: white; }
+    .footer-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 16px; padding: 5px 12px;
+      border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-pill);
+      font-size: .72rem; color: rgba(255,255,255,.4); letter-spacing: .05em;
+    }
+    .footer-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--basque); flex-shrink: 0; }
     .social-row { display: flex; gap: 10px; }
     .social-ico {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center;
-      color: white; transition: var(--tr);
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.6); transition: var(--tr);
     }
-    .social-ico:hover { background: rgba(255,255,255,.2); }
-    .footer-nav { display: flex; flex-direction: column; gap: 10px; }
-    .footer-nav a { color: rgba(255,255,255,.55); transition: color .2s; }
-    .footer-nav a:hover { color: white; }
-    .footer-legal { border-top: 1px solid rgba(255,255,255,.1); padding-top: 20px; margin-top: 4px; font-size: .78rem; }
+    .social-ico:hover { background: rgba(255,255,255,.16); color: white; border-color: rgba(255,255,255,.25); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding: 22px 0; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 8px;
+      font-size: .76rem; color: rgba(255,255,255,.28);
+    }
+    .footer-bottom a { color: rgba(255,255,255,.28); transition: color .2s; }
+    .footer-bottom a:hover { color: rgba(255,255,255,.6); }
   </style>
 </head>
 <body>
@@ -379,7 +447,7 @@
 </div>
 
 <!-- WhatsApp FAB -->
-<a href="https://wa.me/33XXXXXXXXX" class="wa-fab" target="_blank" rel="noopener" aria-label="Contacter par WhatsApp">
+<a href="https://wa.me/33770012652" class="wa-fab" target="_blank" rel="noopener" aria-label="Contacter par WhatsApp">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
 
@@ -395,7 +463,7 @@
     <h1>L'authenticité du<br>Pays Basque,<br>en bouteille</h1>
     <p class="hero-sub">Vinaigre de cidre artisanal &amp; Xipister,<br>fabriqués avec passion à la ferme.</p>
     <div class="hero-ctas">
-      <a href="#produits" class="btn btn-primary btn-lg">Voir nos produits →</a>
+      <a href="#produits" class="btn btn-basque btn-lg">Voir nos produits →</a>
       <a href="#guide" class="btn btn-outline btn-lg">Guide gratuit</a>
     </div>
   </div>
@@ -413,7 +481,7 @@
 
       <div class="pack-card fi">
         <div class="pack-img">
-          <img src="images/broka_bouteille_pommes.jpg" alt="Pack Découverte BroKa" style="object-position:center 20%;">
+          <img src="images/broka_pack_decouverte.jpg" alt="Pack Découverte BroKa" style="object-position:center center;">
         </div>
         <div class="pack-body">
           <span class="badge-pop">⭐ Le plus populaire</span>
@@ -466,7 +534,7 @@
 
       <div class="product-card fi">
         <div class="prod-img">
-          <img src="images/Vinaigre_cidre_refill_3L.jpg" alt="Vinaigre de cidre BroKa vrac 3L" style="object-position:center center;">
+          <img src="images/vinaigre_refill_3L_seul.jpg" alt="Vinaigre de cidre BroKa vrac 3L" style="object-position:center center;">
         </div>
         <div class="prod-body">
           <h4>Vinaigre de cidre vrac</h4>
@@ -493,6 +561,12 @@
       </div>
 
     </div>
+  </div>
+  <div id="cart-cta" style="display:none;text-align:center;padding:0 20px 48px;">
+    <button onclick="openCart()" class="btn btn-primary" style="gap:12px;">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+      Voir mon panier
+    </button>
   </div>
 </section>
 
@@ -558,16 +632,18 @@
     <div class="marches-grid">
       <div class="marche-card active fi">
         <div class="marche-week">Ce samedi</div>
-        <div class="marche-day">Samedi</div>
         <h3 id="marche-now-nom">—</h3>
         <div class="marche-city" id="marche-now-city">—</div>
+        <div class="marche-addr" id="marche-now-addr">—</div>
+        <div class="marche-hours" id="marche-now-hours">—</div>
         <div class="marche-live"><span class="pulse"></span> Présents ce week-end</div>
       </div>
       <div class="marche-card fi">
         <div class="marche-week">Samedi prochain</div>
-        <div class="marche-day">Samedi</div>
         <h3 id="marche-next-nom">—</h3>
         <div class="marche-city" id="marche-next-city">—</div>
+        <div class="marche-addr" id="marche-next-addr">—</div>
+        <div class="marche-hours" id="marche-next-hours">—</div>
       </div>
     </div>
   </div>
@@ -619,30 +695,60 @@
 
 <!-- ════ FOOTER ════ -->
 <footer>
+  <div class="footer-stripe"></div>
   <div class="container">
-    <div class="footer-inner">
+    <div class="footer-grid">
+
+      <!-- Identité -->
       <div class="footer-brand">
-        <h3>BroKa</h3>
-        <p>GAEC Goyhenetxea · Artisans du Pays Basque</p>
+        <div class="footer-logo">BroKa</div>
+        <p class="footer-motto">Vinaigre de cidre et Xipister artisanaux, fermentés lentement à la ferme Goyhenetxea, au cœur du Pays Basque français.</p>
+        <div class="social-row">
+          <a href="https://www.facebook.com/search/top?q=broka%20mait%C3%A9%20et%20olivier%20gaec%20goyhenetxea" target="_blank" rel="noopener" class="social-ico" aria-label="Facebook">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/broka_maite_olivier_latchere/" target="_blank" rel="noopener" class="social-ico" aria-label="Instagram">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://wa.me/33770012652" target="_blank" rel="noopener" class="social-ico" aria-label="WhatsApp">
+            <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </a>
+        </div>
+        <span class="footer-badge">Produit au Pays Basque, France</span>
       </div>
-      <div class="social-row">
-        <a href="https://www.facebook.com/" target="_blank" rel="noopener" class="social-ico" aria-label="Facebook">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="social-ico" aria-label="Instagram">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </a>
-        <a href="https://wa.me/33XXXXXXXXX" target="_blank" rel="noopener" class="social-ico" aria-label="WhatsApp">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        </a>
+
+      <!-- Produits -->
+      <div>
+        <p class="footer-heading">Nos produits</p>
+        <ul class="footer-links">
+          <li><a href="#produits">Vinaigre de cidre 500ml</a></li>
+          <li><a href="#produits">Vinaigre vrac 3L</a></li>
+          <li><a href="#produits">Xipister Xü-Beroa</a></li>
+          <li><a href="#produits">Pack Découverte</a></li>
+          <li><a href="#produits">Pack Recharge Famille</a></li>
+        </ul>
       </div>
-      <nav class="footer-nav">
-        <a href="#produits">Nos produits</a>
-        <a href="#marches">Marchés</a>
-        <a href="#guide">Newsletter</a>
-        <a href="mailto:contact@yourqr.page">Contact</a>
-      </nav>
-      <div class="footer-legal">© 2026 GAEC Goyhenetxea · BroKa · Tous droits réservés</div>
+
+      <!-- Marchés -->
+      <div>
+        <p class="footer-heading">Marchés</p>
+        <p class="footer-txt">Chaque samedi matin sur les marchés du Pays Basque.</p>
+        <p class="footer-txt" style="margin-top:12px;">Semaines paires &amp; impaires — consultez le calendrier sur la page.</p>
+        <a href="#marches" class="footer-contact-link">Voir le calendrier →</a>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <p class="footer-heading">Contact</p>
+        <p class="footer-txt">GAEC Goyhenetxea<br>Pays Basque, France</p>
+        <a href="mailto:latchereolivier@orange.fr" class="footer-contact-link">latchereolivier@orange.fr</a>
+        <a href="https://wa.me/33770012652" target="_blank" rel="noopener" class="footer-contact-link">WhatsApp</a>
+      </div>
+
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 GAEC Goyhenetxea · <strong style="color:rgba(255,255,255,.45)">BroKa</strong> · Tous droits réservés</span>
+      <span>Fait avec soin au Pays Basque &nbsp;·&nbsp; <a href="#">Mentions légales</a></span>
     </div>
   </div>
 </footer>
@@ -667,7 +773,7 @@
     saveCart();
     renderCart();
     showToast('✓ ' + CATALOG[key].name + ' ajouté');
-    openCart();
+    updateCartBtn();
   }
 
   function changeQty(key, delta) {
@@ -677,10 +783,16 @@
     if (item.qty <= 0) cart = cart.filter(i => i.key !== key);
     saveCart();
     renderCart();
+    updateCartBtn();
   }
 
   function saveCart() {
     localStorage.setItem('broka_cart', JSON.stringify(cart));
+  }
+
+  function updateCartBtn() {
+    const cta = document.getElementById('cart-cta');
+    if (cta) cta.style.display = cart.length > 0 ? 'block' : 'none';
   }
 
   function renderCart() {
@@ -777,8 +889,8 @@
     return Math.ceil((((dt - y) / 86400000) + 1) / 7);
   }
   const MARCHES = [
-    { nom: 'Marché des Halles', city: 'Biarritz' },
-    { nom: 'Marché Bio Billère', city: 'Pau' },
+    { nom: 'Marché des Halles', city: 'Biarritz', addr: 'Place Sobradiel · 3–11 rue des Halles', hours: 'Samedi matin' },
+    { nom: 'Marché Bio de Billère', city: 'Billère · 64140', addr: '31 Route de Bayonne', hours: 'Mer. & Sam. · 7h30–13h30' },
   ];
   (function() {
     const w = isoWeek(new Date());
@@ -787,8 +899,12 @@
     document.getElementById('market-text').textContent     = 'Samedi · ' + now.nom + ' · ' + now.city;
     document.getElementById('marche-now-nom').textContent  = now.nom;
     document.getElementById('marche-now-city').textContent = now.city;
+    document.getElementById('marche-now-addr').textContent = now.addr;
+    document.getElementById('marche-now-hours').textContent = now.hours;
     document.getElementById('marche-next-nom').textContent  = next.nom;
     document.getElementById('marche-next-city').textContent = next.city;
+    document.getElementById('marche-next-addr').textContent = next.addr;
+    document.getElementById('marche-next-hours').textContent = next.hours;
   })();
 
   // ── Lead form ──
@@ -827,6 +943,7 @@
 
   // Init
   renderCart();
+  updateCartBtn();
 </script>
 </body>
 </html>
