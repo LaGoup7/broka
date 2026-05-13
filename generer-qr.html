@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BroKa · Générateur QR Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --green: #1E3A1F;
+            --cream: #F8F4ED;
+            --cream-dk: #EDE7D9;
+            --cream-bd: #D8CFC0;
+            --brown: #8B6B3D;
+            --brown-lt: #C4A882;
+            --white: #FFFFFF;
+            --txt: #1A1A1A;
+        }
+        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+        body { font-family:'Lato',sans-serif; background:var(--cream-dk); color:var(--txt); min-height:100vh; }
+
+        header {
+            background:var(--green);
+            padding:20px 24px;
+            display:flex; align-items:center; gap:12px;
+        }
+        .logo { font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700; color:var(--white); }
+        .logo-sub { font-size:.78rem; color:var(--brown-lt); }
+
+        main {
+            max-width:560px;
+            margin:0 auto;
+            padding:32px 20px 60px;
+            display:flex;
+            flex-direction:column;
+            gap:24px;
+        }
+
+        h1 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--green); }
+        .intro { font-size:.9rem; color:#555; line-height:1.65; }
+
+        /* Card */
+        .card {
+            background:var(--white);
+            border-radius:18px;
+            padding:28px;
+            border:1px solid var(--cream-bd);
+            box-shadow:0 2px 12px rgba(0,0,0,.07);
+        }
+
+        label { display:block; font-size:.85rem; font-weight:700; color:var(--txt); margin-bottom:8px; }
+        .label-hint { font-weight:400; color:#888; font-size:.8rem; }
+
+        input[type=url], input[type=text] {
+            width:100%; padding:12px 14px;
+            border:2px solid var(--cream-bd); border-radius:10px;
+            font-family:'Lato',sans-serif; font-size:.95rem; color:var(--txt);
+            background:var(--cream); outline:none; transition:border-color .2s;
+        }
+        input:focus { border-color:var(--green); background:var(--white); box-shadow:0 0 0 4px rgba(30,58,31,.08); }
+
+        .options-row { display:flex; gap:12px; margin-top:16px; flex-wrap:wrap; }
+        .opt-group { flex:1; min-width:140px; }
+        .opt-group label { font-size:.8rem; margin-bottom:6px; }
+        select {
+            width:100%; padding:10px 12px;
+            border:2px solid var(--cream-bd); border-radius:10px;
+            font-family:'Lato',sans-serif; font-size:.88rem; color:var(--txt);
+            background:var(--cream); outline:none; cursor:pointer;
+        }
+        select:focus { border-color:var(--green); }
+
+        /* Color swatches */
+        .color-row { display:flex; gap:8px; margin-top:6px; flex-wrap:wrap; }
+        .color-opt { display:none; }
+        .color-opt + label {
+            width:32px; height:32px; border-radius:50%; cursor:pointer;
+            border:3px solid transparent; transition:.15s; display:block;
+        }
+        .color-opt:checked + label { border-color:var(--green); box-shadow:0 0 0 3px rgba(30,58,31,.25); }
+
+        .btn-gen {
+            width:100%; margin-top:20px;
+            padding:14px; background:var(--green); color:var(--white);
+            border:none; border-radius:12px;
+            font-family:'Lato',sans-serif; font-size:1rem; font-weight:700;
+            cursor:pointer; transition:background .2s, transform .15s;
+        }
+        .btn-gen:hover { background:#2D5A2E; transform:translateY(-1px); }
+        .btn-gen:active { transform:none; }
+
+        /* Aperçu QR */
+        #qr-preview-section { display:none; }
+        .qr-preview-inner {
+            display:flex; flex-direction:column; align-items:center; gap:20px;
+        }
+
+        /* Canvas branded (affiché ici en petit, utilisé pour l'export) */
+        #preview-canvas {
+            border-radius:12px;
+            max-width:100%;
+            box-shadow:0 4px 20px rgba(0,0,0,.12);
+        }
+
+        .dl-btns { display:flex; flex-direction:column; gap:10px; width:100%; }
+        .btn-dl {
+            display:flex; align-items:center; justify-content:center; gap:10px;
+            padding:13px 20px; border-radius:12px;
+            font-family:'Lato',sans-serif; font-weight:700; font-size:.95rem;
+            text-decoration:none; cursor:pointer; border:none; transition:.2s;
+        }
+        .btn-dl-png  { background:var(--green); color:var(--white); }
+        .btn-dl-png:hover { background:#2D5A2E; }
+        .btn-dl-print { background:var(--cream-dk); color:var(--green); border:2px solid var(--cream-bd); }
+        .btn-dl-print:hover { background:var(--cream-bd); }
+
+        .qr-url-confirm {
+            font-size:.78rem; color:#888; text-align:center;
+            word-break:break-all; max-width:320px;
+            background:var(--cream); padding:8px 12px; border-radius:8px;
+        }
+
+        /* Instructions */
+        .steps { list-style:none; display:flex; flex-direction:column; gap:12px; }
+        .step { display:flex; align-items:flex-start; gap:12px; }
+        .step-num {
+            width:28px; height:28px; border-radius:50%;
+            background:var(--green); color:var(--white);
+            font-size:.8rem; font-weight:700;
+            display:flex; align-items:center; justify-content:center;
+            flex-shrink:0; margin-top:1px;
+        }
+        .step-text { font-size:.88rem; line-height:1.6; color:#444; }
+        .step-text strong { color:var(--txt); }
+        .step-text code {
+            background:var(--cream-dk); padding:2px 7px; border-radius:5px;
+            font-size:.82rem; color:var(--green);
+        }
+
+        /* Canvas offscreen pour export haute résolution */
+        #export-canvas { display:none; }
+
+        @media(min-width:480px) { .dl-btns { flex-direction:row; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <div class="logo">BroKa</div>
+        <div class="logo-sub">Générateur de QR Code</div>
+    </div>
+</header>
+
+<main>
+    <div>
+        <h1>Créer votre QR Code permanent</h1>
+        <p class="intro" style="margin-top:8px;">
+            Ce QR code sera imprimé et utilisé sur les marchés. L'URL ne doit jamais changer — le contenu de la page peut évoluer, pas le lien.
+        </p>
+    </div>
+
+    <!-- Formulaire -->
+    <div class="card">
+        <div style="margin-bottom:20px;">
+            <label for="qr-url">URL définitive de la page BroKa <span class="label-hint">(coller ici une fois la page en ligne)</span></label>
+            <input type="url" id="qr-url" placeholder="https://yourqr.page/broka" value="https://yourqr.page/broka" autocomplete="off">
+        </div>
+
+        <div style="margin-bottom:4px;">
+            <label>Texte sous le QR code <span class="label-hint">(affiché sur le visuel imprimé)</span></label>
+            <input type="text" id="qr-label" value="Scannez pour découvrir nos produits" maxlength="60">
+        </div>
+
+        <div class="options-row">
+            <div class="opt-group">
+                <label>Taille d'export</label>
+                <select id="qr-size">
+                    <option value="800">800 px — réseaux sociaux</option>
+                    <option value="1200" selected>1200 px — impression A5/A4</option>
+                    <option value="2000">2000 px — affiche / bâche</option>
+                </select>
+            </div>
+            <div class="opt-group">
+                <label>Style de couleur</label>
+                <select id="qr-style">
+                    <option value="classic" selected>Vert forêt sur crème (BroKa)</option>
+                    <option value="inverse">Crème sur vert (inversé)</option>
+                    <option value="bw">Noir sur blanc (impression rapide)</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-gen" onclick="generateQR()">Générer le QR Code →</button>
+    </div>
+
+    <!-- Aperçu + téléchargement -->
+    <div class="card" id="qr-preview-section">
+        <div class="qr-preview-inner">
+            <canvas id="preview-canvas"></canvas>
+            <p class="qr-url-confirm" id="qr-url-confirm"></p>
+            <div class="dl-btns">
+                <button class="btn-dl btn-dl-png" onclick="downloadPNG()">⬇ Télécharger PNG</button>
+                <button class="btn-dl btn-dl-print" onclick="printQR()">🖨 Imprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Étapes de déploiement -->
+    <div class="card">
+        <p style="font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);margin-bottom:14px;">Mettre en ligne sur yourqr.page</p>
+        <ul class="steps">
+            <li class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Connectez-vous à <strong>Infomaniak Manager</strong> → Hébergement Web → votre espace → <strong>Gestionnaire de fichiers</strong></div>
+            </li>
+            <li class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Dans le dossier <code>web/</code> (ou <code>public_html/</code>), créez un dossier <code>broka</code> et uploadez-y tout le contenu du dossier local <strong>broka/</strong> (index.html, stand.html, images/…)</div>
+            </li>
+            <li class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">La page sera accessible à <code>yourqr.page/broka/</code> — collez cette URL dans le champ ci-dessus et générez votre QR code</div>
+            </li>
+            <li class="step">
+                <div class="step-num">4</div>
+                <div class="step-text">Téléchargez le PNG, imprimez-le → c'est votre QR code permanent. Vous pouvez modifier le contenu de la page à tout moment sans rechanger le QR.</div>
+            </li>
+        </ul>
+    </div>
+</main>
+
+<!-- Canvas caché pour génération haute résolution -->
+<canvas id="export-canvas" style="display:none;"></canvas>
+<!-- Canvas intermédiaire pour qrcode.js (hors écran) -->
+<div id="qr-hidden" style="position:absolute;left:-9999px;top:-9999px;"></div>
+
+<script>
+    const FONTS = {
+        logo:    { size: 0.085, family: 'Playfair Display, Georgia, serif', weight: '700' },
+        tagline: { size: 0.028, family: 'Lato, sans-serif', weight: '400' },
+        label:   { size: 0.032, family: 'Lato, sans-serif', weight: '700' },
+    };
+
+    const STYLES = {
+        classic: { dark:'#1E3A1F', light:'#F8F4ED', bg:'#F8F4ED', text:'#1E3A1F', accent:'#8B6B3D' },
+        inverse: { dark:'#F8F4ED', light:'#1E3A1F', bg:'#1E3A1F', text:'#F8F4ED', accent:'#C4A882' },
+        bw:      { dark:'#000000', light:'#FFFFFF', bg:'#FFFFFF', text:'#000000', accent:'#555555' },
+    };
+
+    let lastURL = '';
+
+    function generateQR() {
+        const url     = document.getElementById('qr-url').value.trim();
+        const label   = document.getElementById('qr-label').value.trim();
+        const sizePx  = parseInt(document.getElementById('qr-size').value);
+        const style   = STYLES[document.getElementById('qr-style').value];
+
+        if (!url) { alert('Veuillez saisir une URL.'); return; }
+
+        lastURL = url;
+
+        // Générer le QR code dans le div caché
+        const hidden = document.getElementById('qr-hidden');
+        hidden.innerHTML = '';
+        const qrSize = Math.round(sizePx * 0.6); // QR occupe 60% de la hauteur totale
+
+        new QRCode(hidden, {
+            text: url,
+            width: qrSize,
+            height: qrSize,
+            colorDark: style.dark,
+            colorLight: style.light,
+            correctLevel: QRCode.CorrectLevel.H   // niveau H = robuste même partiellement caché
+        });
+
+        // Attendre que le canvas QR soit prêt
+        setTimeout(() => {
+            const qrCanvas = hidden.querySelector('canvas');
+            if (!qrCanvas) { alert('Erreur de génération. Rechargez la page.'); return; }
+            renderBrandedCanvas(qrCanvas, sizePx, label, style, url);
+        }, 150);
+    }
+
+    function renderBrandedCanvas(qrCanvas, totalW, label, style, url) {
+        const totalH = Math.round(totalW * 1.32);  // ratio portrait
+        const padding = Math.round(totalW * 0.07);
+        const qrW = qrCanvas.width;
+
+        const canvas = document.getElementById('export-canvas');
+        canvas.width  = totalW;
+        canvas.height = totalH;
+        const ctx = canvas.getContext('2d');
+
+        // Fond
+        ctx.fillStyle = style.bg;
+        ctx.fillRect(0, 0, totalW, totalH);
+
+        // Bordure décorative
+        const brd = Math.round(totalW * 0.018);
+        ctx.strokeStyle = style.accent;
+        ctx.lineWidth = brd;
+        ctx.strokeRect(brd / 2, brd / 2, totalW - brd, totalH - brd);
+
+        // Logo BroKa
+        const logoSize = Math.round(totalW * FONTS.logo.size);
+        ctx.font = `${FONTS.logo.weight} ${logoSize}px ${FONTS.logo.family}`;
+        ctx.fillStyle = style.text;
+        ctx.textAlign = 'center';
+        ctx.fillText('BroKa', totalW / 2, padding + logoSize);
+
+        // Tagline sous le logo
+        const tagSize = Math.round(totalW * FONTS.tagline.size);
+        ctx.font = `${FONTS.tagline.weight} ${tagSize}px ${FONTS.tagline.family}`;
+        ctx.fillStyle = style.accent;
+        ctx.fillText('GAEC Goyhenetxea · Pays Basque', totalW / 2, padding + logoSize + tagSize + 6);
+
+        // Séparateur
+        const sepY = padding + logoSize + tagSize + Math.round(totalW * 0.04);
+        ctx.fillStyle = style.accent;
+        ctx.fillRect(totalW / 2 - 24, sepY, 48, 2);
+
+        // QR Code centré
+        const qrX = (totalW - qrW) / 2;
+        const qrY = sepY + Math.round(totalW * 0.035);
+        ctx.drawImage(qrCanvas, qrX, qrY, qrW, qrW);
+
+        // Légende sous le QR
+        const lblSize = Math.round(totalW * FONTS.label.size);
+        ctx.font = `${FONTS.label.weight} ${lblSize}px ${FONTS.label.family}`;
+        ctx.fillStyle = style.text;
+        ctx.textAlign = 'center';
+        const lblY = qrY + qrW + Math.round(totalW * 0.04);
+        ctx.fillText(label, totalW / 2, lblY);
+
+        // Emoji pomme décoratif
+        const emojiSize = Math.round(totalW * 0.05);
+        ctx.font = `${emojiSize}px sans-serif`;
+        ctx.fillText('🍎', totalW / 2, lblY + emojiSize + 8);
+
+        // Copier sur le canvas de prévisualisation (réduit pour l'affichage)
+        const preview = document.getElementById('preview-canvas');
+        const previewW = Math.min(320, totalW);
+        const previewH = Math.round(previewW * (totalH / totalW));
+        preview.width  = previewW;
+        preview.height = previewH;
+        preview.getContext('2d').drawImage(canvas, 0, 0, previewW, previewH);
+
+        // Afficher la section
+        document.getElementById('qr-url-confirm').textContent = url;
+        document.getElementById('qr-preview-section').style.display = 'block';
+        document.getElementById('qr-preview-section').scrollIntoView({ behavior:'smooth', block:'center' });
+    }
+
+    function downloadPNG() {
+        if (!lastURL) { alert('Générez d\'abord le QR code.'); return; }
+        const canvas = document.getElementById('export-canvas');
+        const a = document.createElement('a');
+        a.download = 'broka-qrcode.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+    }
+
+    function printQR() {
+        const canvas = document.getElementById('export-canvas');
+        const win = window.open('', '_blank');
+        win.document.write(`
+            <html><head><title>BroKa QR Code</title>
+            <style>body{margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+            img{max-width:90vmin;max-height:90vmin;}</style></head>
+            <body><img src="${canvas.toDataURL('image/png')}" onload="window.print();window.close();"></body></html>
+        `);
+        win.document.close();
+    }
+</script>
+</body>
+</html>

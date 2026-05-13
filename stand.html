@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BroKa · QR Code Stand</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <!-- qrcode.js via CDN (génère le QR code localement, sans serveur) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --green: #1E3A1F;
+            --cream: #F8F4ED;
+            --cream-dk: #EDE7D9;
+            --brown: #8B6B3D;
+            --brown-lt: #C4A882;
+            --white: #FFFFFF;
+        }
+        * { box-sizing:border-box; margin:0; padding:0; }
+        html, body { height:100%; }
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100svh;
+            padding: 32px 20px;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 4px;
+            letter-spacing: -.5px;
+        }
+        .tagline {
+            font-size: .85rem;
+            color: var(--brown-lt);
+            margin-bottom: 32px;
+            letter-spacing: .05em;
+        }
+
+        /* QR Code wrapper */
+        #qr-box {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 16px 60px rgba(0,0,0,.35);
+            margin-bottom: 28px;
+            display: inline-block;
+        }
+        #qrcode canvas, #qrcode img { border-radius: 8px; }
+
+        .scan-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        .scan-sub {
+            font-size: .82rem;
+            color: rgba(255,255,255,.55);
+            margin-bottom: 32px;
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        /* URL courante */
+        .url-display {
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: rgba(255,255,255,.6);
+            font-size: .78rem;
+            word-break: break-all;
+            max-width: 340px;
+            margin-bottom: 20px;
+        }
+        .url-display strong { color: rgba(255,255,255,.85); display:block; margin-bottom:4px; font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; }
+
+        /* Panneau de configuration de l'URL */
+        details {
+            max-width: 340px;
+            width: 100%;
+        }
+        summary {
+            cursor: pointer;
+            color: rgba(255,255,255,.4);
+            font-size: .78rem;
+            list-style: none;
+            padding: 8px 0;
+            transition: color .2s;
+        }
+        summary:hover { color: rgba(255,255,255,.7); }
+        summary::-webkit-details-marker { display:none; }
+
+        .url-form {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .url-form input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 2px solid rgba(255,255,255,.2);
+            border-radius: 10px;
+            background: rgba(255,255,255,.07);
+            color: var(--white);
+            font-size: .9rem;
+            font-family: 'Lato', sans-serif;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .url-form input:focus { border-color: rgba(255,255,255,.5); }
+        .url-form input::placeholder { color: rgba(255,255,255,.3); }
+        .url-form button {
+            padding: 11px;
+            background: var(--brown);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .url-form button:hover { background: #A07840; }
+
+        /* Instructions hébergement */
+        .deploy-hint {
+            margin-top: 36px;
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 14px;
+            padding: 18px 20px;
+            max-width: 340px;
+            text-align: left;
+        }
+        .deploy-hint h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--brown-lt);
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        .deploy-hint ol {
+            padding-left: 18px;
+            color: rgba(255,255,255,.55);
+            font-size: .78rem;
+            line-height: 2;
+        }
+        .deploy-hint ol li strong { color: rgba(255,255,255,.8); }
+        .deploy-hint a { color: var(--brown-lt); }
+    </style>
+</head>
+<body>
+
+    <div class="logo">BroKa</div>
+    <p class="tagline">GAEC Goyhenetxea · Pays Basque</p>
+
+    <div id="qr-box">
+        <div id="qrcode"></div>
+    </div>
+
+    <p class="scan-label">📱 Scannez pour en savoir plus</p>
+    <p class="scan-sub">Accédez à nos produits, nos conseils et notre offre découverte.</p>
+
+    <div class="url-display" id="url-display">
+        <strong>Page pointée</strong>
+        <span id="url-text">—</span>
+    </div>
+
+    <details>
+        <summary>⚙️ Changer l'URL cible</summary>
+        <div class="url-form">
+            <input type="url" id="custom-url" placeholder="https://broka-basque.fr" autocomplete="off">
+            <button onclick="applyCustomUrl()">Générer le QR code</button>
+        </div>
+    </details>
+
+    <div class="deploy-hint">
+        <h3>🚀 Mettre en ligne (gratuit)</h3>
+        <ol>
+            <li>Allez sur <a href="https://app.netlify.com/drop" target="_blank"><strong>app.netlify.com/drop</strong></a></li>
+            <li>Glissez-déposez le dossier <strong>broka/</strong></li>
+            <li>Copiez l'URL générée (ex : broka-xyz.netlify.app)</li>
+            <li>Collez-la ci-dessus → nouveau QR code !</li>
+        </ol>
+    </div>
+
+    <script>
+        const QR_SIZE = Math.min(window.innerWidth - 100, 260);
+        let qrInstance = null;
+
+        function buildUrl(base) {
+            // Si l'URL pointe vers stand.html, on la redirige vers index.html
+            try {
+                const u = new URL(base);
+                if (u.pathname.endsWith('stand.html')) {
+                    u.pathname = u.pathname.replace('stand.html', 'index.html');
+                }
+                if (u.pathname === '/' || u.pathname === '') {
+                    // URL de base propre : on garde telle quelle
+                }
+                return u.toString();
+            } catch {
+                return base;
+            }
+        }
+
+        function generateQR(url) {
+            const target = buildUrl(url);
+            document.getElementById('url-text').textContent = target;
+
+            const container = document.getElementById('qrcode');
+            container.innerHTML = '';
+
+            qrInstance = new QRCode(container, {
+                text: target,
+                width: QR_SIZE,
+                height: QR_SIZE,
+                colorDark: '#1E3A1F',
+                colorLight: '#FFFFFF',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function applyCustomUrl() {
+            const val = document.getElementById('custom-url').value.trim();
+            if (val) generateQR(val);
+        }
+
+        // Au chargement : utiliser l'URL courante (fonctionne dès que la page est hébergée)
+        const currentUrl = window.location.href;
+        if (currentUrl.startsWith('file://')) {
+            // Fichier local : afficher un message d'instruction
+            document.getElementById('url-text').textContent = 'Page non encore hébergée';
+            document.getElementById('qrcode').innerHTML =
+                '<div style="width:' + QR_SIZE + 'px;height:' + QR_SIZE + 'px;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:.8rem;text-align:center;padding:20px;">Entrez l\'URL de la page hébergée ci-dessous</div>';
+        } else {
+            generateQR(currentUrl);
+        }
+    </script>
+</body>
+</html>

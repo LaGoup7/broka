@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BroKa – Vinaigre de pomme artisanal du Pays Basque. GAEC Goyhenetxea.">
+    <title>BroKa – Vinaigre de pomme artisanal · Pays Basque</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-deep: #1E3A1F;
+            --green-mid:  #2D5A2E;
+            --green-light:#4A7C4E;
+            --cream:      #F8F4ED;
+            --cream-dark: #EDE7D9;
+            --cream-bd:   #D8CFC0;
+            --brown:      #8B6B3D;
+            --brown-lt:   #C4A882;
+            --red:        #7A1E0F;
+            --txt-dk:     #1A1A1A;
+            --txt-md:     #4A4A4A;
+            --txt-lt:     #7A7A7A;
+            --white:      #FFFFFF;
+            --ff-disp:    'Playfair Display', Georgia, serif;
+            --ff-body:    'Lato', system-ui, sans-serif;
+            --r-sm: 8px; --r-md: 16px; --r-lg: 24px; --r-pill: 100px;
+            --sh-sm: 0 2px 8px rgba(0,0,0,.08);
+            --sh-md: 0 4px 20px rgba(0,0,0,.12);
+            --tr: .3s ease;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { font-family: var(--ff-body); background: var(--cream); color: var(--txt-dk); line-height: 1.6; font-size: 16px; }
+        img  { max-width: 100%; display: block; }
+
+        /* ── TYPO ── */
+        h1,h2,h3,h4 { font-family: var(--ff-disp); line-height: 1.2; }
+        h1 { font-size: clamp(1.9rem,6vw,3.4rem); font-weight:700; }
+        h2 { font-size: clamp(1.5rem,4vw,2.4rem); font-weight:600; }
+        h3 { font-size: clamp(1.15rem,3vw,1.7rem); font-weight:600; }
+        p  { color: var(--txt-md); line-height: 1.75; }
+
+        /* ── LAYOUT ── */
+        .container { width:100%; max-width:720px; margin:0 auto; padding:0 20px; }
+        section { padding:64px 0; }
+        .sec-label { font-size:.75rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--brown); margin-bottom:12px; }
+        .sec-title { margin-bottom:16px; }
+        .sec-sub   { font-size:1.05rem; margin-bottom:32px; }
+        .divider   { width:48px; height:3px; background:var(--brown); margin:16px 0 24px; border-radius:2px; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            display:inline-flex; align-items:center; justify-content:center; gap:8px;
+            padding:14px 28px; border-radius:var(--r-pill);
+            font-family:var(--ff-body); font-size:.95rem; font-weight:700;
+            text-decoration:none; cursor:pointer; border:none; transition:var(--tr); white-space:nowrap;
+        }
+        .btn-primary   { background:var(--green-deep); color:var(--white); }
+        .btn-primary:hover { background:var(--green-mid); transform:translateY(-2px); box-shadow:var(--sh-md); }
+        .btn-cream     { background:var(--cream); color:var(--green-deep); }
+        .btn-cream:hover { background:var(--cream-dark); transform:translateY(-2px); }
+        .btn-full { width:100%; }
+        .btn-lg   { padding:17px 36px; font-size:1rem; }
+
+        /* ── FADE-IN ── */
+        .fi { opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease; }
+        .fi.show { opacity:1; transform:none; }
+
+        /* ════════════════════════════════
+           1. HERO
+        ════════════════════════════════ */
+        #hero {
+            min-height:100svh;
+            background:
+                linear-gradient(155deg, rgba(20,45,21,.88) 0%, rgba(35,58,30,.82) 50%, rgba(45,72,32,.78) 100%),
+                url('images/broka_bouteille_verger.jpg') center/cover no-repeat;
+            display:flex; flex-direction:column; justify-content:center;
+            padding:80px 0 60px; position:relative; overflow:hidden;
+        }
+        #hero::after {
+            content:''; position:absolute; inset:0;
+            background:
+                linear-gradient(to bottom, var(--green-deep) 0%, transparent 18%),
+                linear-gradient(to top,    var(--green-deep) 0%, transparent 18%);
+            pointer-events:none;
+        }
+        .hero-deco {
+            position:absolute; right:16px; top:50%; transform:translateY(-50%);
+            font-size:9rem; opacity:.05; pointer-events:none;
+            animation:fl 7s ease-in-out infinite;
+        }
+        @keyframes fl { 0%,100%{transform:translateY(-50%) rotate(0)} 50%{transform:translateY(-54%) rotate(4deg)} }
+        .hero-badge {
+            display:inline-flex; align-items:center; gap:8px;
+            background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2);
+            color:rgba(255,255,255,.9); font-size:.78rem; font-weight:700;
+            letter-spacing:.1em; text-transform:uppercase;
+            padding:7px 16px; border-radius:var(--r-pill); margin-bottom:24px;
+        }
+        #hero h1     { color:var(--white); margin-bottom:20px; }
+        #hero h1 em  { color:var(--brown-lt); font-style:italic; }
+        .hero-sub    { color:rgba(255,255,255,.78); font-size:1.05rem; line-height:1.75; margin-bottom:40px; max-width:520px; }
+        .hero-scroll { margin-top:48px; display:flex; align-items:center; gap:12px; color:rgba(255,255,255,.45); font-size:.82rem; }
+        .hero-scroll-line { width:32px; height:1px; background:rgba(255,255,255,.3); }
+
+        /* ════════════════════════════════
+           TRUST BAR
+        ════════════════════════════════ */
+        .trust-bar { background:var(--cream-dark); border-top:1px solid var(--cream-bd); border-bottom:1px solid var(--cream-bd); padding:18px 0; }
+        .trust-inner { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+        .trust-item { display:flex; align-items:center; gap:7px; font-size:.84rem; font-weight:700; color:var(--green-deep); }
+
+        /* ════════════════════════════════
+           2. FORMULAIRE (remonté)
+        ════════════════════════════════ */
+        #guide { background:var(--cream); }
+        .form-wrap { background:var(--white); border-radius:var(--r-lg); padding:36px 28px; box-shadow:var(--sh-sm); border:1px solid var(--cream-bd); }
+        .guide-preview { background:var(--green-deep); border-radius:var(--r-md); padding:18px; display:flex; align-items:center; gap:14px; margin-bottom:24px; }
+        .guide-icon  { font-size:2.4rem; flex-shrink:0; }
+        .guide-prev-title { font-family:var(--ff-disp); color:var(--white); font-size:.97rem; margin-bottom:3px; }
+        .guide-prev-sub   { color:rgba(255,255,255,.6); font-size:.8rem; }
+        .form-group   { margin-bottom:18px; }
+        label { display:block; font-size:.87rem; font-weight:700; color:var(--txt-dk); margin-bottom:7px; }
+        .lbl-opt { font-weight:400; color:var(--txt-lt); font-size:.78rem; }
+        input[type=text], input[type=email], input[type=tel] {
+            width:100%; padding:13px 15px;
+            border:2px solid var(--cream-bd); border-radius:var(--r-sm);
+            font-family:var(--ff-body); font-size:.95rem; color:var(--txt-dk);
+            background:var(--cream); transition:var(--tr); outline:none; -webkit-appearance:none;
+        }
+        input[type=text]:focus, input[type=email]:focus, input[type=tel]:focus {
+            border-color:var(--green-deep); background:var(--white);
+            box-shadow:0 0 0 4px rgba(30,58,31,.1);
+        }
+        input::placeholder { color:var(--txt-lt); }
+        .rgpd-micro { font-size:.75rem; color:var(--txt-lt); text-align:center; margin-top:12px; line-height:1.5; }
+        .rgpd-micro a { color:var(--green-mid); text-decoration:underline; }
+        .form-success { display:none; text-align:center; padding:32px 16px; }
+        .fs-icon { font-size:3rem; margin-bottom:16px; }
+        .form-success h4 { font-family:var(--ff-disp); color:var(--green-deep); font-size:1.4rem; margin-bottom:12px; }
+        .form-success p  { font-size:.93rem; max-width:300px; margin:0 auto; }
+
+        /* ════════════════════════════════
+           3. AVIS (remonté)
+        ════════════════════════════════ */
+        #avis { background:var(--cream-dark); border-top:1px solid var(--cream-bd); }
+        .avis-grid { display:flex; flex-direction:column; gap:18px; }
+        .avis-card { background:var(--white); border-radius:var(--r-md); padding:22px; box-shadow:var(--sh-sm); border:1px solid var(--cream-bd); }
+        .avis-stars { color:#F4A126; font-size:.95rem; letter-spacing:2px; margin-bottom:10px; }
+        .avis-text  { font-family:var(--ff-disp); font-style:italic; font-size:.98rem; color:var(--txt-md); line-height:1.72; margin-bottom:14px; }
+        .avis-author { display:flex; align-items:center; gap:10px; }
+        .avis-av { width:38px; height:38px; border-radius:50%; background:var(--cream-dark); display:flex; align-items:center; justify-content:center; font-size:1.15rem; flex-shrink:0; }
+        .avis-name { font-weight:700; font-size:.88rem; color:var(--txt-dk); }
+        .avis-loc  { font-size:.78rem; color:var(--txt-lt); }
+        .avis-ok   { display:flex; align-items:center; gap:3px; font-size:.73rem; color:var(--green-mid); font-weight:700; margin-left:auto; white-space:nowrap; }
+
+        /* ════════════════════════════════
+           4. PRODUIT
+        ════════════════════════════════ */
+        #produit { background:var(--green-deep); color:var(--white); position:relative; overflow:hidden; }
+        #produit::before {
+            content:''; position:absolute; inset:0;
+            background:url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+            pointer-events:none;
+        }
+        #produit .sec-label { color:var(--brown-lt); }
+        #produit h2 { color:var(--white); }
+        #produit .sec-sub { color:rgba(255,255,255,.72); }
+        .produit-card { background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); border-radius:var(--r-lg); padding:28px; position:relative; }
+        .produit-visual { border-radius:var(--r-md); margin-bottom:24px; overflow:hidden; border:1px solid rgba(255,255,255,.12); }
+        .produit-img { width:100%; height:340px; object-fit:cover; object-position:center 38%; display:block; border-radius:var(--r-md); }
+        .produit-feats { list-style:none; display:flex; flex-direction:column; gap:16px; margin-bottom:24px; }
+        .pf { display:flex; align-items:flex-start; gap:12px; }
+        .pf-icon { width:36px; height:36px; background:rgba(255,255,255,.1); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; margin-top:2px; }
+        .pf-title { font-weight:700; color:var(--white); font-size:.93rem; margin-bottom:3px; }
+        .pf-desc  { font-size:.86rem; color:rgba(255,255,255,.62); line-height:1.5; }
+        .disclaimer { font-size:.73rem; color:rgba(255,255,255,.32); font-style:italic; margin-top:18px; padding-top:18px; border-top:1px solid rgba(255,255,255,.1); line-height:1.5; }
+
+        /* ════════════════════════════════
+           5. HISTOIRE
+        ════════════════════════════════ */
+        #histoire { background:var(--cream); }
+        .histoire-photo { width:100%; height:220px; object-fit:cover; border-radius:var(--r-md); margin-bottom:28px; }
+        .histoire-card {
+            background:var(--white); border-radius:var(--r-lg);
+            padding:36px 28px; box-shadow:var(--sh-sm);
+            border:1px solid var(--cream-bd); position:relative; overflow:hidden;
+        }
+        .histoire-card::before {
+            content:'\201C'; font-family:var(--ff-disp); font-size:9rem; line-height:1;
+            color:var(--cream-dark); position:absolute; top:-16px; left:16px; pointer-events:none;
+        }
+        .histoire-text { font-family:var(--ff-disp); font-style:italic; font-size:1.1rem; line-height:1.85; color:var(--txt-md); margin-bottom:24px; position:relative; z-index:1; }
+        .histoire-sig { display:flex; align-items:center; gap:12px; }
+        .histoire-av  { width:46px; height:46px; background:var(--green-deep); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+        .histoire-name { font-weight:700; font-size:.93rem; color:var(--txt-dk); }
+        .histoire-role { font-size:.78rem; color:var(--txt-lt); }
+        .tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:28px; }
+        .tag  { background:var(--cream-dark); color:var(--brown); font-size:.78rem; font-weight:700; padding:5px 13px; border-radius:var(--r-pill); border:1px solid var(--cream-bd); }
+
+        /* ════════════════════════════════
+           6. OFFRE DÉCOUVERTE
+        ════════════════════════════════ */
+        #offre { background:linear-gradient(135deg,#FDF8F0,#F5ECD7); border-top:1px solid var(--cream-bd); }
+        /* ── OFFRE PACKS ── */
+        .offre-cards { display:flex; flex-direction:column; gap:24px; }
+        .offre-card  { background:var(--white); border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--sh-md); border:1px solid var(--cream-bd); position:relative; }
+        .offre-card-popular { border-color:var(--brown); box-shadow:0 8px 32px rgba(139,107,61,.2); }
+
+        .pack-tag { position:absolute; top:16px; right:16px; background:var(--brown); color:var(--white); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border-radius:var(--r-pill); }
+
+        .offre-head  { padding:28px; text-align:center; }
+        .offre-head-decouverte { background:var(--green-deep); }
+        .offre-head-famille    { background:#5C4A1E; }
+        .offre-head-cadeau     { background:linear-gradient(135deg,#0D1F3C,#1A4A7A); }
+
+        .offre-head h3 { color:var(--white); margin-bottom:4px; }
+        .offre-head-sub { color:rgba(255,255,255,.65); font-size:.85rem; margin-bottom:0; }
+        .offre-price { display:flex; align-items:baseline; justify-content:center; gap:6px; margin-top:14px; }
+        .offre-price-amt { font-family:var(--ff-disp); font-size:2.8rem; font-weight:700; color:var(--white); line-height:1; }
+        .offre-price-cur { font-size:1.2rem; color:rgba(255,255,255,.8); font-weight:700; }
+        .offre-price-note { font-size:.75rem; color:rgba(255,255,255,.45); }
+
+        .offre-body  { padding:24px; }
+        .offre-items { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+        .offre-item  { display:flex; align-items:center; gap:12px; padding:11px 14px; background:var(--cream); border-radius:var(--r-md); border:1px solid var(--cream-bd); }
+        .oi-icon  { font-size:1.6rem; flex-shrink:0; }
+        .oi-title { font-weight:700; font-size:.88rem; color:var(--txt-dk); margin-bottom:1px; }
+        .oi-desc  { font-size:.78rem; color:var(--txt-lt); }
+
+        .offre-steps { display:flex; flex-direction:column; gap:7px; margin:16px 0 20px; }
+        .offre-step  { display:flex; align-items:center; gap:10px; font-size:.81rem; color:var(--txt-md); }
+        .offre-step-num { width:20px; height:20px; background:var(--green-deep); color:var(--white); border-radius:50%; font-size:.68rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .offre-note { text-align:center; font-size:.78rem; color:var(--txt-lt); margin-top:8px; }
+
+        .btn-famille { background:#5C4A1E; color:var(--white); }
+        .btn-famille:hover { background:#7A6228; transform:translateY(-2px); box-shadow:var(--sh-md); }
+        .btn-cadeau  { background:linear-gradient(135deg,#0D1F3C,#1A4A7A); color:var(--white); }
+        .btn-cadeau:hover  { background:linear-gradient(135deg,#162E55,#2260A0); transform:translateY(-2px); box-shadow:var(--sh-md); }
+
+        /* ════════════════════════════════
+           7. CONTACT
+        ════════════════════════════════ */
+        #contact { background:var(--white); border-top:1px solid var(--cream-bd); }
+        .contact-grid { display:flex; flex-direction:column; gap:12px; }
+        .cbtn { display:flex; align-items:center; gap:14px; padding:17px 18px; border-radius:var(--r-md); text-decoration:none; font-weight:700; font-size:.93rem; transition:var(--tr); border:2px solid transparent; }
+        .cbtn-icon { width:42px; height:42px; border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; font-size:1.25rem; flex-shrink:0; }
+        .cbtn-body { flex:1; }
+        .cbtn-lbl  { font-size:.75rem; font-weight:400; opacity:.65; display:block; margin-bottom:1px; }
+        .cbtn-arr  { font-size:1.1rem; opacity:.45; }
+        .cbtn-wa   { background:#E8FBF0; color:#0A6E3A; border-color:#B8EFCF; }
+        .cbtn-wa:hover { background:#25D366; color:var(--white); border-color:#25D366; }
+        .cbtn-wa .cbtn-icon { background:#25D366; color:var(--white); }
+        .cbtn-em   { background:var(--cream); color:var(--green-deep); border-color:var(--cream-bd); }
+        .cbtn-em:hover { background:var(--green-deep); color:var(--white); border-color:var(--green-deep); }
+        .cbtn-em .cbtn-icon { background:var(--green-deep); color:var(--white); }
+        .cbtn-fb   { background:#EEF3FC; color:#1877F2; border-color:#C3D4F5; }
+        .cbtn-fb:hover { background:#1877F2; color:var(--white); border-color:#1877F2; }
+        .cbtn-fb .cbtn-icon { background:#1877F2; color:var(--white); }
+
+        /* ════════════════════════════════
+           8. FOOTER
+        ════════════════════════════════ */
+        footer { background:var(--green-deep); padding:40px 0 32px; }
+        .footer-logo    { font-family:var(--ff-disp); font-size:1.8rem; font-weight:700; color:var(--white); margin-bottom:4px; }
+        .footer-tagline { color:var(--brown-lt); font-size:.84rem; margin-bottom:24px; }
+        .footer-hr      { height:1px; background:rgba(255,255,255,.1); margin:20px 0; }
+        .footer-links   { display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px; }
+        .footer-links a { color:rgba(255,255,255,.45); text-decoration:none; font-size:.8rem; transition:var(--tr); }
+        .footer-links a:hover { color:rgba(255,255,255,.8); }
+        .footer-copy    { color:rgba(255,255,255,.3); font-size:.76rem; }
+
+        /* ── BOUTON FLOTTANT WHATSAPP ── */
+        .float-wa {
+            position:fixed; bottom:20px; right:20px; z-index:999;
+            display:flex; align-items:center; gap:10px;
+            background:#25D366; color:var(--white);
+            padding:13px 20px 13px 16px; border-radius:var(--r-pill);
+            text-decoration:none; font-weight:700; font-size:.9rem;
+            box-shadow:0 4px 20px rgba(37,211,102,.45);
+            transition:transform .2s, box-shadow .2s;
+            animation:pop .4s ease 2s both;
+        }
+        .float-wa:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(37,211,102,.55); }
+        .float-wa-icon { font-size:1.4rem; line-height:1; }
+        @keyframes pop { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+
+        /* ── RESPONSIVE ── */
+        @media(min-width:640px) { section { padding:80px 0; } .form-wrap { padding:48px 40px; } }
+        @media(min-width:768px) { .container { padding:0 32px; } }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     1. HERO
+══════════════════════════════════════ -->
+<section id="hero" aria-label="Accueil">
+    <div class="container">
+        <div class="hero-badge">🍎 Xiberoa · Euskal Herria · Artisanal</div>
+        <h1>Vous nous avez découverts<br><em>sur le marché ?</em></h1>
+        <p class="hero-sub">
+            Bienvenue chez BroKa. Laissez vos coordonnées ci-dessous et recevez nos tarifs complets + le guide d'utilisation dans les 24h.
+        </p>
+        <a href="#guide" class="btn btn-cream btn-lg">Recevoir les tarifs →</a>
+        <div class="hero-scroll">
+            <div class="hero-scroll-line"></div>
+            <span>Faites défiler pour en savoir plus</span>
+        </div>
+    </div>
+    <div class="hero-deco" aria-hidden="true">🍎</div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <div class="container">
+        <div class="trust-inner">
+            <div class="trust-item"><span>🌱</span> 100 % artisanal</div>
+            <div class="trust-item"><span>📍</span> Xiberoa · Pays Basque</div>
+            <div class="trust-item"><span>🍎</span> Pommes du verger</div>
+            <div class="trust-item"><span>🤝</span> Ferme familiale</div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     2. FORMULAIRE (en haut pour convertir)
+══════════════════════════════════════ -->
+<section id="guide" aria-label="Laisser ses coordonnées">
+    <div class="container">
+        <p class="sec-label">Gratuit · Sans engagement</p>
+        <h2 class="sec-title">Recevez le guide + nos tarifs</h2>
+        <div class="divider"></div>
+
+        <div class="form-wrap fi">
+            <div id="form-content">
+                <div class="guide-preview">
+                    <span class="guide-icon">🎁</span>
+                    <div>
+                        <div class="guide-prev-title">Guide offert — téléchargement immédiat</div>
+                        <div class="guide-prev-sub">7 idées d'usage au quotidien · Aucun engagement</div>
+                    </div>
+                </div>
+
+                <!--
+                    INTÉGRATION FUTURE :
+                    - n8n      : POST https://votre-n8n.io/webhook/broka-guide
+                    - Brevo    : POST https://api.brevo.com/v3/contacts
+                    - G. Sheets: POST https://script.google.com/macros/s/{id}/exec
+                -->
+                <form id="guide-form" novalidate>
+                    <div class="form-group">
+                        <label for="prenom">Prénom *</label>
+                        <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required autocomplete="given-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="nom">Nom *</label>
+                        <input type="text" id="nom" name="nom" placeholder="Votre nom" required autocomplete="family-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="tel">Téléphone WhatsApp *</label>
+                        <input type="tel" id="tel" name="tel" placeholder="+33 6 00 00 00 00" required autocomplete="tel">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" placeholder="votre@email.fr" required autocomplete="email">
+                    </div>
+                    <button type="submit" id="submit-btn" class="btn btn-primary btn-full btn-lg">
+                        Recevoir le guide gratuitement →
+                    </button>
+                    <p class="rgpd-micro">En soumettant ce formulaire, vous acceptez d'être recontacté(e) par BroKa au sujet de nos produits. Désinscription possible à tout moment. <a href="#">Confidentialité</a>.</p>
+                </form>
+            </div>
+
+            <div class="form-success" id="form-success" role="alert" aria-live="polite">
+                <div class="fs-icon">🎉</div>
+                <h4>Merci <span id="success-name"></span>&nbsp;!</h4>
+                <p>Votre guide est prêt — téléchargez-le maintenant.</p>
+                <a href="Guide_BroKa_7_idees_vinaigre_pomme.pdf" download
+                   class="btn btn-primary btn-full btn-lg" style="margin-top:20px;">
+                    📥 Télécharger mon guide BroKa
+                </a>
+                <p style="margin-top:16px;font-size:.82rem;color:var(--txt-lt);">Vous pouvez aussi nous écrire directement :</p>
+                <a id="wa-olivier-link" href="#"
+                   class="btn btn-full" style="margin-top:8px;background:#25D366;color:#fff;border-radius:var(--r-pill);" target="_blank" rel="noopener noreferrer">
+                    💬 Contacter Olivier sur WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     3. AVIS / PREUVE SOCIALE (avant le produit pour convaincre)
+══════════════════════════════════════ -->
+<section id="avis" aria-label="Avis clients">
+    <div class="container">
+        <p class="sec-label">Ce qu'ils en disent</p>
+        <h2 class="sec-title">Ils ont essayé BroKa</h2>
+        <div class="divider"></div>
+
+        <div class="avis-grid">
+            <div class="avis-card fi">
+                <div class="avis-stars">★★★★★</div>
+                <p class="avis-text">"J'ai acheté une bouteille presque par curiosité sur le marché de Bayonne. Depuis, j'en mets partout — dans mes vinaigrettes, mon eau du matin. C'est le seul vinaigre que j'utilise maintenant. Goût incomparable."</p>
+                <div class="avis-author">
+                    <div class="avis-av">👩</div>
+                    <div>
+                        <div class="avis-name">Marie-Claire R.</div>
+                        <div class="avis-loc">Bayonne</div>
+                    </div>
+                    <div class="avis-ok">✓ Acheté sur marché</div>
+                </div>
+            </div>
+            <div class="avis-card fi">
+                <div class="avis-stars">★★★★★</div>
+                <p class="avis-text">"Le vinaigre a une couleur et une odeur qui n'ont rien à voir avec ce qu'on trouve en supermarché. On sent vraiment la pomme, c'est doux, pas agressif. Ma fille adore en mettre dans ses sauces."</p>
+                <div class="avis-author">
+                    <div class="avis-av">👨</div>
+                    <div>
+                        <div class="avis-name">Jean-Pierre L.</div>
+                        <div class="avis-loc">Biarritz</div>
+                    </div>
+                    <div class="avis-ok">✓ Acheté sur marché</div>
+                </div>
+            </div>
+            <div class="avis-card fi">
+                <div class="avis-stars">★★★★★</div>
+                <p class="avis-text">"Je cherchais un producteur local depuis longtemps. En plus du vinaigre, ils ont la sauce XÜ-BEROA — c'est une vraie découverte. La famille est adorable, on sent qu'ils aiment ce qu'ils font."</p>
+                <div class="avis-author">
+                    <div class="avis-av">👩‍🦱</div>
+                    <div>
+                        <div class="avis-name">Sophie M.</div>
+                        <div class="avis-loc">Saint-Jean-de-Luz</div>
+                    </div>
+                    <div class="avis-ok">✓ Acheté sur marché</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     4. PRODUIT PRINCIPAL
+══════════════════════════════════════ -->
+<section id="produit" aria-label="Produit phare">
+    <div class="container">
+        <p class="sec-label">Le produit phare</p>
+        <h2 class="sec-title">Sagar Ozpina<br><span style="font-size:.6em;font-weight:400;font-style:italic;color:var(--brown-lt);">Vinaigre de Cidre BroKa</span></h2>
+        <div class="divider"></div>
+        <p class="sec-sub">Un vinaigre de cidre artisanal, produit avec patience à Garindaine en Xiberoa, sans additifs ni conservateurs, comme on le faisait autrefois.</p>
+
+        <div class="produit-card fi">
+            <div class="produit-visual">
+                <img src="images/broka_bouteille_pommes.jpg" alt="Vinaigre de pomme artisanal BroKa" class="produit-img">
+            </div>
+            <ul class="produit-feats">
+                <li class="pf">
+                    <div class="pf-icon">🍴</div>
+                    <div>
+                        <div class="pf-title">En cuisine au quotidien</div>
+                        <div class="pf-desc">Vinaigrettes, marinades, sauces, pickles maison — il apporte une note douce et fruitée à tous vos plats.</div>
+                    </div>
+                </li>
+                <li class="pf">
+                    <div class="pf-icon">🌿</div>
+                    <div>
+                        <div class="pf-title">Dans une routine bien-être</div>
+                        <div class="pf-desc">Utilisé depuis des générations en usage traditionnel, dilué dans l'eau ou en assaisonnement, il s'intègre facilement au quotidien.</div>
+                    </div>
+                </li>
+                <li class="pf">
+                    <div class="pf-icon">🏡</div>
+                    <div>
+                        <div class="pf-title">À la maison &amp; au jardin</div>
+                        <div class="pf-desc">Nettoyant naturel, soin des plantes, détartrant doux — un produit aux mille usages traditionnels.</div>
+                    </div>
+                </li>
+                <li class="pf">
+                    <div class="pf-icon">✨</div>
+                    <div>
+                        <div class="pf-title">Sans compromis sur la qualité</div>
+                        <div class="pf-desc">Fermentation lente, pommes locales, sans filtration excessive. Un produit vivant, authentique.</div>
+                    </div>
+                </li>
+            </ul>
+            <a href="#guide" class="btn btn-cream btn-full">Recevoir les tarifs →</a>
+            <p class="disclaimer">* Les informations présentées ici relèvent d'usages traditionnels et culinaires. Ce produit n'est pas un médicament et n'a pas vocation à prévenir ou traiter une pathologie.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     5. HISTOIRE
+══════════════════════════════════════ -->
+<section id="histoire" aria-label="Notre histoire">
+    <div class="container">
+        <p class="sec-label">Notre ferme</p>
+        <h2 class="sec-title">Une histoire familiale<br>au cœur du Pays Basque</h2>
+        <div class="divider"></div>
+
+        <div class="histoire-card fi">
+            <img src="images/broka_couples_berger_verger.jpg" alt="La famille Goyhenetxea dans le verger" class="histoire-photo">
+            <p class="histoire-text">
+                "Ici, au GAEC Goyhenetxea, on fait les choses simplement et avec soin. Nos pommiers poussent sur les terres du Labourd, dans un coin du Pays Basque où l'on prend encore le temps. Le vinaigre que vous avez goûté sur le marché, c'est le fruit de notre verger, de nos mains, et d'un savoir-faire transmis avec fierté. BroKa, c'est notre façon de partager la ferme avec vous."
+            </p>
+            <div class="histoire-sig">
+                <div class="histoire-av">🧑‍🌾</div>
+                <div>
+                    <div class="histoire-name">La famille Goyhenetxea</div>
+                    <div class="histoire-role">GAEC Goyhenetxea · Garindaine · Xiberoa</div>
+                </div>
+            </div>
+            <div class="tags">
+                <span class="tag">🌿 Naturel</span>
+                <span class="tag">🏡 Familial</span>
+                <span class="tag">🍎 Verger propre</span>
+                <span class="tag">🔨 Artisanal</span>
+                <span class="tag">🌍 Local</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     6. OFFRE DÉCOUVERTE
+══════════════════════════════════════ -->
+<section id="offre" aria-label="Offre découverte">
+    <div class="container">
+        <div class="offre-badge">🎁 Commande directe</div>
+        <h2 class="sec-title">Nos Packs BroKa</h2>
+        <div class="divider"></div>
+        <p class="sec-sub">Commandez directement via WhatsApp — Olivier confirme et vous livre au prochain marché ou par voie postale.</p>
+
+        <div class="offre-cards">
+
+            <!-- Pack Découverte -->
+            <div class="offre-card fi">
+                <div class="offre-head offre-head-decouverte">
+                    <h3>Pack Découverte</h3>
+                    <p class="offre-head-sub">Pour découvrir les saveurs BroKa</p>
+                    <div class="offre-price">
+                        <span class="offre-price-amt">15</span>
+                        <span class="offre-price-cur">€</span>
+                        <span class="offre-price-note">+ 3 € envoi France</span>
+                    </div>
+                </div>
+                <div class="offre-body">
+                    <ul class="offre-items">
+                        <li class="offre-item">
+                            <span class="oi-icon">🍶</span>
+                            <div>
+                                <div class="oi-title">1 bouteille Sagar Ozpina</div>
+                                <div class="oi-desc">Vinaigre de cidre artisanal BroKa, fermentation naturelle</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">🌶️</span>
+                            <div>
+                                <div class="oi-title">1 sauce XÜ-BEROA</div>
+                                <div class="oi-desc">Sauce plancha bio au xipister — un trésor du verger BroKa</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">📄</span>
+                            <div>
+                                <div class="oi-title">1 guide d'utilisation</div>
+                                <div class="oi-desc">7 idées d'usage au quotidien, rédigées par la ferme</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/33610791198?text=Bonjour%20Olivier%2C%20je%20souhaite%20commander%20le%20Pack%20D%C3%A9couverte%20BroKa%20%C3%A0%2015%E2%82%AC%20%F0%9F%8D%8E%20Merci%20de%20me%20confirmer%20les%20d%C3%A9tails%20!"
+                       class="btn btn-primary btn-full" target="_blank" rel="noopener noreferrer">
+                        Je commande ce pack — 15 € →
+                    </a>
+                    <p class="offre-note">15 € retrait marché · 18 € envoi postal France</p>
+                </div>
+            </div>
+
+            <!-- Pack Famille -->
+            <div class="offre-card offre-card-popular fi">
+                <div class="pack-tag">⭐ Plus populaire</div>
+                <div class="offre-head offre-head-famille">
+                    <h3>Pack Famille</h3>
+                    <p class="offre-head-sub">Grande quantité · Économique</p>
+                    <div class="offre-price">
+                        <span class="offre-price-amt">35</span>
+                        <span class="offre-price-cur">€</span>
+                        <span class="offre-price-note">+ 3 € envoi France</span>
+                    </div>
+                </div>
+                <div class="offre-body">
+                    <ul class="offre-items">
+                        <li class="offre-item">
+                            <span class="oi-icon">🍶</span>
+                            <div>
+                                <div class="oi-title">3 bouteilles Sagar Ozpina</div>
+                                <div class="oi-desc">Vinaigre de cidre artisanal BroKa — pour toute la famille</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">🍎</span>
+                            <div>
+                                <div class="oi-title">1 jus de pomme artisanal</div>
+                                <div class="oi-desc">Pressé dans notre verger basque, sans ajout de sucre</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">🌶️</span>
+                            <div>
+                                <div class="oi-title">1 sauce XÜ-BEROA</div>
+                                <div class="oi-desc">Sauce plancha bio au xipister maison</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">📄</span>
+                            <div>
+                                <div class="oi-title">1 guide recettes & conseils</div>
+                                <div class="oi-desc">Idées recettes et usages au quotidien par la ferme</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/33610791198?text=Bonjour%20Olivier%2C%20je%20souhaite%20commander%20le%20Pack%20Famille%20BroKa%20%C3%A0%2035%E2%82%AC%20%F0%9F%8D%8E%20Merci%20de%20me%20confirmer%20les%20d%C3%A9tails%20!"
+                       class="btn btn-famille btn-full" target="_blank" rel="noopener noreferrer">
+                        Je commande ce pack — 35 € →
+                    </a>
+                    <p class="offre-note">35 € retrait marché · 38 € envoi postal France</p>
+                </div>
+            </div>
+
+            <!-- Pack Cadeau -->
+            <div class="offre-card fi">
+                <div class="offre-head offre-head-cadeau">
+                    <h3>Pack Cadeau</h3>
+                    <p class="offre-head-sub">Coffret premium · Idéal pour offrir</p>
+                    <div class="offre-price">
+                        <span class="offre-price-amt">42</span>
+                        <span class="offre-price-cur">€</span>
+                        <span class="offre-price-note">+ 5 € envoi France</span>
+                    </div>
+                </div>
+                <div class="offre-body">
+                    <ul class="offre-items">
+                        <li class="offre-item">
+                            <span class="oi-icon">🍶</span>
+                            <div>
+                                <div class="oi-title">2 bouteilles Sagar Ozpina</div>
+                                <div class="oi-desc">Vinaigre de cidre artisanal BroKa, fermentation naturelle</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">🌶️</span>
+                            <div>
+                                <div class="oi-title">1 sauce XÜ-BEROA</div>
+                                <div class="oi-desc">Sauce plancha bio au xipister, spécialité basque</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">🎲</span>
+                            <div>
+                                <div class="oi-title">1 surprise de la ferme</div>
+                                <div class="oi-desc">Un produit du terroir basque choisi par Olivier</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">📄</span>
+                            <div>
+                                <div class="oi-title">1 guide recettes & conseils</div>
+                                <div class="oi-desc">Idées recettes et usages au quotidien par la ferme</div>
+                            </div>
+                        </li>
+                        <li class="offre-item">
+                            <span class="oi-icon">🎁</span>
+                            <div>
+                                <div class="oi-title">Emballage cadeau + mot personnalisé</div>
+                                <div class="oi-desc">Coffret soigné avec votre message manuscrit inclus</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/33610791198?text=Bonjour%20Olivier%2C%20je%20souhaite%20commander%20le%20Pack%20Cadeau%20BroKa%20%C3%A0%2042%E2%82%AC%20%F0%9F%8E%81%20Merci%20de%20me%20confirmer%20les%20d%C3%A9tails%20!"
+                       class="btn btn-cadeau btn-full" target="_blank" rel="noopener noreferrer">
+                        Je commande ce pack — 42 € →
+                    </a>
+                    <p class="offre-note">42 € retrait marché · 47 € envoi postal France</p>
+                </div>
+            </div>
+
+        </div><!-- /.offre-cards -->
+
+        <div class="offre-steps" style="margin-top:28px;">
+            <div class="offre-step"><div class="offre-step-num">1</div> Cliquez sur le bouton du pack souhaité</div>
+            <div class="offre-step"><div class="offre-step-num">2</div> Olivier confirme votre commande sous 24h</div>
+            <div class="offre-step"><div class="offre-step-num">3</div> Retrait au prochain marché ou envoi postal en France</div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     7. CONTACT RAPIDE
+══════════════════════════════════════ -->
+<section id="contact" aria-label="Nous contacter">
+    <div class="container">
+        <p class="sec-label">Restons en contact</p>
+        <h2 class="sec-title">Une question ? Un retour ?</h2>
+        <div class="divider"></div>
+        <p class="sec-sub">Nous sommes une petite ferme familiale — on répond toujours avec plaisir.</p>
+
+        <div class="contact-grid">
+            <a href="https://wa.me/33610791198?text=Bonjour%20Olivier%2C%20j%27ai%20scann%C3%A9%20votre%20QR%20code%20sur%20le%20march%C3%A9%20%F0%9F%8D%8E"
+               class="cbtn cbtn-wa" target="_blank" rel="noopener noreferrer">
+                <div class="cbtn-icon">💬</div>
+                <div class="cbtn-body"><span class="cbtn-lbl">Réponse rapide</span>Nous écrire sur WhatsApp</div>
+                <span class="cbtn-arr">→</span>
+            </a>
+
+            <a href="mailto:latchereolivier@free.fr?subject=Question%20produits%20BroKa"
+               class="cbtn cbtn-em">
+                <div class="cbtn-icon">✉️</div>
+                <div class="cbtn-body"><span class="cbtn-lbl">Par email</span>latchereolivier@free.fr</div>
+                <span class="cbtn-arr">→</span>
+            </a>
+
+            <a href="https://www.facebook.com/profile.php?id=100057794253978"
+               class="cbtn cbtn-fb" target="_blank" rel="noopener noreferrer">
+                <div class="cbtn-icon">👍</div>
+                <div class="cbtn-body"><span class="cbtn-lbl">Notre page</span>BroKa sur Facebook</div>
+                <span class="cbtn-arr">→</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     8. FOOTER
+══════════════════════════════════════ -->
+<footer>
+    <div class="container">
+        <div class="footer-logo">BroKa</div>
+        <p class="footer-tagline">GAEC Goyhenetxea · Vinaigre de Cidre Artisanal · Garindaine · Xiberoa</p>
+        <div class="footer-hr"></div>
+        <div class="footer-links">
+            <a href="#">Mentions légales</a>
+            <a href="#">Politique de confidentialité</a>
+        </div>
+        <p class="footer-copy">© 2025 GAEC Goyhenetxea · Tous droits réservés</p>
+    </div>
+</footer>
+
+<!-- BOUTON WHATSAPP FLOTTANT -->
+<a href="https://wa.me/33610791198?text=Bonjour%20Olivier%2C%20j%27ai%20scann%C3%A9%20votre%20QR%20code%20sur%20le%20march%C3%A9%20%F0%9F%8D%8E"
+   class="float-wa" target="_blank" rel="noopener noreferrer" aria-label="Nous écrire sur WhatsApp">
+    <span class="float-wa-icon">💬</span>
+    <span>Nous écrire</span>
+</a>
+
+<script>
+    /* Smooth scroll */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+            }
+        });
+    });
+
+    /* Animations au défilement */
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+
+    /* Formulaire */
+    const form        = document.getElementById('guide-form');
+    const formContent = document.getElementById('form-content');
+    const formSuccess = document.getElementById('form-success');
+    const successName = document.getElementById('success-name');
+    const submitBtn   = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const prenom = document.getElementById('prenom').value.trim();
+        const nom    = document.getElementById('nom').value.trim();
+        const tel    = document.getElementById('tel').value.trim();
+        const email  = document.getElementById('email').value.trim();
+
+        if (!prenom) { highlight('prenom'); return; }
+        if (!nom)    { highlight('nom'); return; }
+        if (!tel)    { highlight('tel'); return; }
+        if (!email)  { highlight('email'); return; }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Envoi…';
+
+        try {
+            const body = JSON.stringify({ prenom, nom, tel, email });
+            await fetch('api/send', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+        } catch (_) {
+            // envoi silencieux — on affiche le succès dans tous les cas
+        }
+
+        // Met à jour le lien WhatsApp de contact dans l'écran de succès
+        const waUrl = 'https://wa.me/33610791198?text=' + encodeURIComponent(`Bonjour Olivier, je viens de m'inscrire sur votre page BroKa 🍎`);
+        document.getElementById('wa-olivier-link').href = waUrl;
+
+        successName.textContent = prenom;
+        formContent.style.display = 'none';
+        formSuccess.style.display  = 'block';
+        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    function highlight(id) {
+        const el = document.getElementById(id);
+        el.style.borderColor = '#7A1E0F';
+        el.focus();
+        setTimeout(() => { el.style.borderColor = ''; }, 2500);
+    }
+</script>
+</body>
+</html>
