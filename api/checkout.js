@@ -1,18 +1,49 @@
 import Stripe from 'stripe';
 
 const PRODUCTS = {
-  vinaigre_500:    { name: 'Vinaigre de cidre BroKa — 500ml',        description: 'Sagar Ozpina · Artisanal, fermenté lentement · Pays Basque', amount: 1700 },
-  vinaigre_3l:     { name: 'Vinaigre de cidre BroKa — Vrac 3L',      description: 'Sac push-up 3L · Idéal familles et restauration',             amount: 6600 },
-  xipister:        { name: 'Xipister Xü-Beroa — Sauce plancha 500ml', description: 'Sauce pimentée bio artisanale du Pays Basque',                amount: 1900 },
-  pack_decouverte: { name: 'Pack Découverte BroKa',                   description: 'Vinaigre 500ml + Xipister 500ml + Guide PDF · Économisez 4€', amount: 3200 },
-  pack_famille:    { name: 'Pack Recharge Famille BroKa',             description: 'Vinaigre 500ml + Vrac 3L · Économisez 4€',                    amount: 7900 },
-  noisettes_250g:  { name: 'Noisettes BIO à Coque BroKa — 250g',     description: 'Récoltées à la main dans notre verger basque · Certifiées BIO · 10€/kg', amount: 250 },
+  vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500ml',      description: 'Sagar Ozpina · Artisanal, fermenté lentement · Pays Basque',           amount:  1700 },
+  vinaigre_vrac_1l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 1L',   description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',       amount:  2600 },
+  vinaigre_vrac_3l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 3L',   description: 'Sac push-up refermable · 23 €/L · Idéal familles et restauration',       amount:  6900 },
+  vinaigre_vrac_5l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 5L',   description: 'Sac push-up refermable · 20 €/L · Grand format restauration/recharge',   amount: 10000 },
+  xipister:            { name: 'Xipister Xü-Beroa — Sauce plancha 500ml',  description: 'Sauce pimentée bio artisanale du Pays Basque',                           amount:  1900 },
+  pack_cuisine_basque: { name: 'Pack Cuisine Basque BroKa',                description: 'Vinaigre 500ml + Xipister 500ml + Guindillas 40g + Guide offert · Éco. 5€', amount: 4100 },
+  pack_prestige:       { name: 'Pack Prestige BroKa',                      description: 'Vinaigre 500ml + Xipister 500ml + Guindillas + Noisettes 500g · Éco. 6€', amount: 4500 },
+  pack_famille:        { name: 'Pack Recharge Famille BroKa',              description: 'Vinaigre 500ml + Vrac 3L · Économisez 7€',                               amount:  7900 },
+  noisettes_250g:      { name: 'Noisettes BIO à Coque BroKa — 250g',      description: 'Récoltées à la main · Certifiées BIO · 10€/kg',                          amount:   250 },
+  poudre_guindillas:   { name: 'Poudre de Guindillas BroKa — 40g',        description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant",        amount:  1000 },
 };
 
-function getShipping(items) {
-  const hasHeavy = items.some(i => i.key === 'vinaigre_3l' || i.key === 'pack_famille');
-  return hasHeavy ? 500 : 300;
+// Poids emballé (kg)
+const WEIGHTS = {
+  vinaigre_500:        0.80,
+  vinaigre_vrac_1l:   1.20,
+  vinaigre_vrac_3l:   3.40,
+  vinaigre_vrac_5l:   5.50, // oversized — livraison à confirmer manuellement
+  xipister:            0.80,
+  pack_cuisine_basque: 1.90,
+  pack_prestige:       2.50,
+  pack_famille:        4.00,
+  noisettes_250g:      0.35,
+  poudre_guindillas:   0.15,
+};
+
+// Grille Point Relais (centimes)
+function relayRate(kg) {
+  if (kg <= 2) return  800;
+  if (kg <= 3) return 1050;
+  return 1100;
 }
+
+// Grille Domicile (centimes)
+function homeRate(kg) {
+  if (kg <= 2) return 1300;
+  if (kg <= 3) return 1900;
+  return 2000;
+}
+
+const FRANCO_RELAY_CENTS = 7500;  // 75 €
+const FRANCO_HOME_CENTS  = 12500; // 125 €
+const LAUNCH_MIN_CENTS   = 5000;  // 50 €
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,33 +51,51 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { items } = req.body ?? {};
+  const { items, deliveryMethod, relayPoint } = req.body ?? {};
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Panier vide' });
   }
+  if (!['relay', 'home'].includes(deliveryMethod)) {
+    return res.status(400).json({ error: 'Mode de livraison manquant' });
+  }
 
   const lineItems = [];
+  let subtotalCents = 0;
+  let totalWeight   = 0;
+
   for (const { key, qty } of items) {
-    const p = PRODUCTS[key];
-    if (!p || !qty || qty < 1) return res.status(400).json({ error: `Produit inconnu: ${key}` });
+    const p       = PRODUCTS[key];
+    const safeQty = Math.round(Number(qty));
+    if (!p || !safeQty || safeQty < 1) {
+      return res.status(400).json({ error: `Produit inconnu: ${key}` });
+    }
     lineItems.push({
       price_data: {
         currency: 'eur',
         product_data: { name: p.name, description: p.description },
         unit_amount: p.amount,
       },
-      quantity: qty,
+      quantity: safeQty,
     });
+    subtotalCents += p.amount * safeQty;
+    totalWeight   += (WEIGHTS[key] ?? 0.5) * safeQty;
   }
 
-  lineItems.push({
-    price_data: {
-      currency: 'eur',
-      product_data: { name: 'Frais de port' },
-      unit_amount: getShipping(items),
-    },
-    quantity: 1,
-  });
+  const oversized       = totalWeight > 4;
+  const launchEnabled   = process.env.LAUNCH_FREE_SHIPPING === 'true';
+  const isFrancoRelay   = subtotalCents >= FRANCO_RELAY_CENTS;
+  const isFrancoHome    = subtotalCents >= FRANCO_HOME_CENTS;
+  const isLaunchFreeRelay = launchEnabled && subtotalCents >= LAUNCH_MIN_CENTS;
+
+  let shippingCents;
+  let shippingName;
+  if (deliveryMethod === 'relay') {
+    shippingCents = (isLaunchFreeRelay || isFrancoRelay) ? 0 : relayRate(totalWeight);
+    shippingName  = 'Point Relais® / Locker — Mondial Relay';
+  } else {
+    shippingCents = isFrancoHome ? 0 : homeRate(totalWeight);
+    shippingName  = 'Livraison à domicile — Colissimo';
+  }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const base   = process.env.BASE_URL ?? 'https://yourqr.page';
@@ -55,7 +104,30 @@ export default async function handler(req, res) {
     payment_method_types: ['card'],
     line_items: lineItems,
     mode: 'payment',
+    billing_address_collection: 'required',
     shipping_address_collection: { allowed_countries: ['FR'] },
+    phone_number_collection: { enabled: true },
+    invoice_creation: { enabled: true },
+    shipping_options: [
+      {
+        shipping_rate_data: {
+          type: 'fixed_amount',
+          fixed_amount: { amount: shippingCents, currency: 'eur' },
+          display_name: shippingName,
+          delivery_estimate: {
+            minimum: { unit: 'business_day', value: 3 },
+            maximum: { unit: 'business_day', value: 5 },
+          },
+        },
+      },
+    ],
+    metadata: {
+      total_weight_kg:      totalWeight.toFixed(2),
+      oversized:            oversized ? 'true' : 'false',
+      delivery_method:      deliveryMethod,
+      relay_point:          relayPoint || '',
+      launch_free_shipping: isLaunchFreeRelay ? 'true' : 'false',
+    },
     success_url: `${base}/broka/?paiement=ok`,
     cancel_url:  `${base}/broka/`,
     locale: 'fr',
