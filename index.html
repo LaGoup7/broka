@@ -566,14 +566,20 @@
         </div>
         <div class="prod-body">
           <h4>Noisettes BIO à Coque</h4>
-          <p class="prod-desc">Vrac · min. 250g · Récoltées à la main dans notre verger basque · Certifiées BIO.</p>
-          <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-            <input type="number" id="noisettes-poids" min="250" step="250" value="500"
-              style="width:72px;border:1px solid var(--cream-bd,#d9cfc2);border-radius:6px;padding:5px 8px;font-size:.88rem;font-family:inherit;"
-              oninput="updateNoisettesPrice()">
-            <span style="font-size:.82rem;color:var(--txt-lt);">g</span>
-            <span style="font-size:.78rem;color:var(--txt-lt);margin-left:4px;">→</span>
-            <span id="noisettes-prix-calc" style="font-size:.95rem;font-weight:700;color:var(--green-deep);">5,00 €</span>
+          <p class="prod-desc">Vrac · 10€/kg · Récoltées à la main dans notre verger basque · Certifiées BIO.</p>
+          <input type="range" id="noisettes-slider" min="250" max="5000" step="250" value="500"
+            style="width:100%;accent-color:var(--green-deep,#253D0D);margin:8px 0 4px;cursor:pointer;height:20px;"
+            oninput="syncNoisettesFromSlider()">
+          <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--txt-lt);margin-bottom:10px;">
+            <span>250g</span><span>5 kg</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <input type="number" id="noisettes-poids" value="500" min="1"
+              style="width:80px;border:1.5px solid var(--cream-bd,#d9cfc2);border-radius:8px;padding:7px 10px;font-size:.95rem;font-family:inherit;text-align:center;"
+              oninput="syncNoisettesFromInput()"
+              onblur="snapNoisettes()">
+            <span style="font-size:.85rem;color:var(--txt-lt);">g</span>
+            <span id="noisettes-prix-calc" style="margin-left:auto;font-size:1.05rem;font-weight:700;color:var(--green-deep,#253D0D);">5,00 €</span>
           </div>
           <div class="prod-footer">
             <div class="prod-price">10 €<small>/ kg · + 3 € port</small></div>
@@ -803,15 +809,34 @@
     updateCartBtn();
   }
 
-  function updateNoisettesPrice() {
-    const g = Math.max(250, Math.round((parseInt(document.getElementById('noisettes-poids').value) || 250) / 250) * 250);
-    document.getElementById('noisettes-poids').value = g;
+  function snapToNearest250(g) {
+    return Math.max(250, Math.round(g / 250) * 250);
+  }
+  function updateNoisettesDisplay(g) {
     const euros = (g / 1000 * 10).toFixed(2).replace('.', ',');
     document.getElementById('noisettes-prix-calc').textContent = euros + ' €';
   }
-
+  function syncNoisettesFromSlider() {
+    const g = parseInt(document.getElementById('noisettes-slider').value);
+    document.getElementById('noisettes-poids').value = g;
+    updateNoisettesDisplay(g);
+  }
+  function syncNoisettesFromInput() {
+    const raw = parseInt(document.getElementById('noisettes-poids').value) || 250;
+    updateNoisettesDisplay(Math.max(250, raw));
+    const snapped = Math.min(5000, snapToNearest250(raw));
+    document.getElementById('noisettes-slider').value = snapped;
+  }
+  function snapNoisettes() {
+    const raw = parseInt(document.getElementById('noisettes-poids').value) || 250;
+    const g = snapToNearest250(raw);
+    document.getElementById('noisettes-poids').value = g;
+    document.getElementById('noisettes-slider').value = Math.min(5000, g);
+    updateNoisettesDisplay(g);
+  }
   function addNoisettes() {
-    const g = Math.max(250, Math.round((parseInt(document.getElementById('noisettes-poids').value) || 250) / 250) * 250);
+    snapNoisettes();
+    const g = parseInt(document.getElementById('noisettes-poids').value);
     const units = g / 250;
     const existing = cart.find(i => i.key === 'noisettes_250g');
     if (existing) existing.qty += units;
