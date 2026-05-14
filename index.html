@@ -566,10 +566,18 @@
         </div>
         <div class="prod-body">
           <h4>Noisettes BIO à Coque</h4>
-          <p class="prod-desc">1 kg · Récoltées à la main dans notre verger basque · Certifiées BIO.</p>
+          <p class="prod-desc">Vrac · min. 250g · Récoltées à la main dans notre verger basque · Certifiées BIO.</p>
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
+            <input type="number" id="noisettes-poids" min="250" step="250" value="500"
+              style="width:72px;border:1px solid var(--cream-bd,#d9cfc2);border-radius:6px;padding:5px 8px;font-size:.88rem;font-family:inherit;"
+              oninput="updateNoisettesPrice()">
+            <span style="font-size:.82rem;color:var(--txt-lt);">g</span>
+            <span style="font-size:.78rem;color:var(--txt-lt);margin-left:4px;">→</span>
+            <span id="noisettes-prix-calc" style="font-size:.95rem;font-weight:700;color:var(--green-deep);">5,00 €</span>
+          </div>
           <div class="prod-footer">
             <div class="prod-price">10 €<small>/ kg · + 3 € port</small></div>
-            <button class="btn-add" onclick="addToCart('noisettes_bio')">+ Panier</button>
+            <button class="btn-add" onclick="addNoisettes()">+ Panier</button>
           </div>
         </div>
       </div>
@@ -779,6 +787,7 @@
     xipister:        { name: 'Xipister — Sauce plancha 500ml',   price: 19, shipping: 3 },
     pack_decouverte: { name: 'Pack Découverte BroKa',            price: 32, shipping: 3 },
     pack_famille:    { name: 'Pack Recharge Famille BroKa',      price: 79, shipping: 5 },
+    noisettes_250g:  { name: 'Noisettes BIO à Coque',            price: 2.5, shipping: 3, unit: '250g' },
   };
 
   // ── Cart state ──
@@ -792,6 +801,23 @@
     renderCart();
     showToast('✓ ' + CATALOG[key].name + ' ajouté');
     updateCartBtn();
+  }
+
+  function updateNoisettesPrice() {
+    const g = Math.max(250, Math.round((parseInt(document.getElementById('noisettes-poids').value) || 250) / 250) * 250);
+    document.getElementById('noisettes-poids').value = g;
+    const euros = (g / 1000 * 10).toFixed(2).replace('.', ',');
+    document.getElementById('noisettes-prix-calc').textContent = euros + ' €';
+  }
+
+  function addNoisettes() {
+    const g = Math.max(250, Math.round((parseInt(document.getElementById('noisettes-poids').value) || 250) / 250) * 250);
+    const units = g / 250;
+    const existing = cart.find(i => i.key === 'noisettes_250g');
+    if (existing) existing.qty += units;
+    else cart.push({ key: 'noisettes_250g', qty: units });
+    saveCart(); renderCart(); updateCartBtn();
+    showToast('✓ Noisettes BIO ' + g + 'g ajoutées');
   }
 
   function changeQty(key, delta) {
@@ -815,7 +841,7 @@
 
   function renderCart() {
     const totalQty = cart.reduce((s, i) => s + i.qty, 0);
-    const subtotal = cart.reduce((s, i) => s + CATALOG[i.key].price * i.qty, 0);
+    const subtotal = Math.round(cart.reduce((s, i) => s + CATALOG[i.key].price * i.qty, 0) * 100) / 100;
     const shipping = cart.length === 0 ? 0
       : cart.some(i => i.key === 'vinaigre_3l' || i.key === 'pack_famille') ? 5 : 3;
     const total = subtotal + shipping;
@@ -832,17 +858,21 @@
 
     items.innerHTML = cart.map(item => {
       const p = CATALOG[item.key];
+      const isNoisettes = item.key === 'noisettes_250g';
+      const unitLabel = isNoisettes ? (item.qty * 250) + 'g · 10€/kg' : p.price + ' € / unité';
+      const qtyLabel  = isNoisettes ? '+250g' : '+1';
+      const total     = isNoisettes ? (item.qty * 2.5).toFixed(2).replace('.', ',') + ' €' : (p.price * item.qty) + ' €';
       return `<div class="cart-item">
         <div class="cart-item-info">
           <span class="cart-item-name">${p.name}</span>
-          <span class="cart-item-unit">${p.price} € / unité</span>
+          <span class="cart-item-unit">${unitLabel}</span>
         </div>
         <div class="qty-ctrl">
           <button class="qty-btn" onclick="changeQty('${item.key}',-1)">−</button>
-          <span class="qty-val">${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${item.key}',1)">+</button>
+          <span class="qty-val">${isNoisettes ? item.qty * 250 + 'g' : item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.key}',1)" title="${qtyLabel}">+</button>
         </div>
-        <span class="cart-item-price">${p.price * item.qty} €</span>
+        <span class="cart-item-price">${total}</span>
       </div>`;
     }).join('');
 
