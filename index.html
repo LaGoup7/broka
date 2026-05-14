@@ -286,7 +286,8 @@
       overflow: hidden; box-shadow: var(--sh-lg); display: flex; flex-direction: column;
     }
     .pack-img { aspect-ratio: 3/4; overflow: hidden; background: #fff; }
-    .pack-img img { width: 100%; height: 100%; object-fit: contain; }
+    .pack-img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform .4s ease; }
+    .pack-card:hover .pack-img img { transform: scale(1.13); }
     .pack-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
     .badge-pop {
       display: inline-block; background: var(--brown-lt); color: var(--green-deep);
@@ -771,7 +772,7 @@
 
       <div class="product-card fi">
         <div class="prod-img">
-          <img src="images/broka_bouteille_verger.jpg" alt="Xipister Xü-Beroa sauce plancha" style="object-position:right center;">
+          <img src="images/broka_bouteille_verger.png" alt="Xipister Xü-Beroa sauce plancha" style="object-position:right center;">
         </div>
         <div class="prod-body">
           <h4>Xipister — Xü-Beroa</h4>
