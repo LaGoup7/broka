@@ -6,6 +6,7 @@ const PRODUCTS = {
   xipister:        { name: 'Xipister Xü-Beroa — Sauce plancha 500ml', description: 'Sauce pimentée bio artisanale du Pays Basque',                amount: 1900 },
   pack_decouverte: { name: 'Pack Découverte BroKa',                   description: 'Vinaigre 500ml + Xipister 500ml + Guide PDF · Économisez 4€', amount: 3200 },
   pack_famille:    { name: 'Pack Recharge Famille BroKa',             description: 'Vinaigre 500ml + Vrac 3L · Économisez 4€',                    amount: 7900 },
+  noisettes_bio:   { name: 'Noisettes BIO à Coque BroKa — 1kg',      description: 'Récoltées à la main dans notre verger basque · Certifiées BIO', amount: 1000 },
 };
 
 function getShipping(items) {
