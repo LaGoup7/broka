@@ -33,7 +33,12 @@ export default function handler(req, res) {
         AllowedCountries:'FR',
         MapScrollWheel:  'false',
         Responsive:      'true',
+        OnParcelShopSelected: function () {
+          var val = $('#mr-output').val();
+          if (val) window.parent.postMessage(val, '*');
+        },
       });
+      // Fallback : certaines versions du widget déclenchent change
       $('#mr-output').on('change', function () {
         if (this.value) window.parent.postMessage(this.value, '*');
       });
