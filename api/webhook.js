@@ -41,6 +41,7 @@ async function sendFarmerEmail(session, lineItems) {
   const addr           = shipping.address ?? {};
   const deliveryMethod = meta.delivery_method === 'relay' ? 'Point Relais® Mondial Relay' : 'Domicile — Colissimo';
   const relayPoint     = meta.relay_point || null;
+  const homeAddress    = meta.home_address || null;
   const isOversized    = meta.oversized === 'true';
   const weightKg       = meta.total_weight_kg ?? '—';
   const shippingTotal  = session.shipping_cost?.amount_total ?? 0;
@@ -106,9 +107,13 @@ async function sendFarmerEmail(session, lineItems) {
       <tr>
         <td style="padding:4px 16px 4px 0;color:#666;font-size:13px;vertical-align:top;">Adresse</td>
         <td style="color:#333;font-size:13px;line-height:1.6;">
-          ${shipping.name ?? ''}<br>
-          ${addr.line1 ?? ''}${addr.line2 ? '<br>' + addr.line2 : ''}<br>
-          ${addr.postal_code ?? ''} ${addr.city ?? ''}<br>${addr.country ?? ''}
+          ${homeAddress ?? (
+            (shipping.name ? shipping.name + '<br>' : '') +
+            (addr.line1 ?? '') +
+            (addr.line2 ? '<br>' + addr.line2 : '') +
+            (addr.postal_code ? '<br>' + addr.postal_code + ' ' + (addr.city ?? '') : '') +
+            (addr.country ? '<br>' + addr.country : '')
+          ) || '—'}
         </td>
       </tr>
       <tr><td style="padding:4px 16px 4px 0;color:#666;font-size:13px;">Poids total</td><td style="color:#333;font-size:13px;">${weightKg} kg</td></tr>
@@ -173,9 +178,15 @@ async function sendCustomerEmail(session, lineItems) {
       <td style="padding:8px 0 8px 12px;color:#112015;font-size:14px;font-weight:700;text-align:right;white-space:nowrap;">${fmt(item.amount_total)}</td>
     </tr>`).join('');
 
+  const homeAddress = meta.home_address || null;
   const addrBlock = isRelay && relayPoint
     ? `<strong>Point Relais® Mondial Relay</strong><br>${relayPoint}`
-    : `${shipping.name ?? ''}<br>${addr.line1 ?? ''}${addr.line2 ? '<br>' + addr.line2 : ''}<br>${addr.postal_code ?? ''} ${addr.city ?? ''}`;
+    : (homeAddress ?? (
+        (shipping.name ? shipping.name + '<br>' : '') +
+        (addr.line1 ?? '') +
+        (addr.line2 ? '<br>' + addr.line2 : '') +
+        (addr.postal_code ? '<br>' + addr.postal_code + ' ' + (addr.city ?? '') : '')
+      ) || '—');
 
   const invoiceBtn = invoiceUrl ? `
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-top:28px;"><tr><td align="center">
