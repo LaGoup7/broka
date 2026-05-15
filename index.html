@@ -661,6 +661,15 @@
     <p class="dlv-relay-note" id="mr-relay-note" style="display:none;margin-top:8px;">
       Cliquez sur un point relais sur la carte ou dans la liste pour le sélectionner.
     </p>
+    <div id="mr-manual-section" style="display:none;margin-top:12px;">
+      <label style="font-size:.8rem;font-weight:700;color:var(--txt-md);display:block;margin-bottom:6px;">
+        Ou saisissez le point relais manuellement
+        <a href="https://www.mondialrelay.fr/trouver-le-point-relais-le-plus-proche-de-chez-moi/" target="_blank" rel="noopener" style="font-weight:400;color:var(--green-mid);margin-left:6px;">→ Trouver un relais</a>
+      </label>
+      <input type="text" id="mr-manual-input" class="dlv-cp-input" style="width:100%;max-width:100%;"
+        placeholder="Ex : Point Relais Tabac du Centre — 64100 Bayonne"
+        oninput="onManualRelayInput()">
+    </div>
   </div>
 
   <div class="dlv-actions">
@@ -1173,102 +1182,63 @@
   let _cartHome  = 0;
   let _selectedDelivery = null;
   let _selectedRelayPoint = null;  // { id, name, address, postalCode, city }
-  let _mrScriptsLoaded = false;
-  let _mrInitialized = false;
-
-  function loadScript(src, cb) {
-    if (document.querySelector('script[src="' + src + '"]')) { if (cb) cb(); return; }
-    const s = document.createElement('script');
-    s.src = src; s.onload = cb;
-    document.head.appendChild(s);
-  }
+  let _mrMsgListenerActive = false;
 
   function onRelayPostalInput(val) {
-    const hint = document.getElementById('mr-cp-hint');
     _selectedRelayPoint = null;
     document.getElementById('mr-selected-box').style.display = 'none';
     document.getElementById('mr-selected-box').textContent = '';
+    document.getElementById('mr-cp-hint').textContent = val.length >= 4 ? '' : 'Entrez votre code postal';
     updateDeliveryConfirmBtn();
     if (val.length >= 4) {
-      hint.textContent = '';
       loadRelayWidget(val);
     } else {
-      hint.textContent = 'Entrez votre code postal';
       document.getElementById('mr-widget-zone').innerHTML = '';
       document.getElementById('mr-widget-zone').style.minHeight = '0';
       document.getElementById('mr-relay-note').style.display = 'none';
+      document.getElementById('mr-manual-section').style.display = 'none';
     }
   }
 
   function loadRelayWidget(postalCode) {
     const zone = document.getElementById('mr-widget-zone');
-    zone.innerHTML = '<div class="mr-spinner">Chargement de la carte Mondial Relay…</div>';
-    zone.style.minHeight = '80px';
+    const p = new URLSearchParams({
+      lang: 'FR_FR', Brand: 'BDTEST13', PostCode: postalCode,
+      ColLivMod: '24R', NbResults: '7', MapScrollWheel: 'false', Responsive: 'true',
+    });
+    zone.innerHTML = '<iframe src="https://widget.mondialrelay.com/parcelshop-picker/v4_1/?' + p +
+      '" style="width:100%;height:480px;border:none;border-radius:8px;" title="Choisir un point relais"></iframe>';
+    zone.style.minHeight = '480px';
+    document.getElementById('mr-relay-note').style.display = 'block';
+    document.getElementById('mr-manual-section').style.display = 'block';
 
-    function initWidget() {
-      const $ = window.$;
-      if (!$ || !$.fn.MR_ParcelShopPicker) {
-        zone.innerHTML = '<p style="font-size:.82rem;color:var(--txt-lt);padding:12px 0;">Le widget Mondial Relay n\'a pas pu se charger. <a href="https://www.mondialrelay.fr/trouver-un-point-relais/" target="_blank">Chercher manuellement →</a></p>';
-        zone.style.minHeight = '0';
-        return;
-      }
-      // Réinitialise le container à chaque recherche
-      if (_mrInitialized) {
-        zone.innerHTML = '';
-        try { $('#mr-relay-output').off('change'); } catch(e) {}
-      }
-      zone.style.minHeight = '440px';
-      document.getElementById('mr-relay-note').style.display = 'block';
-
-      $('#mr-widget-zone').MR_ParcelShopPicker({
-        Target:           '#mr-relay-output',
-        Brand:            'BDTEST13',
-        PostCode:         postalCode,
-        Country:          'FR',
-        ColLivMod:        '24R',
-        NbResults:        '7',
-        AllowedCountries: 'FR',
-        MapScrollWheel:   'false',
-        Responsive:       'true',
-      });
-      _mrInitialized = true;
-
-      $('#mr-relay-output').on('change', function() {
-        const val = this.value;
-        if (!val) return;
-        const p = val.split(';');
-        if (p.length >= 6 && p[0]) {
+    // Capture automatique si le widget envoie un postMessage
+    if (!_mrMsgListenerActive) {
+      _mrMsgListenerActive = true;
+      window.addEventListener('message', function(e) {
+        const raw = typeof e.data === 'string' ? e.data : '';
+        if (!raw) return;
+        const parts = raw.split(';');
+        if (parts.length >= 6 && parts[0] && /^[A-Z0-9]{2,15}$/.test(parts[0].trim())) {
           _selectedRelayPoint = {
-            id:         p[0].trim(),
-            name:       p[1].trim(),
-            address:    [p[2], p[3]].map(s => s.trim()).filter(Boolean).join(', '),
-            postalCode: p[4].trim(),
-            city:       p[5].trim(),
+            id: parts[0].trim(), name: parts[1].trim(),
+            address: [parts[2], parts[3]].map(s => s.trim()).filter(Boolean).join(', '),
+            postalCode: parts[4].trim(), city: parts[5].trim(),
           };
-          const r = _selectedRelayPoint;
+          const label = _selectedRelayPoint.name + ' — ' + _selectedRelayPoint.postalCode + ' ' + _selectedRelayPoint.city;
           const box = document.getElementById('mr-selected-box');
-          box.textContent = '✓ ' + r.name + ' — ' + r.postalCode + ' ' + r.city;
+          box.textContent = '✓ ' + label;
           box.style.display = 'block';
+          document.getElementById('mr-manual-input').value = label;
           updateDeliveryConfirmBtn();
           document.getElementById('dlv-confirm-btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       });
     }
+  }
 
-    if (_mrScriptsLoaded) { initWidget(); return; }
-
-    if (!document.querySelector('link[href*="mondialrelay-widget"]')) {
-      const l = document.createElement('link');
-      l.rel = 'stylesheet';
-      l.href = 'https://widget.mondialrelay.com/parcelshop-picker/v4_1/styles/mondialrelay-widget.min.css';
-      document.head.appendChild(l);
-    }
-    loadScript('https://code.jquery.com/jquery-3.7.1.min.js', function() {
-      loadScript('https://widget.mondialrelay.com/parcelshop-picker/v4_1/scripts/mondialrelay-widget.min.js', function() {
-        _mrScriptsLoaded = true;
-        initWidget();
-      });
-    });
+  function onManualRelayInput() {
+    if (!_selectedRelayPoint) updateDeliveryConfirmBtn();
   }
 
   function addToCart(key) {
@@ -1463,7 +1433,7 @@
     // Réinitialise l'état
     _selectedDelivery = null;
     _selectedRelayPoint = null;
-    _mrInitialized = false;
+    _mrMsgListenerActive = false;
     document.getElementById('dlv-opt-relay').classList.remove('selected');
     document.getElementById('dlv-opt-home').classList.remove('selected');
     document.getElementById('dlv-relay-section').style.display = 'none';
@@ -1474,6 +1444,8 @@
     document.getElementById('mr-widget-zone').innerHTML = '';
     document.getElementById('mr-widget-zone').style.minHeight = '0';
     document.getElementById('mr-relay-note').style.display = 'none';
+    document.getElementById('mr-manual-section').style.display = 'none';
+    document.getElementById('mr-manual-input').value = '';
     document.getElementById('mr-relay-output').value = '';
     document.getElementById('dlv-confirm-btn').disabled = true;
     document.getElementById('dlv-overlay').classList.add('open');
@@ -1500,7 +1472,13 @@
   function updateDeliveryConfirmBtn() {
     const btn = document.getElementById('dlv-confirm-btn');
     if (!_selectedDelivery) { btn.disabled = true; return; }
-    btn.disabled = (_selectedDelivery === 'relay') ? !_selectedRelayPoint : false;
+    if (_selectedDelivery === 'relay') {
+      const hasRelay = !!_selectedRelayPoint;
+      const hasManual = (document.getElementById('mr-manual-input')?.value.trim().length >= 3);
+      btn.disabled = !hasRelay && !hasManual;
+    } else {
+      btn.disabled = false;
+    }
   }
 
   async function confirmDelivery() {
@@ -1508,9 +1486,13 @@
     btn.disabled = true;
     btn.textContent = 'Redirection…';
     let relayPoint = '';
-    if (_selectedDelivery === 'relay' && _selectedRelayPoint) {
-      const r = _selectedRelayPoint;
-      relayPoint = r.name + ' — ' + r.address + ', ' + r.postalCode + ' ' + r.city + ' (ID:' + r.id + ')';
+    if (_selectedDelivery === 'relay') {
+      if (_selectedRelayPoint) {
+        const r = _selectedRelayPoint;
+        relayPoint = r.name + ' — ' + r.address + ', ' + r.postalCode + ' ' + r.city + ' (ID:' + r.id + ')';
+      } else {
+        relayPoint = document.getElementById('mr-manual-input')?.value.trim() || '';
+      }
     }
     try {
       const res = await fetch('api/checkout', {
