@@ -665,28 +665,44 @@
 
   <div class="dlv-relay-section" id="dlv-relay-section" style="display:none">
     <label style="font-size:.82rem;font-weight:700;color:var(--green-deep);display:block;margin-bottom:8px;">
-      Votre code postal pour trouver un point relais
+      Votre code postal
     </label>
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <input type="text" id="dlv-cp-input" class="dlv-cp-input"
         placeholder="Ex : 64100" maxlength="5" inputmode="numeric"
         oninput="onRelayPostalInput(this.value)">
       <span style="font-size:.8rem;color:var(--txt-lt);" id="mr-cp-hint">Entrez votre code postal</span>
     </div>
-    <div class="mr-selected-box" id="mr-selected-box"></div>
-    <input type="hidden" id="mr-relay-output">
-    <div id="mr-widget-zone"></div>
-    <p class="dlv-relay-note" id="mr-relay-note" style="display:none;margin-top:8px;">
-      Cliquez sur un point relais sur la carte ou dans la liste pour le sélectionner.
-    </p>
-    <div id="mr-manual-section" style="display:none;margin-top:12px;">
-      <label style="font-size:.8rem;font-weight:700;color:var(--txt-md);display:block;margin-bottom:6px;">
-        Ou saisissez le point relais manuellement
-        <a href="https://www.mondialrelay.fr/trouver-le-point-relais-le-plus-proche-de-chez-moi/" target="_blank" rel="noopener" style="font-weight:400;color:var(--green-mid);margin-left:6px;">→ Trouver un relais</a>
-      </label>
-      <input type="text" id="mr-manual-input" class="dlv-cp-input" style="width:100%;max-width:100%;"
-        placeholder="Ex : Point Relais Tabac du Centre — 64100 Bayonne"
-        oninput="onManualRelayInput()">
+
+    <div id="mr-steps" style="display:none;">
+      <div style="background:#f0f7ed;border:1px solid #c8e0c0;border-radius:var(--r-sm);padding:14px 16px;margin-bottom:14px;">
+        <p style="font-size:.8rem;font-weight:700;color:var(--green-mid);margin:0 0 5px;">
+          Étape 1 — Trouvez votre point relais
+        </p>
+        <p style="font-size:.78rem;color:var(--txt-md);margin:0 0 10px;line-height:1.55;">
+          Cliquez pour voir les relais disponibles près de chez vous, puis notez le nom de celui que vous choisissez.
+        </p>
+        <a id="mr-find-btn" href="https://www.mondialrelay.fr/trouver-le-point-relais-le-plus-proche-de-chez-moi/"
+           target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:6px;background:var(--green-mid);color:#fff;
+                  padding:9px 18px;border-radius:var(--r-pill);font-size:.78rem;font-weight:700;
+                  letter-spacing:.04em;text-decoration:none;text-transform:uppercase;">
+          🗺 Voir les points relais →
+        </a>
+      </div>
+
+      <div>
+        <label style="font-size:.82rem;font-weight:700;color:var(--green-deep);display:block;margin-bottom:6px;">
+          Étape 2 — Saisissez le nom du relais choisi
+        </label>
+        <input type="text" id="mr-manual-input" class="dlv-cp-input"
+          style="width:100%;max-width:100%;"
+          placeholder="Ex : Tabac de la Mairie — 64100 Bayonne"
+          oninput="onManualRelayInput()">
+        <p style="font-size:.75rem;color:var(--txt-lt);margin-top:5px;line-height:1.4;">
+          Copiez le nom exactement tel qu'il apparaît sur le site Mondial Relay.
+        </p>
+      </div>
     </div>
   </div>
 
@@ -1199,61 +1215,22 @@
   let _cartRelay = 0;
   let _cartHome  = 0;
   let _selectedDelivery = null;
-  let _selectedRelayPoint = null;  // { id, name, address, postalCode, city }
-  let _mrMsgListenerActive = false;
+  let _selectedRelayPoint = null;
 
   function onRelayPostalInput(val) {
     _selectedRelayPoint = null;
-    document.getElementById('mr-selected-box').style.display = 'none';
-    document.getElementById('mr-selected-box').textContent = '';
     document.getElementById('mr-cp-hint').textContent = val.length >= 4 ? '' : 'Entrez votre code postal';
-    updateDeliveryConfirmBtn();
     if (val.length >= 4) {
-      loadRelayWidget(val);
+      document.getElementById('mr-steps').style.display = 'block';
     } else {
-      document.getElementById('mr-widget-zone').innerHTML = '';
-      document.getElementById('mr-widget-zone').style.minHeight = '0';
-      document.getElementById('mr-relay-note').style.display = 'none';
-      document.getElementById('mr-manual-section').style.display = 'none';
+      document.getElementById('mr-steps').style.display = 'none';
+      document.getElementById('mr-manual-input').value = '';
     }
-  }
-
-  function loadRelayWidget(postalCode) {
-    const zone = document.getElementById('mr-widget-zone');
-    const src = '/api/mr-widget?cp=' + encodeURIComponent(postalCode) + '&brand=BDTEST13';
-    zone.innerHTML = '<iframe src="' + src +
-      '" style="width:100%;height:480px;border:none;border-radius:8px;" title="Choisir un point relais"></iframe>';
-    zone.style.minHeight = '480px';
-    document.getElementById('mr-relay-note').style.display = 'block';
-    document.getElementById('mr-manual-section').style.display = 'block';
-
-    // Capture automatique si le widget envoie un postMessage
-    if (!_mrMsgListenerActive) {
-      _mrMsgListenerActive = true;
-      window.addEventListener('message', function(e) {
-        const raw = typeof e.data === 'string' ? e.data : '';
-        if (!raw) return;
-        const parts = raw.split(';');
-        if (parts.length >= 6 && parts[0] && /^[A-Z0-9]{2,15}$/.test(parts[0].trim())) {
-          _selectedRelayPoint = {
-            id: parts[0].trim(), name: parts[1].trim(),
-            address: [parts[2], parts[3]].map(s => s.trim()).filter(Boolean).join(', '),
-            postalCode: parts[4].trim(), city: parts[5].trim(),
-          };
-          const label = _selectedRelayPoint.name + ' — ' + _selectedRelayPoint.postalCode + ' ' + _selectedRelayPoint.city;
-          const box = document.getElementById('mr-selected-box');
-          box.textContent = '✓ ' + label;
-          box.style.display = 'block';
-          document.getElementById('mr-manual-input').value = label;
-          updateDeliveryConfirmBtn();
-          document.getElementById('dlv-confirm-btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      });
-    }
+    updateDeliveryConfirmBtn();
   }
 
   function onManualRelayInput() {
-    if (!_selectedRelayPoint) updateDeliveryConfirmBtn();
+    updateDeliveryConfirmBtn();
   }
 
   function addToCart(key) {
@@ -1448,20 +1425,14 @@
     // Réinitialise l'état
     _selectedDelivery = null;
     _selectedRelayPoint = null;
-    _mrMsgListenerActive = false;
     document.getElementById('dlv-opt-relay').classList.remove('selected');
     document.getElementById('dlv-opt-home').classList.remove('selected');
     document.getElementById('dlv-relay-section').style.display = 'none';
     document.getElementById('dlv-modal').classList.remove('dlv-modal--wide');
     document.getElementById('dlv-cp-input').value = '';
     document.getElementById('mr-cp-hint').textContent = 'Entrez votre code postal';
-    document.getElementById('mr-selected-box').style.display = 'none';
-    document.getElementById('mr-widget-zone').innerHTML = '';
-    document.getElementById('mr-widget-zone').style.minHeight = '0';
-    document.getElementById('mr-relay-note').style.display = 'none';
-    document.getElementById('mr-manual-section').style.display = 'none';
+    document.getElementById('mr-steps').style.display = 'none';
     document.getElementById('mr-manual-input').value = '';
-    document.getElementById('mr-relay-output').value = '';
     document.getElementById('dlv-home-section').style.display = 'none';
     document.getElementById('home-name').value = '';
     document.getElementById('home-street').value = '';
@@ -1494,9 +1465,7 @@
     const btn = document.getElementById('dlv-confirm-btn');
     if (!_selectedDelivery) { btn.disabled = true; return; }
     if (_selectedDelivery === 'relay') {
-      const hasRelay = !!_selectedRelayPoint;
-      const hasManual = (document.getElementById('mr-manual-input')?.value.trim().length >= 3);
-      btn.disabled = !hasRelay && !hasManual;
+      btn.disabled = (document.getElementById('mr-manual-input')?.value.trim().length ?? 0) < 3;
     } else {
       const street = document.getElementById('home-street')?.value.trim() || '';
       const postal = document.getElementById('home-postal')?.value.trim() || '';
@@ -1511,12 +1480,7 @@
     btn.textContent = 'Redirection…';
     let relayPoint = '';
     if (_selectedDelivery === 'relay') {
-      if (_selectedRelayPoint) {
-        const r = _selectedRelayPoint;
-        relayPoint = r.name + ' — ' + r.address + ', ' + r.postalCode + ' ' + r.city + ' (ID:' + r.id + ')';
-      } else {
-        relayPoint = document.getElementById('mr-manual-input')?.value.trim() || '';
-      }
+      relayPoint = document.getElementById('mr-manual-input')?.value.trim() || '';
     }
     let homeAddress = null;
     if (_selectedDelivery === 'home') {
