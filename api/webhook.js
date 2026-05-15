@@ -304,6 +304,40 @@ async function sendCustomerEmail(session, lineItems) {
   });
 }
 
+// ── Google Sheets ─────────────────────────────────────────────────────────────
+async function appendToGoogleSheets(session, lineItems) {
+  const url = process.env.APPS_SCRIPT_URL;
+  if (!url) return;
+
+  const meta     = session.metadata ?? {};
+  const customer = session.customer_details ?? {};
+  const shipping = session.shipping_cost?.amount_total ?? 0;
+  const total    = session.amount_total ?? 0;
+  const isRelay  = meta.delivery_method === 'relay';
+
+  const products = lineItems.map(i => i.description + ' x' + i.quantity).join(' | ');
+  const address  = isRelay ? (meta.relay_point || '—') : (meta.home_address || '—');
+
+  await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      date:     new Date(session.created * 1000).toLocaleString('fr-FR', { timeZone: 'Europe/Paris' }),
+      ref:      '#' + session.id.slice(-8).toUpperCase(),
+      customer: customer.name ?? '—',
+      email:    customer.email ?? '—',
+      phone:    customer.phone ?? '—',
+      delivery: isRelay ? 'Point Relais' : 'Domicile',
+      address,
+      products,
+      subtotal: ((total - shipping) / 100).toFixed(2),
+      shipping: (shipping / 100).toFixed(2),
+      total:    (total / 100).toFixed(2),
+      weight:   meta.total_weight_kg ?? '—',
+    }),
+  });
+}
+
 // ── Handler principal ──────────────────────────────────────────────────────────
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
@@ -330,9 +364,14 @@ export default async function handler(req, res) {
     // Email fermier — critique : si échec, on renvoie 500 pour que Stripe retente
     await sendFarmerEmail(session, lineItems);
 
-    // Email client — non bloquant (échec silencieux, pas de retry Stripe)
+    // Email client — non bloquant
     sendCustomerEmail(session, lineItems).catch(err =>
       console.error('Email client non envoyé:', err.message)
+    );
+
+    // Google Sheets — non bloquant
+    appendToGoogleSheets(session, lineItems).catch(err =>
+      console.error('GSheets non écrit:', err.message)
     );
   }
 
