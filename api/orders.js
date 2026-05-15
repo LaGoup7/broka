@@ -50,7 +50,13 @@ export default async function handler(req, res) {
     const total     = s.amount_total ?? 0;
     const isRelay   = meta.delivery_method === 'relay';
     const isProcessed = meta.processed === 'true';
-    const address   = isRelay ? (meta.relay_point || '—') : (meta.home_address || '—');
+    // Fallback pour les anciennes commandes (adresse collectée par Stripe)
+    const sd = s.shipping_details ?? {};
+    const sa = sd.address ?? {};
+    const legacyAddr = [sd.name, sa.line1, sa.line2, ((sa.postal_code || '') + ' ' + (sa.city || '')).trim()].filter(Boolean).join(', ');
+    const address   = isRelay
+      ? (meta.relay_point || '—')
+      : (meta.home_address || legacyAddr || '—');
     const products  = (s.line_items?.data ?? []).map(i => `${i.description} ×${i.quantity}`).join('<br>');
     const ref       = '#' + s.id.slice(-8).toUpperCase();
     const oversized = meta.oversized === 'true' ? ' ⚠️' : '';
