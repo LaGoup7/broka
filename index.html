@@ -645,6 +645,24 @@
     <div class="dlv-opt-price" id="dlv-home-price">—</div>
   </button>
 
+  <div id="dlv-home-section" style="display:none;margin-top:14px;">
+    <label style="font-size:.82rem;font-weight:700;color:var(--green-deep);display:block;margin-bottom:10px;">
+      Adresse de livraison
+    </label>
+    <div style="display:grid;gap:8px;">
+      <input type="text" id="home-name" class="dlv-cp-input" style="width:100%;max-width:100%;"
+        placeholder="Nom complet / Raison sociale" oninput="updateDeliveryConfirmBtn()">
+      <input type="text" id="home-street" class="dlv-cp-input" style="width:100%;max-width:100%;"
+        placeholder="Numéro et rue *" oninput="updateDeliveryConfirmBtn()">
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;">
+        <input type="text" id="home-postal" class="dlv-cp-input"
+          placeholder="Code postal *" maxlength="5" inputmode="numeric" oninput="updateDeliveryConfirmBtn()">
+        <input type="text" id="home-city" class="dlv-cp-input"
+          placeholder="Ville *" oninput="updateDeliveryConfirmBtn()">
+      </div>
+    </div>
+  </div>
+
   <div class="dlv-relay-section" id="dlv-relay-section" style="display:none">
     <label style="font-size:.82rem;font-weight:700;color:var(--green-deep);display:block;margin-bottom:8px;">
       Votre code postal pour trouver un point relais
@@ -1202,11 +1220,8 @@
 
   function loadRelayWidget(postalCode) {
     const zone = document.getElementById('mr-widget-zone');
-    const p = new URLSearchParams({
-      lang: 'FR_FR', Brand: 'BDTEST13', PostCode: postalCode,
-      ColLivMod: '24R', NbResults: '7', MapScrollWheel: 'false', Responsive: 'true',
-    });
-    zone.innerHTML = '<iframe src="https://widget.mondialrelay.com/parcelshop-picker/v4_1/?' + p +
+    const src = '/mr-widget.html?cp=' + encodeURIComponent(postalCode) + '&brand=BDTEST13';
+    zone.innerHTML = '<iframe src="' + src +
       '" style="width:100%;height:480px;border:none;border-radius:8px;" title="Choisir un point relais"></iframe>';
     zone.style.minHeight = '480px';
     document.getElementById('mr-relay-note').style.display = 'block';
@@ -1447,6 +1462,11 @@
     document.getElementById('mr-manual-section').style.display = 'none';
     document.getElementById('mr-manual-input').value = '';
     document.getElementById('mr-relay-output').value = '';
+    document.getElementById('dlv-home-section').style.display = 'none';
+    document.getElementById('home-name').value = '';
+    document.getElementById('home-street').value = '';
+    document.getElementById('home-postal').value = '';
+    document.getElementById('home-city').value = '';
     document.getElementById('dlv-confirm-btn').disabled = true;
     document.getElementById('dlv-overlay').classList.add('open');
     document.getElementById('dlv-modal').classList.add('open');
@@ -1465,6 +1485,7 @@
     document.getElementById('dlv-opt-relay').classList.toggle('selected', method === 'relay');
     document.getElementById('dlv-opt-home').classList.toggle('selected', method === 'home');
     document.getElementById('dlv-relay-section').style.display = method === 'relay' ? 'block' : 'none';
+    document.getElementById('dlv-home-section').style.display = method === 'home' ? 'block' : 'none';
     document.getElementById('dlv-modal').classList.toggle('dlv-modal--wide', method === 'relay');
     updateDeliveryConfirmBtn();
   }
@@ -1477,7 +1498,10 @@
       const hasManual = (document.getElementById('mr-manual-input')?.value.trim().length >= 3);
       btn.disabled = !hasRelay && !hasManual;
     } else {
-      btn.disabled = false;
+      const street = document.getElementById('home-street')?.value.trim() || '';
+      const postal = document.getElementById('home-postal')?.value.trim() || '';
+      const city   = document.getElementById('home-city')?.value.trim() || '';
+      btn.disabled = street.length < 3 || postal.length < 4 || city.length < 2;
     }
   }
 
@@ -1494,11 +1518,20 @@
         relayPoint = document.getElementById('mr-manual-input')?.value.trim() || '';
       }
     }
+    let homeAddress = null;
+    if (_selectedDelivery === 'home') {
+      homeAddress = {
+        name:   document.getElementById('home-name')?.value.trim() || '',
+        street: document.getElementById('home-street')?.value.trim() || '',
+        postal: document.getElementById('home-postal')?.value.trim() || '',
+        city:   document.getElementById('home-city')?.value.trim() || '',
+      };
+    }
     try {
       const res = await fetch('api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart, deliveryMethod: _selectedDelivery, relayPoint }),
+        body: JSON.stringify({ items: cart, deliveryMethod: _selectedDelivery, relayPoint, homeAddress }),
       });
       const { url, error } = await res.json();
       if (url) {

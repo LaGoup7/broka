@@ -51,7 +51,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { items, deliveryMethod, relayPoint } = req.body ?? {};
+  const { items, deliveryMethod, relayPoint, homeAddress } = req.body ?? {};
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Panier vide' });
   }
@@ -105,7 +105,6 @@ export default async function handler(req, res) {
     line_items: lineItems,
     mode: 'payment',
     billing_address_collection: 'required',
-    shipping_address_collection: { allowed_countries: ['FR'] },
     phone_number_collection: { enabled: true },
     invoice_creation: { enabled: true },
     shipping_options: [
@@ -126,6 +125,9 @@ export default async function handler(req, res) {
       oversized:            oversized ? 'true' : 'false',
       delivery_method:      deliveryMethod,
       relay_point:          relayPoint || '',
+      home_address:         homeAddress
+        ? [homeAddress.name, homeAddress.street, homeAddress.postal + ' ' + homeAddress.city].filter(Boolean).join(', ')
+        : '',
       launch_free_shipping: isLaunchFreeRelay ? 'true' : 'false',
     },
     success_url: `${base}/broka/?paiement=ok`,
