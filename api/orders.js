@@ -48,13 +48,16 @@ export default async function handler(req, res) {
     const customer  = s.customer_details ?? {};
     const shipping  = s.shipping_cost?.amount_total ?? 0;
     const total     = s.amount_total ?? 0;
-    const isRelay   = meta.delivery_method === 'relay';
+    const deliveryMethod = meta.delivery_method; // 'relay', 'home', ou vide pour anciennes commandes
+    const isRelay     = deliveryMethod === 'relay';
+    const isHome      = deliveryMethod === 'home';
+    const isUnknown   = !deliveryMethod;
     const isProcessed = meta.processed === 'true';
-    // Fallback pour les anciennes commandes (adresse collectée par Stripe)
+    // Adresse : meta (nouvelles commandes) ou shipping_details Stripe (anciennes)
     const sd = s.shipping_details ?? {};
     const sa = sd.address ?? {};
     const legacyAddr = [sd.name, sa.line1, sa.line2, ((sa.postal_code || '') + ' ' + (sa.city || '')).trim()].filter(Boolean).join(', ');
-    const address   = isRelay
+    const address = isRelay
       ? (meta.relay_point || '—')
       : (meta.home_address || legacyAddr || '—');
     const products  = (s.line_items?.data ?? []).map(i => `${i.description} ×${i.quantity}`).join('<br>');
@@ -85,10 +88,11 @@ export default async function handler(req, res) {
         <span style="color:#777;font-size:.85em">${customer.phone ?? '—'}</span>
       </td>
       <td>
-        <span style="display:inline-block;background:${isRelay ? '#e8f5e9' : '#fff3e0'};
-                     color:${isRelay ? '#2e7d32' : '#e65100'};padding:3px 10px;
-                     border-radius:12px;font-size:.8em;font-weight:700;margin-bottom:6px;">
-          ${isRelay ? '📦 Point Relais' : '🏠 Domicile'}
+        <span style="display:inline-block;
+                     background:${isRelay ? '#e8f5e9' : isHome ? '#fff3e0' : '#f5f5f5'};
+                     color:${isRelay ? '#2e7d32' : isHome ? '#e65100' : '#888'};
+                     padding:3px 10px;border-radius:12px;font-size:.8em;font-weight:700;margin-bottom:6px;">
+          ${isRelay ? '📦 Point Relais' : isHome ? '🏠 Domicile' : '❓ Mode non renseigné'}
         </span><br>
         <span style="font-size:.85em;color:#333;line-height:1.5;">${address}</span>
       </td>
