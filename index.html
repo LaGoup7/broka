@@ -1220,7 +1220,7 @@
 
   function loadRelayWidget(postalCode) {
     const zone = document.getElementById('mr-widget-zone');
-    const src = '/mr-widget.html?cp=' + encodeURIComponent(postalCode) + '&brand=BDTEST13';
+    const src = '/api/mr-widget?cp=' + encodeURIComponent(postalCode) + '&brand=BDTEST13';
     zone.innerHTML = '<iframe src="' + src +
       '" style="width:100%;height:480px;border:none;border-radius:8px;" title="Choisir un point relais"></iframe>';
     zone.style.minHeight = '480px';
