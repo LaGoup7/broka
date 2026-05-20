@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     return res.status(401).send('Accès refusé');
   }
 
-  const to = req.query.to || 'contact@yourqr.page';
+  const to = req.query.to || 'contact@ferme-broka.fr';
 
   function fmt(cents) {
     return (cents / 100).toFixed(2).replace('.', ',') + ' €';
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   const shippingAmt  = isRelay ? 490 : 790;
   const productTotal = 2750;
   const orderTotal   = productTotal + shippingAmt;
-  const base         = process.env.BASE_URL ?? 'https://yourqr.page';
+  const base         = 'https://ferme-broka.fr';
 
   const itemsRows = [
     { description: 'Confiture de cerises BIO 350g', quantity: 2, amount_total: 1400 },
@@ -119,7 +119,7 @@ export default async function handler(req, res) {
         <p style="margin:0;font-size:13px;color:#444;line-height:1.65;font-family:Arial,sans-serif;">
           Votre commande sera expédiée sous 1 à 2 jours ouvrés.
           ${isRelay ? "Vous recevrez un SMS ou email de Mondial Relay avec le numéro de suivi dès l'expédition." : 'Vous recevrez un email Colissimo avec le numéro de suivi dès l\'expédition.'}
-          Pour toute question : <a href="mailto:latchereolivier@free.fr" style="color:#1C3D22;">latchereolivier@free.fr</a>
+          Pour toute question : <a href="mailto:contact@ferme-broka.fr" style="color:#1C3D22;">contact@ferme-broka.fr</a>
         </p>
       </td></tr>
     </table>
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
 
   <tr><td style="background:#112015;padding:24px 40px;text-align:center;">
     <p style="color:rgba(255,255,255,.35);margin:0 0 8px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-family:Arial,sans-serif;">Ferme Goyhenetxea · Soule, Xiberoa · Pays Basque</p>
-    <a href="${base}/broka/" style="color:rgba(255,255,255,.5);font-size:11px;font-family:Arial,sans-serif;">Visiter le site →</a>
+    <a href="${base}/" style="color:rgba(255,255,255,.5);font-size:11px;font-family:Arial,sans-serif;">Visiter le site →</a>
   </td></tr>
 
 </table>

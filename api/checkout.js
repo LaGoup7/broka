@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 
 const PRODUCTS = {
   vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500ml',      description: 'Sagar Ozpina · Artisanal, fermenté lentement · Pays Basque',           amount:  1700 },
-  vinaigre_vrac_1l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 1L',   description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',       amount:  2600 },
+  vinaigre_vrac_1_5l: { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5L', description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',       amount:  3900 },
   vinaigre_vrac_3l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 3L',   description: 'Sac push-up refermable · 23 €/L · Idéal familles et restauration',       amount:  6900 },
   vinaigre_vrac_5l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 5L',   description: 'Sac push-up refermable · 20 €/L · Grand format restauration/recharge',   amount: 10000 },
   xipister:            { name: 'Xipister Xü-Beroa — Sauce plancha 500ml',  description: 'Sauce pimentée bio artisanale du Pays Basque',                           amount:  1900 },
@@ -13,18 +13,18 @@ const PRODUCTS = {
   poudre_guindillas:   { name: 'Poudre de Guindillas BroKa — 40g',        description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant",        amount:  1000 },
 };
 
-// Poids emballé (kg)
+// Poids emballé (kg) — pesés réels + marge ~10%
 const WEIGHTS = {
-  vinaigre_500:        0.80,
-  vinaigre_vrac_1l:   1.20,
-  vinaigre_vrac_3l:   3.40,
-  vinaigre_vrac_5l:   5.50, // oversized — livraison à confirmer manuellement
-  xipister:            0.80,
-  pack_cuisine_basque: 1.90,
-  pack_prestige:       2.50,
-  pack_famille:        4.00,
-  noisettes_250g:      0.35,
-  poudre_guindillas:   0.15,
+  vinaigre_500:        0.90,  // 800g réel
+  vinaigre_vrac_1_5l: 1.60,  // 1500g réel
+  vinaigre_vrac_3l:   3.65,  // 3300g réel
+  vinaigre_vrac_5l:   5.80,  // estimé
+  xipister:            0.95,  // 870g réel
+  pack_cuisine_basque: 2.10,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + guide
+  pack_prestige:       2.70,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + noisettes 500g(0.55)
+  pack_famille:        4.65,  // vinaigre(0.90) + vrac 3L(3.65) — oversized probable
+  noisettes_250g:      0.30,  // 262g réel (500g pèse 525g)
+  poudre_guindillas:   0.10,  // 50g réel
 };
 
 // Grille Point Relais (centimes)
@@ -46,12 +46,18 @@ const FRANCO_HOME_CENTS  = 12500; // 125 €
 const LAUNCH_MIN_CENTS   = 5000;  // 50 €
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const ALLOWED = ['https://ferme-broka.fr', 'https://www.ferme-broka.fr'];
+  const origin  = req.headers.origin ?? '';
+  if (ALLOWED.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  if (req.method === 'OPTIONS') return res.status(200).end();
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { items, deliveryMethod, relayPoint, homeAddress } = req.body ?? {};
+  const { items, deliveryMethod, relayPoint, homeAddress, email, phone } = req.body ?? {};
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ error: 'Panier vide' });
   }
@@ -98,42 +104,49 @@ export default async function handler(req, res) {
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-  const base   = process.env.BASE_URL ?? 'https://yourqr.page';
+  const base   = 'https://ferme-broka.fr';
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: lineItems,
-    mode: 'payment',
-    billing_address_collection: 'required',
-    phone_number_collection: { enabled: true },
-    invoice_creation: { enabled: true },
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: 'fixed_amount',
-          fixed_amount: { amount: shippingCents, currency: 'eur' },
-          display_name: shippingName,
-          delivery_estimate: {
-            minimum: { unit: 'business_day', value: 3 },
-            maximum: { unit: 'business_day', value: 5 },
+  try {
+    const sessionParams = {
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      mode: 'payment',
+      billing_address_collection: 'required',
+      invoice_creation: { enabled: true },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: shippingCents, currency: 'eur' },
+            display_name: shippingName,
+            delivery_estimate: {
+              minimum: { unit: 'business_day', value: 3 },
+              maximum: { unit: 'business_day', value: 5 },
+            },
           },
         },
+      ],
+      metadata: {
+        total_weight_kg:      totalWeight.toFixed(2),
+        oversized:            oversized ? 'true' : 'false',
+        delivery_method:      deliveryMethod,
+        relay_point:          relayPoint || '',
+        home_address:         homeAddress
+          ? [homeAddress.name, homeAddress.street, homeAddress.postal + ' ' + homeAddress.city].filter(Boolean).join(', ')
+          : '',
+        launch_free_shipping: isLaunchFreeRelay ? 'true' : 'false',
+        customer_phone:       String(phone ?? '').trim(),
+        customer_email:       String(email ?? '').trim(),
       },
-    ],
-    metadata: {
-      total_weight_kg:      totalWeight.toFixed(2),
-      oversized:            oversized ? 'true' : 'false',
-      delivery_method:      deliveryMethod,
-      relay_point:          relayPoint || '',
-      home_address:         homeAddress
-        ? [homeAddress.name, homeAddress.street, homeAddress.postal + ' ' + homeAddress.city].filter(Boolean).join(', ')
-        : '',
-      launch_free_shipping: isLaunchFreeRelay ? 'true' : 'false',
-    },
-    success_url: `${base}/broka/?paiement=ok`,
-    cancel_url:  `${base}/broka/`,
-    locale: 'fr',
-  });
-
-  return res.status(200).json({ url: session.url });
+      success_url: `${base}/?paiement=ok`,
+      cancel_url:  `${base}/`,
+      locale: 'fr',
+    };
+    if (email) sessionParams.customer_email = String(email).trim();
+    const session = await stripe.checkout.sessions.create(sessionParams);
+    return res.status(200).json({ url: session.url });
+  } catch (err) {
+    console.error('Stripe error:', err.message);
+    return res.status(500).json({ error: err.message });
+  }
 }

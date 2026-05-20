@@ -12,10 +12,10 @@
 
   <!-- Open Graph — aperçu des liens (WhatsApp, iMessage, réseaux sociaux) -->
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://yourqr.page/broka/">
+  <meta property="og:url"         content="https://ferme-broka.fr/">
   <meta property="og:title"       content="BroKa – Vinaigre de cidre BIO & Xipister · Pays Basque">
   <meta property="og:description" content="Produits artisanaux de la ferme Goyhenetxea en Soule. Vinaigre de cidre BIO Sagar Ozpina, Xipister Xü-Beroa, Noisettes BIO. Commande en ligne, livraison en France.">
-  <meta property="og:image"       content="https://yourqr.page/broka/images/header.jpg">
+  <meta property="og:image"       content="https://ferme-broka.fr/images/header.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:alt"   content="BroKa – Artisans du Pays Basque">
   <meta property="og:locale"      content="fr_FR">
@@ -24,7 +24,7 @@
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="BroKa – Vinaigre de cidre BIO & Xipister · Pays Basque">
   <meta name="twitter:description" content="Produits artisanaux de la ferme Goyhenetxea en Soule. Commande en ligne, livraison en France.">
-  <meta name="twitter:image"       content="https://yourqr.page/broka/images/header.jpg">
+  <meta name="twitter:image"       content="https://ferme-broka.fr/images/header.jpg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -712,6 +712,17 @@
     </div>
   </div>
 
+  <div style="margin-top:16px;display:grid;gap:8px;">
+    <label style="font-size:.82rem;font-weight:700;color:var(--green-deep);display:block;margin-bottom:2px;">
+      Coordonnées de contact *
+    </label>
+    <input type="email" id="dlv-email" class="dlv-cp-input" style="width:100%;max-width:100%;"
+      placeholder="Email *" autocomplete="email" inputmode="email" oninput="updateDeliveryConfirmBtn()">
+    <input type="tel" id="dlv-phone" class="dlv-cp-input" style="width:100%;max-width:100%;"
+      placeholder="Téléphone * (ex : 06 12 34 56 78)" autocomplete="tel" inputmode="tel" oninput="updateDeliveryConfirmBtn()">
+    <p style="font-size:.72rem;color:var(--txt-lt);line-height:1.4;margin-top:0;">Utilisés uniquement pour la livraison et le suivi de colis.</p>
+  </div>
+
   <div class="dlv-actions">
     <button class="dlv-cancel" onclick="closeDeliveryModal()">Annuler</button>
     <button class="btn btn-brown" id="dlv-confirm-btn" style="flex:2" onclick="confirmDelivery()" disabled>Payer →</button>
@@ -821,7 +832,7 @@
       <!-- Pack Recharge Famille -->
       <div class="pack-card fi">
         <div class="pack-img">
-          <img src="images/Vinaigre_cidre_refill_3L.jpg" alt="Pack Recharge Famille BroKa — bouteille 500ml et sac 3L" style="object-position:center center;">
+          <img src="images/Pack_famille_vinaigre.png" alt="Pack Recharge Famille BroKa — bouteille 500ml et sac 3L" style="object-position:center center;">
         </div>
         <div class="pack-body">
           <span class="badge-new">Famille</span>
@@ -857,15 +868,15 @@
 
       <div class="product-card fi">
         <div class="prod-img">
-          <img src="images/vinaigre_refill_3L_seul.jpg" alt="Vinaigre de cidre BIO BroKa vrac" style="object-position:center center;">
+          <img id="vrac-img" src="images/vinaigre_cidre_3L.png" alt="Vinaigre de cidre BIO BroKa vrac" style="object-position:center center;">
         </div>
         <div class="prod-body">
           <h4>Vinaigre de cidre BIO — Vrac</h4>
           <p class="prod-desc">Sac push-up refermable · Non filtré, fermenté lentement · Plus le format est grand, plus le prix au litre baisse.</p>
           <div class="vrac-sizes">
-            <button class="vrac-btn" onclick="selectVrac(this,'vinaigre_vrac_1l',26,'1L','26 €/L')">1 L<small>26 €</small></button>
-            <button class="vrac-btn active" onclick="selectVrac(this,'vinaigre_vrac_3l',69,'3L','23 €/L')">3 L<small>69 €</small></button>
-            <button class="vrac-btn" onclick="selectVrac(this,'vinaigre_vrac_5l',100,'5L','20 €/L')">5 L<small>100 €</small></button>
+            <button class="vrac-btn" onclick="selectVrac(this,'vinaigre_vrac_1_5l',39,'1,5L','26 €/L','images/vinaigre_refill_3L_seul.jpg')">1,5 L<small>39 €</small></button>
+            <button class="vrac-btn active" onclick="selectVrac(this,'vinaigre_vrac_3l',69,'3L','23 €/L','images/vinaigre_cidre_3L.png')">3 L<small>69 €</small></button>
+            <button class="vrac-btn" onclick="selectVrac(this,'vinaigre_vrac_5l',100,'5L','20 €/L','images/vinaigre_cidre_5L.png')">5 L<small>100 €</small></button>
           </div>
           <div class="prod-footer">
             <div class="prod-price" id="vrac-price">69 €<small>/ 3L · 23 €/L</small></div>
@@ -1161,7 +1172,7 @@
         <p class="footer-heading">Nos produits</p>
         <ul class="footer-links">
           <li><a href="#produits">Vinaigre de cidre BIO 500ml</a></li>
-          <li><a href="#produits">Vinaigre vrac 3L</a></li>
+          <li><a href="#produits">Vinaigre vrac 1,5L · 3L · 5L</a></li>
           <li><a href="#produits">Xipister Xü-Beroa</a></li>
           <li><a href="#produits">Pack Découverte</a></li>
           <li><a href="#produits">Pack Recharge Famille</a></li>
@@ -1180,7 +1191,7 @@
       <div>
         <p class="footer-heading">Contact</p>
         <p class="footer-txt">GAEC Goyhenetxea<br>Pays Basque, France</p>
-        <a href="mailto:latchereolivier@free.fr" class="footer-contact-link">latchereolivier@free.fr</a>
+        <a href="mailto:contact@ferme-broka.fr" class="footer-contact-link">contact@ferme-broka.fr</a>
         <a href="https://wa.me/33770012652" target="_blank" rel="noopener" class="footer-contact-link">WhatsApp</a>
       </div>
 
@@ -1195,10 +1206,10 @@
 <script>
   // ── Catalogue ──
   const CATALOG = {
-    vinaigre_500:       { name: 'Vinaigre de cidre BIO 500ml',     price: 17,  weight: 0.80 },
-    vinaigre_vrac_1l:  { name: 'Vinaigre de cidre BIO vrac 1L',   price: 26,  weight: 1.20 },
-    vinaigre_vrac_3l:  { name: 'Vinaigre de cidre BIO vrac 3L',   price: 69,  weight: 3.40 },
-    vinaigre_vrac_5l:  { name: 'Vinaigre de cidre BIO vrac 5L',   price: 100, weight: 5.50 },
+    vinaigre_500:        { name: 'Vinaigre de cidre BIO 500ml',       price: 17,  weight: 0.80 },
+    vinaigre_vrac_1_5l: { name: 'Vinaigre de cidre BIO vrac 1,5L',  price: 39,  weight: 1.60 },
+    vinaigre_vrac_3l:   { name: 'Vinaigre de cidre BIO vrac 3L',    price: 69,  weight: 3.50 },
+    vinaigre_vrac_5l:   { name: 'Vinaigre de cidre BIO vrac 5L',    price: 100, weight: 5.50 },
     xipister:            { name: 'Xipister — Sauce plancha 500ml',  price: 19,  weight: 0.80 },
     pack_cuisine_basque: { name: 'Pack Cuisine Basque',             price: 41,  weight: 1.90 },
     pack_prestige:       { name: 'Pack Prestige BroKa',             price: 45,  weight: 2.50 },
@@ -1290,11 +1301,12 @@
 
   // ── Vrac selector ──
   let vracKey = 'vinaigre_vrac_3l';
-  function selectVrac(btn, key, price, vol, unit) {
+  function selectVrac(btn, key, price, vol, unit, img) {
     document.querySelectorAll('.vrac-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     vracKey = key;
     document.getElementById('vrac-price').innerHTML = `${price} €<small>/ ${vol} · ${unit}</small>`;
+    if (img) document.getElementById('vrac-img').src = img;
   }
   function addVrac() {
     addToCart(vracKey);
@@ -1447,6 +1459,8 @@
     document.getElementById('home-street').value = '';
     document.getElementById('home-postal').value = '';
     document.getElementById('home-city').value = '';
+    document.getElementById('dlv-email').value = '';
+    document.getElementById('dlv-phone').value = '';
     document.getElementById('dlv-confirm-btn').disabled = true;
     document.getElementById('dlv-overlay').classList.add('open');
     document.getElementById('dlv-modal').classList.add('open');
@@ -1473,20 +1487,31 @@
   function updateDeliveryConfirmBtn() {
     const btn = document.getElementById('dlv-confirm-btn');
     if (!_selectedDelivery) { btn.disabled = true; return; }
+
+    let addrOk = false;
     if (_selectedDelivery === 'relay') {
-      btn.disabled = (document.getElementById('mr-manual-input')?.value.trim().length ?? 0) < 3;
+      addrOk = (document.getElementById('mr-manual-input')?.value.trim().length ?? 0) >= 3;
     } else {
       const street = document.getElementById('home-street')?.value.trim() || '';
       const postal = document.getElementById('home-postal')?.value.trim() || '';
       const city   = document.getElementById('home-city')?.value.trim() || '';
-      btn.disabled = street.length < 3 || postal.length < 4 || city.length < 2;
+      addrOk = street.length >= 3 && postal.length >= 4 && city.length >= 2;
     }
+
+    const email    = document.getElementById('dlv-email')?.value.trim() || '';
+    const phone    = (document.getElementById('dlv-phone')?.value || '').replace(/\D/g, '');
+    const emailOk  = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    const phoneOk  = phone.length >= 9;
+
+    btn.disabled = !addrOk || !emailOk || !phoneOk;
   }
 
   async function confirmDelivery() {
     const btn = document.getElementById('dlv-confirm-btn');
     btn.disabled = true;
     btn.textContent = 'Redirection…';
+    const dlvEmail = document.getElementById('dlv-email')?.value.trim() || '';
+    const dlvPhone = document.getElementById('dlv-phone')?.value.trim() || '';
     let relayPoint = '';
     if (_selectedDelivery === 'relay') {
       relayPoint = document.getElementById('mr-manual-input')?.value.trim() || '';
@@ -1501,17 +1526,20 @@
       };
     }
     try {
-      const res = await fetch('api/checkout', {
+      const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: cart, deliveryMethod: _selectedDelivery, relayPoint, homeAddress }),
+        body: JSON.stringify({ items: cart, deliveryMethod: _selectedDelivery, relayPoint, homeAddress, email: dlvEmail, phone: dlvPhone }),
       });
-      const { url, error } = await res.json();
-      if (url) {
-        window.location.href = url; // panier vidé seulement au retour sur ?paiement=ok
-      } else throw new Error(error);
-    } catch {
-      showToast('❌ Erreur, réessayez.');
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Erreur inconnue');
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      showToast('❌ ' + (err.message && err.message.length < 80 ? err.message : 'Erreur, réessayez.'));
       btn.disabled = false;
       btn.textContent = 'Payer →';
       closeDeliveryModal();
@@ -1580,7 +1608,7 @@
     const btn = get('submit-btn');
     btn.disabled = true; btn.textContent = 'Envoi…';
     try {
-      await fetch('api/send', {
+      await fetch('/api/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prenom, nom, email, tel }),

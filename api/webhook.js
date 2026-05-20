@@ -136,9 +136,9 @@ async function sendFarmerEmail(session, lineItems) {
 
   await makeTransporter().sendMail({
     from:    `"BroKa Commandes" <${process.env.GMAIL_USER}>`,
-    to:      'latchereolivier@free.fr',
-    cc:      'contact@yourqr.page',
-    replyTo: customer.email ?? 'latchereolivier@free.fr',
+    to:      'contact@ferme-broka.fr',
+    cc:      'contact@ferme-broka.fr',
+    replyTo: customer.email ?? 'contact@ferme-broka.fr',
     subject: `🛒 Commande #${ref} — ${customer.name ?? 'Client'} — ${fmt(orderTotal)}`,
     html,
   });
@@ -158,7 +158,7 @@ async function sendCustomerEmail(session, lineItems) {
   const productTotal  = orderTotal - shippingTotal;
   const isRelay       = meta.delivery_method === 'relay';
   const relayPoint    = meta.relay_point || null;
-  const base          = process.env.BASE_URL ?? 'https://yourqr.page';
+  const base          = 'https://ferme-broka.fr';
 
   // Facture Stripe (invoice est expandé)
   const invoice    = typeof session.invoice === 'object' ? session.invoice : null;
@@ -278,7 +278,7 @@ async function sendCustomerEmail(session, lineItems) {
         <p style="margin:0;font-size:13px;color:#444;line-height:1.65;font-family:Arial,sans-serif;">
           Votre commande sera expédiée sous 1 à 2 jours ouvrés.
           ${isRelay ? 'Vous recevrez un SMS ou email de Mondial Relay avec le numéro de suivi dès l\'expédition.' : 'Vous recevrez un email Colissimo avec le numéro de suivi dès l\'expédition.'}
-          Pour toute question : <a href="mailto:latchereolivier@free.fr" style="color:#1C3D22;">latchereolivier@free.fr</a>
+          Pour toute question : <a href="mailto:contact@ferme-broka.fr" style="color:#1C3D22;">contact@ferme-broka.fr</a>
         </p>
       </td></tr>
     </table>
@@ -288,7 +288,7 @@ async function sendCustomerEmail(session, lineItems) {
   <!-- Footer -->
   <tr><td style="background:#112015;padding:24px 40px;text-align:center;">
     <p style="color:rgba(255,255,255,.35);margin:0 0 8px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-family:Arial,sans-serif;">Ferme Goyhenetxea · Soule, Xiberoa · Pays Basque</p>
-    <a href="${base}/broka/" style="color:rgba(255,255,255,.5);font-size:11px;font-family:Arial,sans-serif;">Visiter le site →</a>
+    <a href="${base}/" style="color:rgba(255,255,255,.5);font-size:11px;font-family:Arial,sans-serif;">Visiter le site →</a>
   </td></tr>
 
 </table>
@@ -298,7 +298,7 @@ async function sendCustomerEmail(session, lineItems) {
   await makeTransporter().sendMail({
     from:    `"BroKa" <${process.env.GMAIL_USER}>`,
     to:      customer.email,
-    replyTo: 'latchereolivier@free.fr',
+    replyTo: 'contact@ferme-broka.fr',
     subject: `✅ Votre commande BroKa #${ref} est confirmée — ${fmt(orderTotal)}`,
     html,
   });
