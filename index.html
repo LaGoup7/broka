@@ -304,14 +304,19 @@
       .hero-content { padding: 60px 40px 96px; max-width: 640px; }
     }
     .market-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
-      color: rgba(255,255,255,.95); font-size: .72rem; font-weight: 700;
-      letter-spacing: .1em; text-transform: uppercase;
-      padding: 6px 14px; border-radius: var(--r-pill); margin-bottom: 24px;
+      display: inline-block;
+      border-left: 2px solid rgba(201,164,90,.65);
+      padding: 3px 0 3px 14px;
+      margin-bottom: 28px;
     }
-    .pulse { width: 7px; height: 7px; border-radius: 50%; background: #4ADE80; animation: pulse 2s infinite; flex-shrink: 0; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .market-badge-label {
+      font-size: .62rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(201,164,90,.8); margin-bottom: 5px;
+    }
+    .market-badge-info {
+      font-size: .95rem; font-weight: 500; color: rgba(255,255,255,.9);
+      letter-spacing: .01em;
+    }
     #hero h1 { color: white; margin-bottom: 14px; }
     .hero-sub { color: rgba(255,255,255,.75); font-size: 1.05rem; margin-bottom: 36px; }
     .hero-ctas { display: flex; flex-direction: column; gap: 12px; }
@@ -770,8 +775,8 @@
   <div class="hero-bg"></div>
   <div class="hero-content">
     <div class="market-badge">
-      <span class="pulse"></span>
-      <span id="market-text">Chargement…</span>
+      <div class="market-badge-label">Prochain marché</div>
+      <div class="market-badge-info" id="market-text">Chargement…</div>
     </div>
     <p class="sec-label" style="color:rgba(255,255,255,.45);margin-bottom:10px">GAEC Goyhenetxea · Pays Basque</p>
     <h1>L'authenticité du<br>Pays Basque,<br>en bouteille</h1>
@@ -1580,7 +1585,7 @@
     const w = isoWeek(new Date());
     const now  = MARCHES[w % 2];
     const next = MARCHES[(w + 1) % 2];
-    document.getElementById('market-text').textContent     = 'Samedi · ' + now.nom + ' · ' + now.city;
+    document.getElementById('market-text').textContent     = 'Samedi — ' + now.nom + ', ' + now.city;
     document.getElementById('marche-now-nom').textContent  = now.nom;
     document.getElementById('marche-now-city').textContent = now.city;
     document.getElementById('marche-now-addr').textContent = now.addr;
