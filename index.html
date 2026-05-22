@@ -625,6 +625,61 @@
       .video-section { order: 7; }
     }
 
+    /* ── MODAL AVIS ── */
+    .avis-cta { text-align: center; margin-top: 32px; }
+    .btn-avis { display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,.12); color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.25); border-radius: var(--r-pill);
+      padding: 10px 22px; font-size: .88rem; font-weight: 700; cursor: pointer;
+      transition: background .2s; }
+    .btn-avis:hover { background: rgba(255,255,255,.2); }
+    .avis-modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1100;
+      background: rgba(17,32,21,.7); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .avis-modal-overlay.open { display: flex; }
+    .avis-modal {
+      background: #fff; border-radius: 20px; padding: 32px 28px;
+      max-width: 460px; width: 100%; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,.25);
+    }
+    .avis-modal h3 { font-size: 1.25rem; color: var(--green-deep); margin-bottom: 20px; }
+    .avis-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .avis-label { font-size: .80rem; font-weight: 700; color: var(--txt-dk); }
+    .avis-input, .avis-textarea, .avis-select {
+      border: 1.5px solid #d1d5db; border-radius: 8px;
+      padding: 10px 12px; font-size: .90rem; font-family: var(--ff-body);
+      color: var(--txt-dk); outline: none; transition: border-color .15s;
+    }
+    .avis-input:focus, .avis-textarea:focus, .avis-select:focus { border-color: var(--green-mid); }
+    .avis-textarea { resize: vertical; min-height: 100px; }
+    /* Stars selector */
+    .stars-selector { display: flex; gap: 6px; }
+    .stars-selector input { display: none; }
+    .stars-selector label {
+      font-size: 1.8rem; cursor: pointer; color: #d1d5db;
+      transition: color .1s; line-height: 1;
+    }
+    .stars-selector label:hover,
+    .stars-selector label.active { color: #c9973a; }
+    .avis-actions { display: flex; gap: 10px; margin-top: 4px; }
+    .btn-avis-submit { flex: 1; padding: 12px; background: var(--green-deep);
+      color: #fff; border: none; border-radius: 8px; font-size: .92rem;
+      font-weight: 700; cursor: pointer; transition: background .15s; }
+    .btn-avis-submit:hover { background: var(--green-mid); }
+    .btn-avis-submit:disabled { background: #9ca3af; cursor: not-allowed; }
+    .btn-avis-cancel { padding: 12px 18px; background: none;
+      border: 1px solid #d1d5db; border-radius: 8px;
+      font-size: .88rem; color: var(--txt-md); cursor: pointer; }
+    .avis-success { text-align: center; padding: 12px 0; }
+    .avis-success-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .avis-success h4 { color: var(--green-deep); margin-bottom: 8px; }
+    .avis-success p { font-size: .88rem; color: var(--txt-md); }
+    .avis-error { font-size: .80rem; color: #dc2626; margin-top: 4px; }
+    /* Avis dynamiques chargés */
+    .avis-loading { color: rgba(255,255,255,.45); font-size: .85rem; text-align: center; padding: 16px 0; }
+
     /* ── AVIS MOBILE COMPACT ── */
     @media (max-width: 639px) {
       .avis-card { padding: 18px 16px 14px; }
@@ -1223,6 +1278,12 @@
           </div>
         </div>
       </div>
+      <!-- Avis dynamiques chargés depuis Redis -->
+      <div id="avis-dynamic"></div>
+    </div>
+    <!-- Bouton laisser un avis -->
+    <div class="avis-cta">
+      <button class="btn-avis" onclick="openAvisModal()">✍️ Laisser un avis</button>
     </div>
   </div>
 </section>
@@ -1323,6 +1384,75 @@
 </section>
 
 </main>
+
+<!-- ════ MODAL AVIS ════ -->
+<div class="avis-modal-overlay" id="avis-modal-overlay" onclick="if(event.target===this)closeAvisModal()">
+  <div class="avis-modal">
+    <!-- Formulaire -->
+    <div id="avis-form-wrap">
+      <h3>✍️ Laisser un avis</h3>
+      <!-- Note -->
+      <div class="avis-field">
+        <label class="avis-label">Note *</label>
+        <div class="stars-selector" id="stars-selector">
+          <label data-val="1" onclick="selectStar(1)" onmouseover="updateStarDisplay(1)" onmouseout="updateStarDisplay(_avisRating)">★</label>
+          <label data-val="2" onclick="selectStar(2)" onmouseover="updateStarDisplay(2)" onmouseout="updateStarDisplay(_avisRating)">★</label>
+          <label data-val="3" onclick="selectStar(3)" onmouseover="updateStarDisplay(3)" onmouseout="updateStarDisplay(_avisRating)">★</label>
+          <label data-val="4" onclick="selectStar(4)" onmouseover="updateStarDisplay(4)" onmouseout="updateStarDisplay(_avisRating)">★</label>
+          <label data-val="5" onclick="selectStar(5)" onmouseover="updateStarDisplay(5)" onmouseout="updateStarDisplay(_avisRating)">★</label>
+        </div>
+        <span class="avis-error" id="avis-err-rating"></span>
+      </div>
+      <!-- Prénom -->
+      <div class="avis-field">
+        <label class="avis-label" for="avis-name">Prénom *</label>
+        <input class="avis-input" id="avis-name" type="text" placeholder="Votre prénom" maxlength="50" autocomplete="given-name">
+        <span class="avis-error" id="avis-err-name"></span>
+      </div>
+      <!-- Texte -->
+      <div class="avis-field">
+        <label class="avis-label" for="avis-text">Votre avis * <span style="font-weight:400;color:var(--txt-lt)">(20 caractères min.)</span></label>
+        <textarea class="avis-textarea" id="avis-text" placeholder="Partagez votre expérience avec BroKa…" maxlength="600"></textarea>
+        <span class="avis-error" id="avis-err-text"></span>
+      </div>
+      <!-- Produit optionnel -->
+      <div class="avis-field">
+        <label class="avis-label" for="avis-product">Produit concerné <span style="font-weight:400;color:var(--txt-lt)">(optionnel)</span></label>
+        <select class="avis-select" id="avis-product">
+          <option value="">— Sélectionner —</option>
+          <option>Vinaigre de cidre BIO 500 ml</option>
+          <option>Vinaigre de cidre BIO vrac 1,5 L</option>
+          <option>Vinaigre de cidre BIO vrac 3 L</option>
+          <option>Xipister — Sauce plancha 500 ml</option>
+          <option>Poudre de Guindillas 40 g</option>
+          <option>Noisettes BIO à coque</option>
+          <option>Duo Découverte BroKa</option>
+          <option>Pack Cuisine Basque</option>
+          <option>Pack Recharge 3 L optimisé</option>
+          <option>Duo Recharge 1,5 L + bouteille 500 ml</option>
+          <option>Pack Recharge Famille BroKa</option>
+          <option>Pack Prestige BroKa</option>
+        </select>
+      </div>
+      <!-- Honeypot anti-spam (caché) -->
+      <input type="text" id="avis-honeypot" style="display:none" tabindex="-1" autocomplete="off">
+      <!-- Boutons -->
+      <div class="avis-actions">
+        <button class="btn-avis-submit" id="avis-submit-btn" onclick="submitAvis()">Envoyer mon avis →</button>
+        <button class="btn-avis-cancel" onclick="closeAvisModal()">Annuler</button>
+      </div>
+    </div>
+    <!-- Confirmation envoi -->
+    <div class="avis-success" id="avis-success" style="display:none">
+      <div class="avis-success-icon">🌿</div>
+      <h4>Merci pour votre avis !</h4>
+      <p>Votre témoignage est en cours de modération — il sera publié dans les 24 h si validé.</p>
+      <div style="margin-top:20px">
+        <button class="btn-avis-cancel" onclick="closeAvisModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ════ CONFIRMATION PAIEMENT ════ -->
 <div id="confirm-overlay">
@@ -1951,9 +2081,141 @@
   );
   document.querySelectorAll('.fi').forEach(el => obs.observe(el));
 
+  // ── Avis dynamiques ──────────────────────────────────────────────────────────
+
+  let _avisRating = 0;
+
+  function updateStarDisplay(upTo) {
+    document.querySelectorAll('#stars-selector label').forEach((l, i) => {
+      l.classList.toggle('active', i < upTo);
+    });
+  }
+
+  function selectStar(val) {
+    _avisRating = val;
+    updateStarDisplay(val);
+    const errEl = document.getElementById('avis-err-rating');
+    if (errEl) errEl.textContent = '';
+  }
+
+  function openAvisModal() {
+    _avisRating = 0;
+    document.getElementById('avis-form-wrap').style.display = 'block';
+    document.getElementById('avis-success').style.display = 'none';
+    document.getElementById('avis-name').value    = '';
+    document.getElementById('avis-text').value    = '';
+    document.getElementById('avis-product').value = '';
+    document.getElementById('avis-honeypot').value = '';
+    ['avis-err-rating','avis-err-name','avis-err-text'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '';
+    });
+    updateStarDisplay(0);
+    const btn = document.getElementById('avis-submit-btn');
+    btn.disabled = false;
+    btn.textContent = 'Envoyer mon avis →';
+    document.getElementById('avis-modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeAvisModal() {
+    document.getElementById('avis-modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  async function submitAvis() {
+    const name     = document.getElementById('avis-name').value.trim();
+    const text     = document.getElementById('avis-text').value.trim();
+    const product  = document.getElementById('avis-product').value || null;
+    const honeypot = document.getElementById('avis-honeypot').value;
+
+    // Clear errors
+    ['avis-err-rating','avis-err-name','avis-err-text'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '';
+    });
+
+    let ok = true;
+    if (!_avisRating)   { document.getElementById('avis-err-rating').textContent = 'Veuillez choisir une note.'; ok = false; }
+    if (!name)          { document.getElementById('avis-err-name').textContent   = 'Prénom requis.'; ok = false; }
+    if (text.length < 20) { document.getElementById('avis-err-text').textContent = 'Avis trop court (20 caractères minimum).'; ok = false; }
+    if (!ok) return;
+
+    const btn = document.getElementById('avis-submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Envoi…';
+
+    try {
+      const res = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, rating: _avisRating, text, product, honeypot }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        document.getElementById('avis-form-wrap').style.display = 'none';
+        document.getElementById('avis-success').style.display  = 'block';
+      } else {
+        throw new Error(data.error || 'Erreur inconnue');
+      }
+    } catch (err) {
+      document.getElementById('avis-err-text').textContent = err.message || 'Une erreur s\'est produite. Réessayez.';
+      btn.disabled = false;
+      btn.textContent = 'Envoyer mon avis →';
+    }
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;');
+  }
+
+  async function loadApprovedReviews() {
+    const grid = document.getElementById('avis-dynamic');
+    if (!grid) return;
+    grid.innerHTML = '<div class="avis-loading">Chargement des avis…</div>';
+    try {
+      const res = await fetch('/api/reviews');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const { reviews } = await res.json();
+      if (!reviews || reviews.length === 0) { grid.innerHTML = ''; return; }
+      grid.innerHTML = reviews.map(r => {
+        const stars    = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+        const initials = r.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+        const prodLine = r.product
+          ? `<div class="avis-source">${escHtml(r.product)}</div>` : '';
+        return `<div class="avis-card">
+          <div class="avis-quote">&ldquo;</div>
+          <div class="stars">${stars}</div>
+          <p class="avis-txt">${escHtml(r.text)}</p>
+          <div class="avis-footer">
+            <div class="avis-avatar">${escHtml(initials)}</div>
+            <div>
+              <div class="avis-author">${escHtml(r.name)}</div>
+              ${prodLine}
+              <div class="avis-source" style="color:var(--txt-lt);font-size:.72rem">${escHtml(r.date)}</div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+      // Trigger scroll fade-in for newly injected cards
+      grid.querySelectorAll('.avis-card').forEach(el => {
+        el.classList.add('fi');
+        obs.observe(el);
+      });
+    } catch (_) {
+      grid.innerHTML = ''; // échec silencieux — les 3 avis statiques restent visibles
+    }
+  }
+
   // Init
   renderCart();
   updateCartBtn();
+  loadApprovedReviews();
 </script>
 </body>
 </html>
