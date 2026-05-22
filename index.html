@@ -71,6 +71,50 @@
     .divider { width: 48px; height: 3px; background: var(--brown); border-radius: 2px; margin: 14px 0 26px; }
     .packs-intro { font-size: .88rem; color: var(--txt-lt); margin-bottom: 28px; max-width: 560px; font-style: italic; }
     .dlv-info { font-size: .80rem; color: var(--txt-lt); margin: 8px 0 16px; line-height: 1.5; }
+
+    /* ── CONFIRMATION PAIEMENT ── */
+    #confirm-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1200;
+      background: rgba(17,32,21,.72); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    #confirm-overlay.open { display: flex; }
+    .confirm-card {
+      background: #fff; border-radius: 20px; padding: 40px 36px;
+      max-width: 440px; width: 100%; text-align: center;
+      box-shadow: 0 24px 64px rgba(0,0,0,.25);
+    }
+    .confirm-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: #dcfce7; border: 2px solid #86efac;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .confirm-card h2 { color: var(--green-deep); font-size: 1.5rem; margin-bottom: 10px; }
+    .confirm-card .confirm-sub { font-size: .92rem; color: var(--txt-md); margin-bottom: 8px; }
+    .confirm-card .confirm-note { font-size: .80rem; color: var(--txt-lt); margin-bottom: 28px; line-height: 1.55; }
+    .confirm-actions { display: flex; flex-direction: column; gap: 10px; }
+    .btn-confirm-wa { display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #25D366; color: #fff; border: none; border-radius: 8px;
+      padding: 12px 20px; font-size: .92rem; font-weight: 700; cursor: pointer; text-decoration: none; }
+    .btn-confirm-close { background: none; border: 1px solid #d1d5db; border-radius: 8px;
+      padding: 11px 20px; font-size: .88rem; color: var(--txt-md); cursor: pointer; }
+    .btn-confirm-close:hover { background: var(--cream-dark); }
+
+    /* ── FAQ ── */
+    #faq { background: var(--cream-dark); }
+    .faq-list { margin-top: 32px; display: flex; flex-direction: column; gap: 10px; max-width: 720px; }
+    .faq-item { background: #fff; border: 1px solid rgba(0,0,0,.07); border-radius: var(--r-md); overflow: hidden; }
+    .faq-item summary {
+      padding: 16px 20px; font-size: .95rem; font-weight: 700; color: var(--green-deep);
+      cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; font-size: 1.3rem; color: var(--brown); font-weight: 400; flex-shrink: 0; margin-left: 12px; }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-item[open] summary { border-bottom: 1px solid rgba(0,0,0,.06); }
+    .faq-body { padding: 14px 20px 18px; font-size: .90rem; color: var(--txt-md); line-height: 1.7; }
+    .faq-body a { color: var(--green-deep); text-decoration: underline; }
     .dlv-info-heavy { font-size: .78rem; color: #92400e; background: #fef3c7; border-radius: 6px; padding: 8px 12px; margin-top: 12px; line-height: 1.5; }
     .prod-note { font-size: .76rem; color: var(--txt-lt); margin-top: 10px; line-height: 1.45; font-style: italic; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.07); }
 
@@ -1190,7 +1234,73 @@
   </div>
 </section>
 
+<!-- ════ FAQ ════ -->
+<section id="faq">
+  <div class="container">
+    <p class="sec-label fi">Questions fréquentes</p>
+    <h2 class="fi">On répond à vos questions</h2>
+    <div class="divider fi"></div>
+    <div class="faq-list">
+
+      <details class="faq-item fi">
+        <summary>Quel délai pour recevoir ma commande ?</summary>
+        <div class="faq-body">Nous expédions sous 1 à 2 jours ouvrés après confirmation du paiement. La livraison prend ensuite 3 à 5 jours ouvrés — en Point Relais comme à domicile. Vous recevez un numéro de suivi dès l'expédition.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Pourquoi privilégier la livraison en Point Relais ?</summary>
+        <div class="faq-body">Le Point Relais / Locker nous permet de vous proposer les meilleurs tarifs de port. C'est aussi plus flexible : vous retirez votre colis quand vous voulez, sans risquer de manquer le livreur.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Comment suivre ma commande ?</summary>
+        <div class="faq-body">Un email de confirmation vous est envoyé dès le paiement avec le détail de votre commande. Dès l'expédition, vous recevez un second email ou SMS de Mondial Relay (Point Relais) ou Colissimo (domicile) avec votre numéro de suivi.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Les produits sont-ils certifiés BIO ?</summary>
+        <div class="faq-body">Le vinaigre de cidre Sagar Ozpina et les noisettes sont certifiés Agriculture Biologique (AB). Le Xipister est préparé avec du vinaigre BIO, de l'huile bio et des herbes et piments du Pays Basque.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Comment conserver le vinaigre de cidre ?</summary>
+        <div class="faq-body">À température ambiante, à l'abri de la lumière directe. Une fois ouvert, le vinaigre se conserve indéfiniment — son acidité naturelle l'auto-préserve. Les sacs vrac push-up refermables se conservent de la même façon.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Puis-je modifier ou annuler ma commande ?</summary>
+        <div class="faq-body">Contactez-nous dès que possible par <a href="https://wa.me/33770012652" target="_blank" rel="noopener">WhatsApp</a> ou par email à <a href="mailto:contact@ferme-broka.fr">contact@ferme-broka.fr</a>. Avant l'expédition, nous faisons notre possible pour traiter votre demande.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Le vinaigre en 5 L est-il disponible en ligne ?</summary>
+        <div class="faq-body">Le format 5 L n'est pas encore disponible à la commande en ligne en raison de son poids. Si vous êtes intéressé, <a href="https://wa.me/33770012652" target="_blank" rel="noopener">contactez-nous directement</a> — nous trouvons une solution.</div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
 </main>
+
+<!-- ════ CONFIRMATION PAIEMENT ════ -->
+<div id="confirm-overlay">
+  <div class="confirm-card">
+    <div class="confirm-icon">
+      <svg width="32" height="32" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+    </div>
+    <h2>Merci pour votre commande !</h2>
+    <p class="confirm-sub">Votre paiement a bien été reçu.</p>
+    <p class="confirm-note">Un email de confirmation avec le détail de votre commande vous a été envoyé. Votre commande sera expédiée sous 1 à 2 jours ouvrés.</p>
+    <div class="confirm-actions">
+      <a class="btn-confirm-wa" href="https://wa.me/33770012652" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Nous contacter sur WhatsApp
+      </a>
+      <button class="btn-confirm-close" onclick="document.getElementById('confirm-overlay').classList.remove('open')">Continuer mes achats</button>
+    </div>
+  </div>
+</div>
 
 <!-- ════ FOOTER ════ -->
 <footer>
@@ -1247,7 +1357,7 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 GAEC Goyhenetxea · <strong style="color:rgba(255,255,255,.45)">BroKa</strong> · Tous droits réservés</span>
-      <span>Fait avec soin au Pays Basque &nbsp;·&nbsp; <a href="#">Mentions légales</a></span>
+      <span>Fait avec soin au Pays Basque &nbsp;·&nbsp; <a href="mentions-legales.html">Mentions légales & CGV</a></span>
     </div>
   </div>
 </footer>
@@ -1656,8 +1766,9 @@
 
   if (new URLSearchParams(location.search).get('paiement') === 'ok') {
     cart = []; saveCart(); renderCart(); updateCartBtn();
-    showToast('✅ Paiement confirmé — merci pour votre commande !', 7000);
     history.replaceState({}, '', location.pathname);
+    document.getElementById('confirm-overlay').classList.add('open');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // ── Marchés ──
