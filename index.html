@@ -1266,14 +1266,28 @@
     pack_prestige:         { name: 'Pack Prestige BroKa',                   price: 56,    weight: 2.70 },
   };
 
-  // ── Frais de port ──
-  const FRANCO_RELAY  = 75;   // port offert Point Relais dès 75 €
-  const FRANCO_HOME   = 125;  // port offert Domicile dès 125 €
-  const LAUNCH_ACTIVE = true; // passer à false après les 20 premières commandes
-  const LAUNCH_MIN    = 50;   // minimum pour l'offre de lancement
+  // ── Règles produits complémentaires ──
+  // Guindillas et Noisettes : panier minimum 39 € (total panier produits hors port)
+  const COMPLEMENT_KEYS   = ['poudre_guindillas', 'noisettes_250g', 'noisettes_500g'];
+  const COMPLEMENT_MIN    = 39;   // panier minimum pour accéder aux produits complémentaires
+  const GUINDILLAS_MAX    = 3;    // maximum 3 pots de Guindillas par commande
 
-  function relayShipping(kg) { return kg <= 2 ? 8 : kg <= 3 ? 10.5 : 11; }
-  function homeShipping(kg)  { return kg <= 2 ? 13 : kg <= 3 ? 19 : 20; }
+  // ── Grille frais de port Point Relais / Locker ──
+  // Progressive par tranche de panier produits (hors port).
+  // Colis > 4 kg : participation minimum 5,90 € maintenue même si panier ≥ 99 €.
+  function relayShipping(cartTotal, weight) {
+    let rate;
+    if      (cartTotal < 29) rate = 7.90;
+    else if (cartTotal < 49) rate = 6.90;
+    else if (cartTotal < 79) rate = 4.90;
+    else if (cartTotal < 99) rate = 3.90;
+    else                      rate = 0;
+    if (weight > 4 && rate < 5.90) rate = 5.90; // colis lourd
+    return rate;
+  }
+
+  // ── Grille frais de port Domicile ── (sera mise à jour à l'étape 6)
+  function homeShipping(kg) { return kg <= 2 ? 13 : kg <= 3 ? 19 : 20; }
 
   // ── Cart state ──
   let cart = JSON.parse(localStorage.getItem('broka_cart') || '[]')
@@ -1302,12 +1316,35 @@
   }
 
   function addToCart(key) {
+    const prod = CATALOG[key];
+
+    // ── Règle : panier minimum 39 € pour les produits complémentaires ──
+    if (COMPLEMENT_KEYS.includes(key)) {
+      const subtotalApresAjout = cart.reduce((s, i) => s + CATALOG[i.key].price * Number(i.qty), 0) + prod.price;
+      if (subtotalApresAjout < COMPLEMENT_MIN) {
+        showToast(
+          '⚠️ ' + prod.name + ' est disponible à partir de 39 € de commande.',
+          5500
+        );
+        return;
+      }
+    }
+
+    // ── Règle : maximum 3 pots de Poudre de Guindillas par commande ──
+    if (key === 'poudre_guindillas') {
+      const existing = cart.find(i => i.key === 'poudre_guindillas');
+      if (existing && existing.qty >= GUINDILLAS_MAX) {
+        showToast('⚠️ Maximum ' + GUINDILLAS_MAX + ' pots de Poudre de Guindillas par commande.', 5500);
+        return;
+      }
+    }
+
     const existing = cart.find(i => i.key === key);
     if (existing) existing.qty++;
     else cart.push({ key, qty: 1 });
     saveCart();
     renderCart();
-    showToast('✓ ' + CATALOG[key].name + ' ajouté');
+    showToast('✓ ' + prod.name + ' ajouté');
     updateCartBtn();
   }
 
@@ -1348,6 +1385,13 @@
   function changeQty(key, delta) {
     const item = cart.find(i => i.key === key);
     if (!item) return;
+
+    // ── Règle : maximum 3 pots de Poudre de Guindillas ──
+    if (key === 'poudre_guindillas' && delta > 0 && item.qty >= GUINDILLAS_MAX) {
+      showToast('⚠️ Maximum ' + GUINDILLAS_MAX + ' pots de Poudre de Guindillas par commande.', 5500);
+      return;
+    }
+
     item.qty = Number(item.qty) + delta;
     if (item.qty <= 0) cart = cart.filter(i => i.key !== key);
     saveCart();
@@ -1365,19 +1409,19 @@
   }
 
   function renderCart() {
-    const totalQty  = cart.reduce((s, i) => s + Number(i.qty), 0);
-    const subtotal  = Math.round(cart.reduce((s, i) => s + CATALOG[i.key].price * Number(i.qty), 0) * 100) / 100;
-    const weight    = cart.reduce((s, i) => s + (CATALOG[i.key].weight ?? 0.5) * Number(i.qty), 0);
-    const relayBase = relayShipping(weight);
-    const homeBase  = homeShipping(weight);
-    const isFrancoRelay = subtotal >= FRANCO_RELAY;
-    const isFrancoHome  = subtotal >= FRANCO_HOME;
-    const isLaunchFree  = LAUNCH_ACTIVE && subtotal >= LAUNCH_MIN; // relay uniquement
-    const relay = (isLaunchFree || isFrancoRelay) ? 0 : relayBase;
-    const home  = isFrancoHome ? 0 : homeBase;
-    const total = subtotal + relay;
+    const totalQty = cart.reduce((s, i) => s + Number(i.qty), 0);
+    const subtotal = Math.round(cart.reduce((s, i) => s + CATALOG[i.key].price * Number(i.qty), 0) * 100) / 100;
+    const weight   = cart.reduce((s, i) => s + (CATALOG[i.key].weight ?? 0.5) * Number(i.qty), 0);
+    const relay    = relayShipping(subtotal, weight);  // grille progressive par panier
+    const home     = homeShipping(weight);             // sera mis à jour étape 6
+    const total    = subtotal + relay;
     _cartRelay = relay;
     _cartHome  = home;
+
+    // ── Avertissement produits complémentaires sous le seuil ──
+    // (cas rare : article ajouté avant la règle ou via localStorage ancien)
+    const hasComplement = cart.some(i => COMPLEMENT_KEYS.includes(i.key));
+    const complementWarning = hasComplement && subtotal < COMPLEMENT_MIN;
 
     const badge = document.getElementById('cart-badge');
     badge.textContent = totalQty;
@@ -1430,25 +1474,23 @@
       ? (home === 0 ? 'Domicile : offert également' : `Domicile : ${fmt(home)}`)
       : '';
 
-    // Note franco / lancement
-    const francoEl = document.getElementById('cart-franco-note');
+    // ── Note livraison Point Relais (seuil progressif) ──
+    const francoEl     = document.getElementById('cart-franco-note');
     const launchNoteEl = document.getElementById('cart-launch-note');
+    launchNoteEl.style.display = 'none'; // offre de lancement désactivée
+
     if (cart.length === 0) {
       francoEl.textContent = '';
-      launchNoteEl.style.display = 'none';
-    } else if (isLaunchFree) {
-      francoEl.textContent = 'Offre de lancement — port offert !';
-      launchNoteEl.style.display = 'none';
-    } else if (LAUNCH_ACTIVE && subtotal < LAUNCH_MIN) {
-      launchNoteEl.style.display = 'block';
-      launchNoteEl.textContent = `Offre lancement : plus que ${fmt(LAUNCH_MIN - subtotal)} pour la livraison offerte !`;
-      francoEl.textContent = '';
-    } else if (!isFrancoRelay) {
-      francoEl.textContent = `Plus que ${fmt(FRANCO_RELAY - subtotal)} pour le port offert en Point Relais`;
-      launchNoteEl.style.display = 'none';
+    } else if (complementWarning) {
+      francoEl.innerHTML =
+        '<span style="color:#f59e0b;font-weight:700">⚠️ Votre panier contient des produits disponibles à partir de 39 €. Ajoutez d\'autres produits pour valider votre commande.</span>';
+    } else if (subtotal >= 99 && weight <= 4) {
+      francoEl.innerHTML = '<span style="color:#4ADE80;font-weight:700">✓ Livraison offerte en Point Relais !</span>';
+    } else if (subtotal >= 99 && weight > 4) {
+      francoEl.innerHTML = '<span style="color:#C9A45A;font-weight:700">Colis lourd — participation livraison maintenue (5,90 €).</span>';
     } else {
-      francoEl.textContent = '';
-      launchNoteEl.style.display = 'none';
+      const remaining = fmt(99 - subtotal);
+      francoEl.textContent = `Plus que ${remaining} pour la livraison offerte en Point Relais.`;
     }
   }
 

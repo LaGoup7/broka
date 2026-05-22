@@ -43,23 +43,30 @@ const WEIGHTS = {
   pack_prestige:        2.70,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + noisettes 500g(0.65) + emballage cadeau
 };
 
-// Grille Point Relais (centimes)
-function relayRate(kg) {
-  if (kg <= 2) return  800;
-  if (kg <= 3) return 1050;
-  return 1100;
+// ── Règles produits complémentaires ──
+const COMPLEMENT_KEYS = ['poudre_guindillas', 'noisettes_250g', 'noisettes_500g'];
+const COMPLEMENT_MIN_CENTS = 3900;  // 39 €
+const GUINDILLAS_MAX_QTY   = 3;
+
+// ── Grille Point Relais / Locker — progressive par tranche de panier (centimes) ──
+// Colis > 4 kg : participation minimum 5,90 € même si panier ≥ 99 €
+function relayRate(subtotalCents, weightKg) {
+  let cents;
+  if      (subtotalCents < 2900) cents = 790;
+  else if (subtotalCents < 4900) cents = 690;
+  else if (subtotalCents < 7900) cents = 490;
+  else if (subtotalCents < 9900) cents = 390;
+  else                            cents = 0;
+  if (weightKg > 4 && cents < 590) cents = 590; // colis lourd
+  return cents;
 }
 
-// Grille Domicile (centimes)
-function homeRate(kg) {
-  if (kg <= 2) return 1300;
-  if (kg <= 3) return 1900;
+// ── Grille Domicile (centimes) — sera mise à jour à l'étape 6 ──
+function homeRate(weightKg) {
+  if (weightKg <= 2) return 1300;
+  if (weightKg <= 3) return 1900;
   return 2000;
 }
-
-const FRANCO_RELAY_CENTS = 7500;  // 75 €
-const FRANCO_HOME_CENTS  = 12500; // 125 €
-const LAUNCH_MIN_CENTS   = 5000;  // 50 €
 
 export default async function handler(req, res) {
   const ALLOWED = ['https://ferme-broka.fr', 'https://www.ferme-broka.fr'];
@@ -103,19 +110,33 @@ export default async function handler(req, res) {
     totalWeight   += (WEIGHTS[key] ?? 0.5) * safeQty;
   }
 
-  const oversized       = totalWeight > 4;
-  const launchEnabled   = process.env.LAUNCH_FREE_SHIPPING === 'true';
-  const isFrancoRelay   = subtotalCents >= FRANCO_RELAY_CENTS;
-  const isFrancoHome    = subtotalCents >= FRANCO_HOME_CENTS;
-  const isLaunchFreeRelay = launchEnabled && subtotalCents >= LAUNCH_MIN_CENTS;
+  const oversized = totalWeight > 4;
 
+  // ── Validation règles produits complémentaires (côté serveur) ──
+  // Limite Guindillas : max 3 pots par commande
+  const guindillasItem = items.find(({ key }) => key === 'poudre_guindillas');
+  if (guindillasItem) {
+    const safeGuindillasQty = Math.round(Number(guindillasItem.qty));
+    if (safeGuindillasQty > GUINDILLAS_MAX_QTY) {
+      return res.status(400).json({ error: 'Maximum 3 pots de Poudre de Guindillas par commande.' });
+    }
+  }
+  // Panier minimum 39 € pour Guindillas et Noisettes
+  const hasComplement = items.some(({ key }) => COMPLEMENT_KEYS.includes(key));
+  if (hasComplement && subtotalCents < COMPLEMENT_MIN_CENTS) {
+    return res.status(400).json({
+      error: 'Un achat minimum de 39 € est requis pour les produits complémentaires (Poudre de Guindillas, Noisettes BIO).',
+    });
+  }
+
+  // ── Calcul frais de port ──
   let shippingCents;
   let shippingName;
   if (deliveryMethod === 'relay') {
-    shippingCents = (isLaunchFreeRelay || isFrancoRelay) ? 0 : relayRate(totalWeight);
+    shippingCents = relayRate(subtotalCents, totalWeight);  // grille progressive
     shippingName  = 'Point Relais® / Locker — Mondial Relay';
   } else {
-    shippingCents = isFrancoHome ? 0 : homeRate(totalWeight);
+    shippingCents = homeRate(totalWeight);  // sera mis à jour étape 6
     shippingName  = 'Livraison à domicile — Colissimo';
   }
 
@@ -143,16 +164,15 @@ export default async function handler(req, res) {
         },
       ],
       metadata: {
-        total_weight_kg:      totalWeight.toFixed(2),
-        oversized:            oversized ? 'true' : 'false',
-        delivery_method:      deliveryMethod,
-        relay_point:          relayPoint || '',
-        home_address:         homeAddress
+        total_weight_kg:  totalWeight.toFixed(2),
+        oversized:        oversized ? 'true' : 'false',
+        delivery_method:  deliveryMethod,
+        relay_point:      relayPoint || '',
+        home_address:     homeAddress
           ? [homeAddress.name, homeAddress.street, homeAddress.postal + ' ' + homeAddress.city].filter(Boolean).join(', ')
           : '',
-        launch_free_shipping: isLaunchFreeRelay ? 'true' : 'false',
-        customer_phone:       String(phone ?? '').trim(),
-        customer_email:       String(email ?? '').trim(),
+        customer_phone:   String(phone ?? '').trim(),
+        customer_email:   String(email ?? '').trim(),
       },
       success_url: `${base}/?paiement=ok`,
       cancel_url:  `${base}/`,
