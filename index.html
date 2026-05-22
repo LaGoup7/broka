@@ -234,6 +234,46 @@
     .qty-btn:hover { background: var(--cream); border-color: var(--green-deep); }
     .qty-val { font-weight: 700; font-size: .95rem; min-width: 16px; text-align: center; }
     .cart-foot { padding: 20px 24px; border-top: 1.5px solid var(--cream-bd); }
+
+    /* ── UPSELL STRIP ── */
+    #cart-upsell { padding: 12px 0 4px; }
+    .upsell-head {
+      display: flex; align-items: center; gap: 6px;
+      font-size: .76rem; color: var(--brown); font-weight: 700;
+      background: rgba(201,164,90,.1); border: 1px solid rgba(201,164,90,.3);
+      border-radius: var(--r-sm); padding: 7px 10px; margin-bottom: 10px;
+    }
+    .upsell-icon { font-size: .9rem; flex-shrink: 0; }
+    .upsell-cards {
+      display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .upsell-cards::-webkit-scrollbar { display: none; }
+    .upsell-card {
+      flex: 0 0 108px; border: 1px solid var(--cream-bd); border-radius: var(--r-sm);
+      overflow: hidden; background: #fff; display: flex; flex-direction: column;
+      transition: box-shadow .15s;
+    }
+    .upsell-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+    .upsell-img { width: 100%; height: 64px; object-fit: cover; display: block; }
+    .upsell-name {
+      font-size: .70rem; color: var(--txt-dk); padding: 5px 6px 2px;
+      line-height: 1.3; flex: 1;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .upsell-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 4px 6px 6px;
+    }
+    .upsell-price { font-size: .74rem; font-weight: 700; color: var(--green-deep); }
+    .upsell-add {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--green-deep); color: #fff; border: none;
+      font-size: 1.1rem; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background .15s;
+    }
+    .upsell-add:hover { background: var(--green-mid); }
     .cart-row { display: flex; justify-content: space-between; font-size: .88rem; color: var(--txt-md); margin-bottom: 6px; }
     .cart-row.total { font-weight: 700; font-size: 1.05rem; color: var(--green-deep); margin-bottom: 16px; }
 
@@ -798,6 +838,7 @@
     <div id="cart-launch-note" style="display:none;background:rgba(201,164,90,.12);border:1px solid rgba(201,164,90,.35);border-radius:var(--r-sm);padding:10px 14px;font-size:.78rem;color:var(--brown);font-weight:700;margin:8px 0 4px;"></div>
     <div class="cart-empty" id="cart-empty">Votre panier est vide</div>
     <div id="cart-items"></div>
+    <div id="cart-upsell"></div>
   </div>
   <div class="cart-foot" id="cart-foot" style="display:none">
     <div class="cart-row"><span>Sous-total</span><span id="cart-subtotal">0 €</span></div>
@@ -1364,6 +1405,23 @@
 
 <script>
   // ── Catalogue ──
+  // ── Images produits (upsell) ──
+  const PRODUCT_IMAGES = {
+    vinaigre_500:        'images/broka_bouteille_pommes.jpg',
+    vinaigre_vrac_1_5l:  'images/vinaigre_refill_3L_seul.jpg',
+    vinaigre_vrac_3l:    'images/vinaigre_cidre_3L.png',
+    xipister:            'images/broka_bouteille_verger.png',
+    poudre_guindillas:   'images/poudre_de_guindillas.png',
+    noisettes_250g:      'images/noisettes.png',
+    noisettes_500g:      'images/noisettes.png',
+    duo_decouverte:      'images/Duo_Découverte_BroKa.png',
+    pack_cuisine_basque: 'images/pack_cuisine_basque.png',
+    pack_recharge_3l:    'images/Pack_Recharge_3L_optimisé.png',
+    duo_recharge_1_5l:   'images/Duo_Recharge_1,5%20L_bouteille_500ml.png',
+    pack_famille:        'images/Pack_famille_vinaigre.png',
+    pack_prestige:       'images/pack_prestige.png',
+  };
+
   // ── Catalogue — poids = valeurs serveur (checkout.js) pour garantir cohérence panier ↔ Stripe ──
   const CATALOG = {
     // ── Produits individuels ──
@@ -1627,6 +1685,68 @@
       const remaining = fmt(99 - subtotal);
       francoEl.textContent = `Plus que ${remaining} pour la livraison offerte en Point Relais.`;
     }
+
+    // ── Suggestions upsell ──
+    renderUpsell(subtotal, weight);
+  }
+
+  // ── Upsell — suggestions pour atteindre 99 € (livraison offerte Point Relais) ──
+  function renderUpsell(subtotal, weight) {
+    const el        = document.getElementById('cart-upsell');
+    const remaining = Math.round((99 - subtotal) * 100) / 100;
+
+    // N'afficher que si le seuil est atteignable (entre 1 ct et 70 €) et colis pas lourd
+    if (cart.length === 0 || remaining <= 0 || remaining > 70 || weight > 4) {
+      el.innerHTML = ''; return;
+    }
+
+    const inCart = new Set(cart.map(i => i.key));
+
+    const candidates = Object.entries(CATALOG)
+      .filter(([key, p]) => {
+        if (inCart.has(key)) return false;
+        if (weight + p.weight > 4) return false;                          // évite le colis lourd
+        if (COMPLEMENT_KEYS.includes(key) && subtotal < COMPLEMENT_MIN) return false; // règle 39 €
+        if (key === 'poudre_guindillas') {                                 // règle max 3 pots
+          const ex = cart.find(i => i.key === 'poudre_guindillas');
+          if (ex && ex.qty >= GUINDILLAS_MAX) return false;
+        }
+        return true;
+      })
+      .map(([key, p]) => ({ key, ...p }))
+      .sort((a, b) => {
+        const aFranc = a.price >= remaining;  // ce produit passe directement la barre
+        const bFranc = b.price >= remaining;
+        if (aFranc && !bFranc) return -1;     // priorité aux produits qui franchissent le seuil
+        if (!aFranc && bFranc) return 1;
+        if (aFranc && bFranc)  return a.price - b.price;  // parmi eux, du moins cher
+        return b.price - a.price;             // sinon : celui qui rapproche le plus
+      })
+      .slice(0, 3);
+
+    if (candidates.length === 0) { el.innerHTML = ''; return; }
+
+    const fmtP  = n => n % 1 === 0 ? n + ' €' : n.toFixed(2).replace('.', ',') + ' €';
+    const remFmt = remaining.toFixed(2).replace('.', ',') + ' €';
+
+    el.innerHTML = `
+      <div class="upsell-head">
+        <span class="upsell-icon">🎯</span>
+        <span>Plus que <strong>${remFmt}</strong> pour la livraison offerte en Point Relais</span>
+      </div>
+      <div class="upsell-cards">
+        ${candidates.map(p => `
+          <div class="upsell-card">
+            <img class="upsell-img" src="${PRODUCT_IMAGES[p.key] || ''}" alt="${p.name}" onerror="this.style.display='none'">
+            <div class="upsell-name">${p.name}</div>
+            <div class="upsell-footer">
+              <span class="upsell-price">${fmtP(p.price)}</span>
+              <button class="upsell-add" onclick="addToCart('${p.key}')" title="Ajouter ${p.name}">+</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
   }
 
   function openCart() {
