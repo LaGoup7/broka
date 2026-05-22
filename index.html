@@ -69,6 +69,10 @@
     section { padding: 72px 0; }
     .sec-label { font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--brown); margin-bottom: 10px; }
     .divider { width: 48px; height: 3px; background: var(--brown); border-radius: 2px; margin: 14px 0 26px; }
+    .packs-intro { font-size: .88rem; color: var(--txt-lt); margin-bottom: 28px; max-width: 560px; font-style: italic; }
+    .dlv-info { font-size: .80rem; color: var(--txt-lt); margin: 8px 0 16px; line-height: 1.5; }
+    .dlv-info-heavy { font-size: .78rem; color: #92400e; background: #fef3c7; border-radius: 6px; padding: 8px 12px; margin-top: 12px; line-height: 1.5; }
+    .prod-note { font-size: .76rem; color: var(--txt-lt); margin-top: 10px; line-height: 1.45; font-style: italic; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.07); }
 
     /* Buttons */
     .btn {
@@ -639,6 +643,7 @@
 <!-- Delivery Modal -->
 <div class="dlv-modal" id="dlv-modal">
   <h3>Mode de livraison</h3>
+  <p class="dlv-info">Pour vous proposer les meilleurs tarifs, nous privilégions la livraison en Point Relais / Locker. La livraison à domicile reste disponible en option confort.</p>
 
   <button class="dlv-opt" id="dlv-opt-relay" onclick="selectDeliveryOption('relay')">
     <div>
@@ -728,6 +733,8 @@
     <p style="font-size:.72rem;color:var(--txt-lt);line-height:1.4;margin-top:0;">Utilisés uniquement pour la livraison et le suivi de colis.</p>
   </div>
 
+  <p class="dlv-info-heavy">Certains grands formats nécessitent une participation livraison spécifique en raison de leur poids.</p>
+
   <div class="dlv-actions">
     <button class="dlv-cancel" onclick="closeDeliveryModal()">Annuler</button>
     <button class="btn btn-brown" id="dlv-confirm-btn" style="flex:2" onclick="confirmDelivery()" disabled>Payer →</button>
@@ -797,6 +804,7 @@
 
     <!-- Packs (featured) -->
     <!-- Note : les packs BroKa sont des sélections pratiques, sans réduction permanente affichée -->
+    <p class="packs-intro fi">Nos packs ne sont pas des promotions permanentes : ce sont des sélections pratiques pour découvrir, offrir ou recharger vos produits BroKa.</p>
     <div class="packs-grid">
 
       <!-- 1. Duo Découverte BroKa -->
@@ -956,11 +964,12 @@
         </div>
         <div class="prod-body">
           <h4>Poudre de Guindillas 40 g</h4>
-          <p class="prod-desc">Piment d'Ibarra · Guipuzkoa, Pays Basque Sud · Fruité &amp; légèrement piquant · Produite en petite quantité.</p>
+          <p class="prod-desc">Produite en petite quantité, notre poudre de Guindillas est l'un des produits les plus demandés sur les marchés. Elle relève simplement les grillades, les œufs, les légumes, les sauces, les pommes de terre, les marinades et les recettes basques du quotidien.</p>
           <div class="prod-footer">
             <div class="prod-price">10,90 €<small>/ 40 g</small></div>
             <button class="btn-add" onclick="addToCart('poudre_guindillas')">+ Panier</button>
           </div>
+          <p class="prod-note">Disponible en ligne uniquement en complément d'une commande de 39 € minimum, dans la limite de 3 pots par commande.</p>
         </div>
       </div>
 
@@ -970,7 +979,7 @@
         </div>
         <div class="prod-body">
           <h4>Noisettes BIO à coque</h4>
-          <p class="prod-desc">Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées.</p>
+          <p class="prod-desc">Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées. Nos noisettes BIO à coque sont proposées en complément de votre commande ou dans nos coffrets gourmands.</p>
           <div class="vrac-sizes">
             <button class="vrac-btn active" onclick="selectNoisettes(this,'noisettes_250g',4.90,'250 g')">250 g<small>4,90 €</small></button>
             <button class="vrac-btn" onclick="selectNoisettes(this,'noisettes_500g',8.90,'500 g')">500 g<small>8,90 €</small></button>
@@ -1246,23 +1255,24 @@
 
 <script>
   // ── Catalogue ──
+  // ── Catalogue — poids = valeurs serveur (checkout.js) pour garantir cohérence panier ↔ Stripe ──
   const CATALOG = {
     // ── Produits individuels ──
-    vinaigre_500:         { name: 'Vinaigre de cidre BIO 500 ml',          price: 17,    weight: 0.80 },
+    vinaigre_500:         { name: 'Vinaigre de cidre BIO 500 ml',          price: 17,    weight: 0.90 },
     vinaigre_vrac_1_5l:   { name: 'Vinaigre de cidre BIO vrac 1,5 L',      price: 39,    weight: 1.60 },
-    vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',         price: 69,    weight: 3.50 },
-    vinaigre_vrac_5l:     { name: 'Vinaigre de cidre BIO vrac 5 L',         price: 100,   weight: 5.50 },
-    xipister:              { name: 'Xipister — Sauce plancha 500 ml',        price: 19,    weight: 0.80 },
-    poudre_guindillas:     { name: 'Poudre de Guindillas 40 g',             price: 10.90, weight: 0.15 },
-    noisettes_250g:        { name: 'Noisettes BIO à coque 250 g',           price: 4.90,  weight: 0.35 },
+    vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',         price: 69,    weight: 3.65 },
+    vinaigre_vrac_5l:     { name: 'Vinaigre de cidre BIO vrac 5 L',         price: 100,   weight: 5.80 },
+    xipister:              { name: 'Xipister — Sauce plancha 500 ml',        price: 19,    weight: 0.95 },
+    poudre_guindillas:     { name: 'Poudre de Guindillas 40 g',             price: 10.90, weight: 0.10 },
+    noisettes_250g:        { name: 'Noisettes BIO à coque 250 g',           price: 4.90,  weight: 0.30 },
     noisettes_500g:        { name: 'Noisettes BIO à coque 500 g',           price: 8.90,  weight: 0.65 },
     // ── Packs ── (sélections pratiques, prix = somme des produits arrondie, sans remise affichée)
-    duo_decouverte:        { name: 'Duo Découverte BroKa',                  price: 36,    weight: 1.60 },
-    pack_cuisine_basque:   { name: 'Pack Cuisine Basque',                   price: 47,    weight: 1.90 },
-    pack_recharge_3l:      { name: 'Pack Recharge 3 L optimisé',            price: 80,    weight: 3.65 },
-    duo_recharge_1_5l:     { name: 'Duo Recharge 1,5 L + bouteille 500 ml', price: 56,    weight: 2.40 },
-    pack_famille:          { name: 'Pack Recharge Famille BroKa',           price: 86,    weight: 4.00 },
-    // TODO : pack_famille à peser emballé — si > 4 kg → tranche lourde, livraison non offerte automatiquement
+    duo_decouverte:        { name: 'Duo Découverte BroKa',                  price: 36,    weight: 1.85 },
+    pack_cuisine_basque:   { name: 'Pack Cuisine Basque',                   price: 47,    weight: 2.10 },
+    pack_recharge_3l:      { name: 'Pack Recharge 3 L optimisé',            price: 80,    weight: 3.75 },
+    duo_recharge_1_5l:     { name: 'Duo Recharge 1,5 L + bouteille 500 ml', price: 56,    weight: 2.50 },
+    pack_famille:          { name: 'Pack Recharge Famille BroKa',           price: 86,    weight: 4.65 },
+    // ATTENTION : pack_famille > 4 kg emballé → colis lourd, participation livraison maintenue
     pack_prestige:         { name: 'Pack Prestige BroKa',                   price: 56,    weight: 2.70 },
   };
 

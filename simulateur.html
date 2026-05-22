@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulateur BroKa — Usage interne</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f8f7f4; color: #1a2e1a; padding: 24px 16px; min-height: 100vh; }
+    h1 { font-size: 1.3rem; color: #2d5016; margin-bottom: 4px; }
+    .subtitle { font-size: .8rem; color: #666; margin-bottom: 28px; }
+
+    /* Grille produits */
+    .produits-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin-bottom: 32px; }
+    .produits-table th { text-align: left; padding: 8px 10px; background: #2d5016; color: #fff; font-weight: 600; }
+    .produits-table td { padding: 8px 10px; border-bottom: 1px solid #e5e7eb; vertical-align: middle; }
+    .produits-table tr:hover td { background: #f0f4ec; }
+    .produits-table td:nth-child(3),
+    .produits-table td:nth-child(4) { text-align: right; white-space: nowrap; }
+    .qty-input { width: 56px; padding: 4px 8px; border: 1px solid #d1d5db; border-radius: 6px; text-align: center; font-size: .88rem; }
+    .sep-row td { background: #e8f0e0; font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: #2d5016; padding: 6px 10px; }
+
+    /* Options livraison */
+    .options { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+    .option-card { flex: 1; min-width: 200px; border: 2px solid #d1d5db; border-radius: 10px; padding: 14px 18px; cursor: pointer; transition: border-color .15s, background .15s; }
+    .option-card.active { border-color: #2d5016; background: #f0f4ec; }
+    .option-card input { margin-right: 8px; accent-color: #2d5016; }
+    .option-label { font-weight: 700; font-size: .92rem; }
+    .option-sub { font-size: .78rem; color: #666; margin-top: 2px; }
+
+    /* Récap */
+    .recap { background: #fff; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px 24px; max-width: 480px; }
+    .recap h2 { font-size: 1rem; margin-bottom: 16px; color: #2d5016; }
+    .recap-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; font-size: .9rem; border-bottom: 1px solid #f0f0f0; }
+    .recap-row:last-child { border-bottom: none; }
+    .recap-row.total { font-weight: 700; font-size: 1rem; border-top: 2px solid #2d5016; padding-top: 10px; margin-top: 4px; color: #2d5016; }
+    .recap-row.internal { color: #7c6b2f; font-size: .82rem; }
+    .recap-row.warning { color: #b45309; font-size: .82rem; }
+    .recap-row.info { color: #666; font-size: .8rem; }
+    .recap-sep { border: none; border-top: 1px dashed #d1d5db; margin: 8px 0; }
+    .badge-warning { background: #fef3c7; color: #92400e; border-radius: 4px; padding: 2px 6px; font-size: .75rem; font-weight: 700; }
+    .badge-ok { background: #dcfce7; color: #166534; border-radius: 4px; padding: 2px 6px; font-size: .75rem; font-weight: 700; }
+
+    /* Bouton reset */
+    .btn-reset { margin-top: 20px; padding: 8px 16px; background: #fff; border: 1px solid #d1d5db; border-radius: 8px; cursor: pointer; font-size: .82rem; color: #555; }
+    .btn-reset:hover { background: #f0f0f0; }
+    .note { font-size: .75rem; color: #999; margin-top: 28px; font-style: italic; }
+  </style>
+</head>
+<body>
+
+<h1>Simulateur BroKa</h1>
+<p class="subtitle">Usage interne — Calcul de panier, frais de port et marges estimées. Cette page n'est pas accessible aux clients.</p>
+
+<!-- Produits -->
+<table class="produits-table">
+  <thead>
+    <tr>
+      <th>Produit</th>
+      <th style="text-align:right">Prix unitaire</th>
+      <th>Quantité</th>
+      <th style="text-align:right">Poids unit. (kg)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="sep-row"><td colspan="4">Produits individuels</td></tr>
+    <tr><td>Vinaigre de cidre BIO 500 ml</td>         <td style="text-align:right">17,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="vinaigre_500" oninput="compute()"></td>        <td style="text-align:right">0,90</td></tr>
+    <tr><td>Vinaigre de cidre BIO vrac 1,5 L</td>     <td style="text-align:right">39,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="vinaigre_vrac_1_5l" oninput="compute()"></td>  <td style="text-align:right">1,60</td></tr>
+    <tr><td>Vinaigre de cidre BIO vrac 3 L</td>       <td style="text-align:right">69,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="vinaigre_vrac_3l" oninput="compute()"></td>    <td style="text-align:right">3,65</td></tr>
+    <tr><td>Vinaigre de cidre BIO vrac 5 L</td>       <td style="text-align:right">100,00 €</td>  <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="vinaigre_vrac_5l" oninput="compute()"></td>    <td style="text-align:right">5,80</td></tr>
+    <tr><td>Xipister — Sauce plancha 500 ml</td>      <td style="text-align:right">19,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="xipister" oninput="compute()"></td>            <td style="text-align:right">0,95</td></tr>
+    <tr><td>Poudre de Guindillas 40 g</td>            <td style="text-align:right">10,90 €</td>   <td><input class="qty-input" type="number" min="0" max="3" value="0" data-key="poudre_guindillas" oninput="compute()"></td>    <td style="text-align:right">0,10</td></tr>
+    <tr><td>Noisettes BIO à coque 250 g</td>          <td style="text-align:right">4,90 €</td>    <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="noisettes_250g" oninput="compute()"></td>      <td style="text-align:right">0,30</td></tr>
+    <tr><td>Noisettes BIO à coque 500 g</td>          <td style="text-align:right">8,90 €</td>    <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="noisettes_500g" oninput="compute()"></td>      <td style="text-align:right">0,65</td></tr>
+    <tr class="sep-row"><td colspan="4">Packs</td></tr>
+    <tr><td>Duo Découverte BroKa</td>                 <td style="text-align:right">36,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="duo_decouverte" oninput="compute()"></td>      <td style="text-align:right">1,85</td></tr>
+    <tr><td>Pack Cuisine Basque</td>                  <td style="text-align:right">47,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="pack_cuisine_basque" oninput="compute()"></td> <td style="text-align:right">2,10</td></tr>
+    <tr><td>Pack Recharge 3 L optimisé</td>           <td style="text-align:right">80,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="pack_recharge_3l" oninput="compute()"></td>    <td style="text-align:right">3,75</td></tr>
+    <tr><td>Duo Recharge 1,5 L + bouteille 500 ml</td><td style="text-align:right">56,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="duo_recharge_1_5l" oninput="compute()"></td>  <td style="text-align:right">2,50</td></tr>
+    <tr><td>Pack Recharge Famille BroKa</td>          <td style="text-align:right">86,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="pack_famille" oninput="compute()"></td>       <td style="text-align:right">4,65</td></tr>
+    <tr><td>Pack Prestige BroKa</td>                  <td style="text-align:right">56,00 €</td>   <td><input class="qty-input" type="number" min="0" max="99" value="0" data-key="pack_prestige" oninput="compute()"></td>      <td style="text-align:right">2,70</td></tr>
+  </tbody>
+</table>
+
+<!-- Mode de livraison -->
+<div class="options">
+  <label class="option-card active" id="opt-relay" onclick="setMode('relay')">
+    <input type="radio" name="mode" value="relay" checked>
+    <span class="option-label">Point Relais / Locker</span>
+    <p class="option-sub">Mondial Relay — tarif estimé disponible</p>
+  </label>
+  <label class="option-card" id="opt-home" onclick="setMode('home')">
+    <input type="radio" name="mode" value="home">
+    <span class="option-label">Livraison à domicile</span>
+    <p class="option-sub">Colissimo — coût réel non estimé ici</p>
+  </label>
+</div>
+
+<!-- Récapitulatif -->
+<div class="recap">
+  <h2>Récapitulatif</h2>
+  <div class="recap-row"><span>Total produits</span><span id="r-produits">0,00 €</span></div>
+  <div class="recap-row info"><span>Poids total</span><span id="r-poids">0,00 kg</span></div>
+  <hr class="recap-sep">
+  <div class="recap-row"><span>Mode de livraison</span><span id="r-mode">Point Relais</span></div>
+  <div class="recap-row"><span>Frais de livraison (client)</span><span id="r-port-client">—</span></div>
+  <div class="recap-row total"><span>Total client</span><span id="r-total">0,00 €</span></div>
+  <hr class="recap-sep">
+  <div class="recap-row internal"><span>Coût transport estimé</span><span id="r-port-reel">—</span></div>
+  <div class="recap-row internal"><span>Marge sur le port</span><span id="r-marge-port">—</span></div>
+  <div class="recap-row internal"><span>Commission Stripe estimée</span><span id="r-stripe">—</span></div>
+  <hr class="recap-sep">
+  <div id="r-alertes"></div>
+</div>
+
+<button class="btn-reset" onclick="resetAll()">Tout remettre à zéro</button>
+
+<p class="note">Les coûts Mondial Relay sont indicatifs (grille tarifaire professionnelle HT). La commission Stripe est calculée sur le total client (1,5 % + 0,25 €) — elle n'est pas ajoutée au panier du client.</p>
+
+<script>
+  // ── Catalogue (synchronisé avec index.html et api/checkout.js) ──
+  // Poids = valeurs checkout.js (avec marge emballage ~10%) — source de vérité pour la livraison
+  const PRODUITS = {
+    vinaigre_500:        { prix: 17,    poids: 0.90 },
+    vinaigre_vrac_1_5l:  { prix: 39,    poids: 1.60 },
+    vinaigre_vrac_3l:    { prix: 69,    poids: 3.65 },
+    vinaigre_vrac_5l:    { prix: 100,   poids: 5.80 },
+    xipister:            { prix: 19,    poids: 0.95 },
+    poudre_guindillas:   { prix: 10.90, poids: 0.10 },
+    noisettes_250g:      { prix: 4.90,  poids: 0.30 },
+    noisettes_500g:      { prix: 8.90,  poids: 0.65 },
+    duo_decouverte:      { prix: 36,    poids: 1.85 },
+    pack_cuisine_basque: { prix: 47,    poids: 2.10 },
+    pack_recharge_3l:    { prix: 80,    poids: 3.75 },
+    duo_recharge_1_5l:   { prix: 56,    poids: 2.50 },
+    pack_famille:        { prix: 86,    poids: 4.65 },
+    pack_prestige:       { prix: 56,    poids: 2.70 },
+  };
+
+  // Produits complémentaires soumis à règles
+  const COMPLEMENTAIRES    = ['poudre_guindillas', 'noisettes_250g', 'noisettes_500g'];
+  const MINIMUM_COMPLEMENT = 39;
+  const MAX_GUINDILLAS     = 3;
+
+  // ── Grille Point Relais (client) ──
+  function portRelay(total, poids) {
+    let t;
+    if      (total < 29) t = 7.90;
+    else if (total < 49) t = 6.90;
+    else if (total < 79) t = 4.90;
+    else if (total < 99) t = 3.90;
+    else                  t = 0;
+    if (poids > 4 && t < 5.90) t = 5.90;
+    return t;
+  }
+
+  // ── Grille Domicile (client) ──
+  function portDomicile(total, poids) {
+    let t;
+    if      (total < 49)  t = 11.90;
+    else if (total < 79)  t = 9.90;
+    else if (total < 129) t = 7.90;
+    else if (total < 179) t = 4.90;
+    else                   t = 0;
+    if (poids > 4 && t < 7.90) t = 7.90;
+    return t;
+  }
+
+  // ── Coût réel Mondial Relay (interne) ──
+  function coutMondialRelay(poids) {
+    if (poids <= 0.5) return 3.42;
+    if (poids <= 1)   return 3.76;
+    if (poids <= 2)   return 5.27;
+    if (poids <= 4)   return 5.59;
+    if (poids <= 10)  return 11.13;
+    if (poids <= 25)  return 17.47;
+    if (poids <= 30)  return 19.99;
+    return null;
+  }
+
+  // ── Commission Stripe (1,5 % + 0,25 €) ──
+  function stripeCommission(totalClient) {
+    return Math.round((totalClient * 0.015 + 0.25) * 100) / 100;
+  }
+
+  // ── État ──
+  let mode = 'relay';
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('opt-relay').classList.toggle('active', m === 'relay');
+    document.getElementById('opt-home').classList.toggle('active', m === 'home');
+    compute();
+  }
+
+  function fmt(v) {
+    return v.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  }
+  function fmtKg(v) {
+    return v.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' kg';
+  }
+
+  function compute() {
+    const inputs = document.querySelectorAll('.qty-input');
+    let totalProduits = 0;
+    let poidsTotal    = 0;
+    let alertes       = [];
+    const qtés        = {};
+
+    inputs.forEach(inp => {
+      const key = inp.dataset.key;
+      const qty = Math.max(0, Math.round(Number(inp.value) || 0));
+      inp.value = qty;
+      qtés[key] = qty;
+      const p   = PRODUITS[key];
+      totalProduits += p.prix * qty;
+      poidsTotal    += p.poids * qty;
+    });
+
+    // Règle : minimum 39 € pour les complémentaires
+    const aComplement = COMPLEMENTAIRES.some(k => qtés[k] > 0);
+    if (aComplement && totalProduits < MINIMUM_COMPLEMENT) {
+      alertes.push({ type: 'warning', msg: 'Panier inférieur à 39 € — Guindillas et Noisettes ne peuvent pas être commandés seuls.' });
+    }
+
+    // Règle : max 3 Guindillas
+    if (qtés['poudre_guindillas'] > MAX_GUINDILLAS) {
+      alertes.push({ type: 'warning', msg: 'Maximum 3 pots de Poudre de Guindillas par commande.' });
+    }
+
+    // Colis lourd
+    if (poidsTotal > 4) {
+      alertes.push({ type: 'info', msg: `Colis lourd (${fmtKg(poidsTotal)}) — participation livraison maintenue même si panier ≥ 99 € (relay) ou ≥ 179 € (domicile).` });
+    }
+
+    const portClient = mode === 'relay'
+      ? portRelay(totalProduits, poidsTotal)
+      : portDomicile(totalProduits, poidsTotal);
+
+    const totalClient = Math.round((totalProduits + portClient) * 100) / 100;
+
+    const coutTransport = mode === 'relay' ? coutMondialRelay(poidsTotal) : null;
+    const margePort     = coutTransport !== null
+      ? Math.round((portClient - coutTransport) * 100) / 100
+      : null;
+
+    const stripe = stripeCommission(totalClient);
+
+    // Affichage
+    document.getElementById('r-produits').textContent  = fmt(totalProduits);
+    document.getElementById('r-poids').textContent     = fmtKg(poidsTotal);
+    document.getElementById('r-mode').textContent      = mode === 'relay' ? 'Point Relais / Locker' : 'Livraison à domicile';
+    document.getElementById('r-port-client').textContent = portClient === 0 ? 'Offert ✓' : fmt(portClient);
+    document.getElementById('r-total').textContent     = fmt(totalClient);
+    document.getElementById('r-stripe').textContent    = fmt(stripe);
+
+    if (coutTransport !== null) {
+      document.getElementById('r-port-reel').textContent  = fmt(coutTransport) + ' HT (estimé Mondial Relay)';
+      document.getElementById('r-marge-port').textContent = (margePort >= 0 ? '+' : '') + fmt(margePort);
+      document.getElementById('r-marge-port').style.color = margePort >= 0 ? '#166534' : '#dc2626';
+    } else {
+      document.getElementById('r-port-reel').textContent  = mode === 'home' ? 'Colissimo — tarif à vérifier' : '—';
+      document.getElementById('r-marge-port').textContent = '—';
+      document.getElementById('r-marge-port').style.color = '';
+    }
+
+    // Alertes
+    const alertDiv = document.getElementById('r-alertes');
+    alertDiv.innerHTML = alertes.map(a =>
+      `<div class="recap-row ${a.type}"><span>${a.msg}</span></div>`
+    ).join('');
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.qty-input').forEach(i => i.value = 0);
+    compute();
+  }
+
+  compute();
+</script>
+</body>
+</html>
