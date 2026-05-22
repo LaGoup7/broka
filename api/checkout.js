@@ -74,6 +74,21 @@ function homeRate(subtotalCents, weightKg) {
   return cents;
 }
 
+// ── Coût réel Mondial Relay (usage interne — calcul de marge, jamais affiché au client) ──
+// Tarifs indicatifs HT par tranche de poids — à mettre à jour si les tarifs Mondial Relay évoluent
+// Source : grille tarifaire Mondial Relay (expéditeur professionnel)
+// Retourne null si le colis dépasse 30 kg (validation manuelle requise)
+function getMondialRelayEstimatedCost(weightKg) {
+  if (weightKg <= 0.5) return 3.42;
+  if (weightKg <= 1)   return 3.76;
+  if (weightKg <= 2)   return 5.27;
+  if (weightKg <= 4)   return 5.59;
+  if (weightKg <= 10)  return 11.13;
+  if (weightKg <= 25)  return 17.47;
+  if (weightKg <= 30)  return 19.99;
+  return null; // > 30 kg : validation manuelle
+}
+
 export default async function handler(req, res) {
   const ALLOWED = ['https://ferme-broka.fr', 'https://www.ferme-broka.fr'];
   const origin  = req.headers.origin ?? '';
@@ -146,6 +161,11 @@ export default async function handler(req, res) {
     shippingName  = 'Livraison à domicile — Colissimo';
   }
 
+  // Coût transport estimé (interne) — pour analyse de marge dans le dashboard Stripe
+  const shippingCostEstimate = deliveryMethod === 'relay'
+    ? getMondialRelayEstimatedCost(totalWeight)
+    : null; // Colissimo : tarifs variables, pas estimé automatiquement
+
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const base   = 'https://ferme-broka.fr';
 
@@ -170,15 +190,19 @@ export default async function handler(req, res) {
         },
       ],
       metadata: {
-        total_weight_kg:  totalWeight.toFixed(2),
-        oversized:        oversized ? 'true' : 'false',
-        delivery_method:  deliveryMethod,
-        relay_point:      relayPoint || '',
-        home_address:     homeAddress
+        total_weight_kg:       totalWeight.toFixed(2),
+        oversized:             oversized ? 'true' : 'false',
+        delivery_method:       deliveryMethod,
+        relay_point:           relayPoint || '',
+        home_address:          homeAddress
           ? [homeAddress.name, homeAddress.street, homeAddress.postal + ' ' + homeAddress.city].filter(Boolean).join(', ')
           : '',
-        customer_phone:   String(phone ?? '').trim(),
-        customer_email:   String(email ?? '').trim(),
+        customer_phone:        String(phone ?? '').trim(),
+        customer_email:        String(email ?? '').trim(),
+        // Données internes — analyse de marge (jamais affichées au client)
+        shipping_charged_cts:  String(shippingCents),
+        shipping_cost_est_cts: shippingCostEstimate !== null ? String(Math.round(shippingCostEstimate * 100)) : 'n/a',
+        margin_shipping_cts:   shippingCostEstimate !== null ? String(shippingCents - Math.round(shippingCostEstimate * 100)) : 'n/a',
       },
       success_url: `${base}/?paiement=ok`,
       cancel_url:  `${base}/`,
