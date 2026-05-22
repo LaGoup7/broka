@@ -1286,8 +1286,19 @@
     return rate;
   }
 
-  // ── Grille frais de port Domicile ── (sera mise à jour à l'étape 6)
-  function homeShipping(kg) { return kg <= 2 ? 13 : kg <= 3 ? 19 : 20; }
+  // ── Grille frais de port Domicile — option confort ──
+  // Progressive par tranche de panier produits (hors port).
+  // Colis > 4 kg : participation minimum 7,90 € maintenue même si panier ≥ 179 €.
+  function homeShipping(cartTotal, weight) {
+    let rate;
+    if      (cartTotal < 49)  rate = 11.90;
+    else if (cartTotal < 79)  rate = 9.90;
+    else if (cartTotal < 129) rate = 7.90;
+    else if (cartTotal < 179) rate = 4.90;
+    else                       rate = 0;
+    if (weight > 4 && rate < 7.90) rate = 7.90; // colis lourd
+    return rate;
+  }
 
   // ── Cart state ──
   let cart = JSON.parse(localStorage.getItem('broka_cart') || '[]')
@@ -1413,7 +1424,7 @@
     const subtotal = Math.round(cart.reduce((s, i) => s + CATALOG[i.key].price * Number(i.qty), 0) * 100) / 100;
     const weight   = cart.reduce((s, i) => s + (CATALOG[i.key].weight ?? 0.5) * Number(i.qty), 0);
     const relay    = relayShipping(subtotal, weight);  // grille progressive par panier
-    const home     = homeShipping(weight);             // sera mis à jour étape 6
+    const home     = homeShipping(subtotal, weight);   // grille progressive par panier
     const total    = subtotal + relay;
     _cartRelay = relay;
     _cartHome  = home;
@@ -1468,11 +1479,17 @@
       relayEl.textContent = fmt(relay);
     }
 
-    // Note Domicile
+    // Note Domicile (option confort)
     const homeNoteEl = document.getElementById('cart-home-note');
-    homeNoteEl.textContent = cart.length > 0
-      ? (home === 0 ? 'Domicile : offert également' : `Domicile : ${fmt(home)}`)
-      : '';
+    if (cart.length === 0) {
+      homeNoteEl.textContent = '';
+    } else if (home === 0) {
+      homeNoteEl.innerHTML = 'Domicile : <span style="color:#4ADE80;font-weight:700">offert également</span>';
+    } else if (subtotal >= 179 && weight > 4) {
+      homeNoteEl.textContent = `Domicile : ${fmt(home)} (colis lourd)`;
+    } else {
+      homeNoteEl.textContent = `Domicile : ${fmt(home)} — offert dès 179 €`;
+    }
 
     // ── Note livraison Point Relais (seuil progressif) ──
     const francoEl     = document.getElementById('cart-franco-note');

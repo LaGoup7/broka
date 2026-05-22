@@ -61,11 +61,17 @@ function relayRate(subtotalCents, weightKg) {
   return cents;
 }
 
-// ── Grille Domicile (centimes) — sera mise à jour à l'étape 6 ──
-function homeRate(weightKg) {
-  if (weightKg <= 2) return 1300;
-  if (weightKg <= 3) return 1900;
-  return 2000;
+// ── Grille Domicile — option confort, progressive par tranche de panier (centimes) ──
+// Colis > 4 kg : participation minimum 7,90 € même si panier ≥ 179 €
+function homeRate(subtotalCents, weightKg) {
+  let cents;
+  if      (subtotalCents < 4900)  cents = 1190;
+  else if (subtotalCents < 7900)  cents = 990;
+  else if (subtotalCents < 12900) cents = 790;
+  else if (subtotalCents < 17900) cents = 490;
+  else                             cents = 0;
+  if (weightKg > 4 && cents < 790) cents = 790; // colis lourd
+  return cents;
 }
 
 export default async function handler(req, res) {
@@ -136,7 +142,7 @@ export default async function handler(req, res) {
     shippingCents = relayRate(subtotalCents, totalWeight);  // grille progressive
     shippingName  = 'Point Relais® / Locker — Mondial Relay';
   } else {
-    shippingCents = homeRate(totalWeight);  // sera mis à jour étape 6
+    shippingCents = homeRate(subtotalCents, totalWeight);  // grille progressive
     shippingName  = 'Livraison à domicile — Colissimo';
   }
 
