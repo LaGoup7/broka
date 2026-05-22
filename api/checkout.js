@@ -17,7 +17,7 @@ const PRODUCTS = {
   pack_cuisine_basque:  { name: 'Pack Cuisine Basque BroKa',                       description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Guide offert',           amount:  4700 },
   pack_recharge_3l:     { name: 'Pack Recharge 3 L optimisé BroKa',               description: 'Vinaigre de cidre BIO vrac 3 L + Poudre de Guindillas 40 g',                                         amount:  8000 },
   duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml BroKa',    description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L',                                    amount:  5600 },
-  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L',                                     amount:  7900 },
+  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L',                                     amount:  8600 },
   pack_prestige:        { name: 'Pack Prestige BroKa',                             description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Noisettes BIO à coque 500 g', amount: 5600 },
 };
 
