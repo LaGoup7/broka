@@ -1,30 +1,46 @@
 import Stripe from 'stripe';
 
+// ── Produits individuels + Packs ──
+// Les packs sont des sélections pratiques. Prix = somme des produits arrondie. Aucune remise affichée.
 const PRODUCTS = {
-  vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500ml',      description: 'Sagar Ozpina · Artisanal, fermenté lentement · Pays Basque',           amount:  1700 },
-  vinaigre_vrac_1_5l: { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5L', description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',       amount:  3900 },
-  vinaigre_vrac_3l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 3L',   description: 'Sac push-up refermable · 23 €/L · Idéal familles et restauration',       amount:  6900 },
-  vinaigre_vrac_5l:   { name: 'Vinaigre de cidre BIO BroKa — Vrac 5L',   description: 'Sac push-up refermable · 20 €/L · Grand format restauration/recharge',   amount: 10000 },
-  xipister:            { name: 'Xipister Xü-Beroa — Sauce plancha 500ml',  description: 'Sauce pimentée bio artisanale du Pays Basque',                           amount:  1900 },
-  pack_cuisine_basque: { name: 'Pack Cuisine Basque BroKa',                description: 'Vinaigre 500ml + Xipister 500ml + Guindillas 40g + Guide offert · Éco. 5€', amount: 4100 },
-  pack_prestige:       { name: 'Pack Prestige BroKa',                      description: 'Vinaigre 500ml + Xipister 500ml + Guindillas + Noisettes 500g · Éco. 6€', amount: 4500 },
-  pack_famille:        { name: 'Pack Recharge Famille BroKa',              description: 'Vinaigre 500ml + Vrac 3L · Économisez 7€',                               amount:  7900 },
-  noisettes_250g:      { name: 'Noisettes BIO à Coque BroKa — 250g',      description: 'Récoltées à la main · Certifiées BIO · 10€/kg',                          amount:   250 },
-  poudre_guindillas:   { name: 'Poudre de Guindillas BroKa — 40g',        description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant",        amount:  1000 },
+  // Produits individuels
+  vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500 ml',           description: 'Sagar Ozpina · Artisanal, fermenté lentement · Pays Basque',                                         amount:  1700 },
+  vinaigre_vrac_1_5l:  { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5 L',       description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',                                    amount:  3900 },
+  vinaigre_vrac_3l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 3 L',         description: 'Sac push-up refermable · 23 €/L · Idéal familles et recharge',                                         amount:  6900 },
+  vinaigre_vrac_5l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 5 L',         description: 'Sac push-up refermable · 20 €/L · Grand format — participation livraison possible selon le poids',     amount: 10000 },
+  xipister:             { name: 'Xipister — Sauce plancha 500 ml BroKa',           description: 'Sauce basque artisanale — Vinaigre Sagar Ozpina, huile bio, herbes et piment',                        amount:  1900 },
+  poudre_guindillas:    { name: 'Poudre de Guindillas BroKa — 40 g',              description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant · Produite en petite quantité",     amount:  1090 },
+  noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées',                    amount:   490 },
+  noisettes_500g:       { name: 'Noisettes BIO à coque BroKa — 500 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées',                    amount:   890 },
+  // Packs (sélections pratiques — prix arrondi, sans remise)
+  duo_decouverte:       { name: 'Duo Découverte BroKa',                            description: 'Vinaigre de cidre BIO 500 ml + Xipister — Sauce plancha 500 ml',                                     amount:  3600 },
+  pack_cuisine_basque:  { name: 'Pack Cuisine Basque BroKa',                       description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Guide offert',           amount:  4700 },
+  pack_recharge_3l:     { name: 'Pack Recharge 3 L optimisé BroKa',               description: 'Vinaigre de cidre BIO vrac 3 L + Poudre de Guindillas 40 g',                                         amount:  8000 },
+  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml BroKa',    description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L',                                    amount:  5600 },
+  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L',                                     amount:  7900 },
+  pack_prestige:        { name: 'Pack Prestige BroKa',                             description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Noisettes BIO à coque 500 g', amount: 5600 },
 };
 
 // Poids emballé (kg) — pesés réels + marge ~10%
+// TODO : peser chaque article réellement emballé avant de modifier ces valeurs
 const WEIGHTS = {
-  vinaigre_500:        0.90,  // 800g réel
-  vinaigre_vrac_1_5l: 1.60,  // 1500g réel
-  vinaigre_vrac_3l:   3.65,  // 3300g réel
-  vinaigre_vrac_5l:   5.80,  // estimé
-  xipister:            0.95,  // 870g réel
-  pack_cuisine_basque: 2.10,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + guide
-  pack_prestige:       2.70,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + noisettes 500g(0.55)
-  pack_famille:        4.65,  // vinaigre(0.90) + vrac 3L(3.65) — oversized probable
-  noisettes_250g:      0.30,  // 262g réel (500g pèse 525g)
-  poudre_guindillas:   0.10,  // 50g réel
+  // Produits individuels
+  vinaigre_500:        0.90,  // 800 g réel
+  vinaigre_vrac_1_5l:  1.60,  // 1 500 g réel
+  vinaigre_vrac_3l:    3.65,  // 3 300 g réel
+  vinaigre_vrac_5l:    5.80,  // estimé — colis lourd, livraison offerte non applicable
+  xipister:             0.95,  // 870 g réel
+  poudre_guindillas:    0.10,  // 40 g + pot + emballage
+  noisettes_250g:       0.30,  // 250 g + emballage
+  noisettes_500g:       0.65,  // 500 g + emballage (estimé — à peser)
+  // Packs
+  duo_decouverte:       1.85,  // vinaigre(0.90) + xipister(0.95)
+  pack_cuisine_basque:  2.10,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + guide (~0.15)
+  pack_recharge_3l:     3.75,  // vrac 3L(3.65) + guindillas(0.10)
+  duo_recharge_1_5l:    2.50,  // vinaigre(0.90) + vrac 1,5L(1.60)
+  // ATTENTION : pack_famille à peser réellement emballé — si > 4 kg → tranche lourde (participation livraison obligatoire)
+  pack_famille:         4.65,  // vinaigre(0.90) + vrac 3L(3.65) — déjà > 4 kg emballé
+  pack_prestige:        2.70,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + noisettes 500g(0.65) + emballage cadeau
 };
 
 // Grille Point Relais (centimes)

@@ -796,59 +796,105 @@
     <div class="divider fi"></div>
 
     <!-- Packs (featured) -->
+    <!-- Note : les packs BroKa sont des sélections pratiques, sans réduction permanente affichée -->
     <div class="packs-grid">
 
-      <!-- Pack Cuisine Basque -->
+      <!-- 1. Duo Découverte BroKa -->
+      <div class="pack-card fi">
+        <div class="pack-img">
+          <img src="images/broka_bouteille_pommes.jpg" alt="Duo Découverte BroKa" style="object-position:center 20%;">
+        </div>
+        <div class="pack-body">
+          <span class="badge-new">Découverte</span>
+          <h3>Duo Découverte BroKa</h3>
+          <p class="pack-desc">Vinaigre de cidre BIO 500 ml · Xipister — Sauce plancha 500 ml. Pour découvrir BroKa simplement, avec deux produits incontournables de la ferme.</p>
+          <div class="pack-pricing">
+            <span class="pack-price">36 €</span>
+          </div>
+          <button class="btn btn-brown btn-full" onclick="addToCart('duo_decouverte')">+ Ajouter au panier</button>
+        </div>
+      </div>
+
+      <!-- 2. Pack Cuisine Basque -->
       <div class="pack-card fi">
         <div class="pack-img">
           <img src="images/pack_cuisine_basque.png" alt="Pack Cuisine Basque BroKa" style="object-position:center center;">
         </div>
         <div class="pack-body">
-          <span class="badge-new">Foodies &amp; Terroir</span>
+          <span class="badge-new">Cuisine basque</span>
           <h3>Pack Cuisine Basque</h3>
-          <p class="pack-desc">Sagar Ozpina — Vinaigre de cidre BIO 500ml · Xipister Xü-Beroa 500ml · Poudre de Guindillas 40g · Guide des 7 Recettes BroKa offert. Tout le terroir basque pour cuisiner au quotidien.</p>
+          <p class="pack-desc">Vinaigre de cidre BIO 500 ml · Xipister — Sauce plancha 500 ml · Poudre de Guindillas 40 g · Guide des 7 Recettes BroKa offert. Tout le terroir basque pour cuisiner au quotidien.</p>
           <div class="pack-pricing">
-            <span class="pack-price">41 €</span>
-            <span class="pack-old">46 €</span>
-            <span class="badge-save">-11%</span>
+            <span class="pack-price">47 €</span>
           </div>
           <button class="btn btn-brown btn-full" onclick="addToCart('pack_cuisine_basque')">+ Ajouter au panier</button>
         </div>
       </div>
 
-      <!-- Pack Prestige -->
+      <!-- 3. Pack Recharge 3 L optimisé -->
+      <!-- Photo recommandée : prise de vue avec le sac 3 L et un pot de Guindillas -->
+      <div class="pack-card fi">
+        <div class="pack-img">
+          <img src="images/Vinaigre_cidre_refill_3L.jpg" alt="Pack Recharge 3 L optimisé BroKa" style="object-position:center center;">
+        </div>
+        <div class="pack-body">
+          <span class="badge-new">Recharge</span>
+          <h3>Pack Recharge 3 L optimisé</h3>
+          <p class="pack-desc">Vinaigre de cidre BIO vrac 3 L · Poudre de Guindillas 40 g. Le grand format avec un complément d'épice rare. Colis sous 4 kg — livraison standard.</p>
+          <div class="pack-pricing">
+            <span class="pack-price">80 €</span>
+          </div>
+          <button class="btn btn-brown btn-full" onclick="addToCart('pack_recharge_3l')">+ Ajouter au panier</button>
+        </div>
+      </div>
+
+      <!-- 4. Duo Recharge 1,5 L + bouteille 500 ml -->
+      <!-- Photo recommandée : sac 1,5 L posé à côté d'une bouteille 500 ml -->
+      <div class="pack-card fi">
+        <div class="pack-img">
+          <img src="images/vinaigre_refill_3L_seul.jpg" alt="Duo Recharge 1,5 L + bouteille 500 ml BroKa" style="object-position:center center;">
+        </div>
+        <div class="pack-body">
+          <span class="badge-new">Routine</span>
+          <h3>Duo Recharge 1,5 L + bouteille 500 ml</h3>
+          <p class="pack-desc">Vinaigre de cidre BIO 500 ml · Vinaigre de cidre BIO vrac 1,5 L. La bouteille du quotidien avec sa recharge en sac push-up refermable. Pratique à conserver.</p>
+          <div class="pack-pricing">
+            <span class="pack-price">56 €</span>
+          </div>
+          <button class="btn btn-brown btn-full" onclick="addToCart('duo_recharge_1_5l')">+ Ajouter au panier</button>
+        </div>
+      </div>
+
+      <!-- 5. Pack Recharge Famille BroKa -->
+      <!-- TODO : à peser réellement emballé — si le poids dépasse 4 kg, le colis passe en tranche lourde (participation livraison obligatoire) -->
+      <div class="pack-card fi">
+        <div class="pack-img">
+          <img src="images/Pack_famille_vinaigre.png" alt="Pack Recharge Famille BroKa — bouteille 500 ml et sac 3 L" style="object-position:center center;">
+        </div>
+        <div class="pack-body">
+          <span class="badge-new">Famille</span>
+          <h3>Pack Recharge Famille BroKa</h3>
+          <p class="pack-desc">Vinaigre de cidre BIO 500 ml pour le quotidien · Vinaigre de cidre BIO vrac 3 L en sac push-up refermable. Le format famille : toujours du vinaigre BIO à portée de main.</p>
+          <div class="pack-pricing">
+            <span class="pack-price">79 €</span>
+          </div>
+          <button class="btn btn-brown btn-full" onclick="addToCart('pack_famille')">+ Ajouter au panier</button>
+        </div>
+      </div>
+
+      <!-- 6. Pack Prestige BroKa -->
       <div class="pack-card fi">
         <div class="pack-img">
           <img src="images/pack_prestige.png" alt="Pack Prestige BroKa" style="object-position:center center;">
         </div>
         <div class="pack-body">
           <span class="badge-pop">Idéal cadeau</span>
-          <h3>Pack Prestige</h3>
-          <p class="pack-desc">Sagar Ozpina — Vinaigre de cidre BIO 500ml · Xipister Xü-Beroa 500ml · Poudre de Guindillas 40g · Noisettes BIO à Coque 500g. Les quatre saveurs de la ferme, réunies pour offrir.</p>
+          <h3>Pack Prestige BroKa</h3>
+          <p class="pack-desc">Vinaigre de cidre BIO 500 ml · Xipister — Sauce plancha 500 ml · Poudre de Guindillas 40 g · Noisettes BIO à coque 500 g. Les quatre saveurs de la ferme, réunies pour offrir.</p>
           <div class="pack-pricing">
-            <span class="pack-price">45 €</span>
-            <span class="pack-old">51 €</span>
-            <span class="badge-save">-12%</span>
+            <span class="pack-price">56 €</span>
           </div>
           <button class="btn btn-brown btn-full" onclick="addToCart('pack_prestige')">+ Ajouter au panier</button>
-        </div>
-      </div>
-
-      <!-- Pack Recharge Famille -->
-      <div class="pack-card fi">
-        <div class="pack-img">
-          <img src="images/Pack_famille_vinaigre.png" alt="Pack Recharge Famille BroKa — bouteille 500ml et sac 3L" style="object-position:center center;">
-        </div>
-        <div class="pack-body">
-          <span class="badge-new">Famille</span>
-          <h3>Pack Recharge Famille</h3>
-          <p class="pack-desc">Sagar Ozpina — Vinaigre de cidre BIO 500ml pour le quotidien · Recharge Vrac 3L en sac push-up refermable. Le format famille : toujours du vinaigre BIO à portée de main, économique au quotidien.</p>
-          <div class="pack-pricing">
-            <span class="pack-price">79 €</span>
-            <span class="pack-old">86 €</span>
-            <span class="badge-save">-8%</span>
-          </div>
-          <button class="btn btn-brown btn-full" onclick="addToCart('pack_famille')">+ Ajouter au panier</button>
         </div>
       </div>
 
@@ -862,8 +908,8 @@
           <img src="images/broka_bouteille_pommes.jpg" alt="Vinaigre de cidre BroKa 500ml" style="object-position:center 20%;">
         </div>
         <div class="prod-body">
-          <h4>Vinaigre de cidre BIO</h4>
-          <p class="prod-desc">500ml · Deux fermentations artisanales : alcoolique puis acétique, sans additif ni accélérateur industriel. Un vinaigre vivant, à l'opposé de l'industriel.</p>
+          <h4>Vinaigre de cidre BIO 500 ml</h4>
+          <p class="prod-desc">Deux fermentations artisanales : alcoolique puis acétique, sans additif ni accélérateur industriel. Un vinaigre vivant, à l'opposé de l'industriel.</p>
           <div class="prod-footer">
             <div class="prod-price">17 €</div>
             <button class="btn-add" onclick="addToCart('vinaigre_500')">+ Panier</button>
@@ -895,8 +941,8 @@
           <img src="images/broka_bouteille_verger.png" alt="Xipister Xü-Beroa sauce plancha" style="object-position:right center;">
         </div>
         <div class="prod-body">
-          <h4>Xipister — Xü-Beroa</h4>
-          <p class="prod-desc">500ml · Assaisonnement basque préparé avec notre vinaigre Sagar Ozpina, huile bio, thym, laurier, piment et ail. Sans conservateurs ni sulfites. Le caractère franc du Pays Basque.</p>
+          <h4>Xipister — Sauce plancha 500 ml</h4>
+          <p class="prod-desc">Assaisonnement basque préparé avec notre vinaigre Sagar Ozpina, huile bio, thym, laurier, piment et ail. Sans conservateurs ni sulfites. Le caractère franc du Pays Basque.</p>
           <div class="prod-footer">
             <div class="prod-price">19 €</div>
             <button class="btn-add" onclick="addToCart('xipister')">+ Panier</button>
@@ -909,10 +955,10 @@
           <img src="images/poudre_de_guindillas.png" alt="Poudre de Guindillas BroKa — Piment d'Ibarra 40g" style="object-fit:cover;transform:scale(1.18);padding:0;">
         </div>
         <div class="prod-body">
-          <h4>Poudre de Guindillas</h4>
-          <p class="prod-desc">Piment d'Ibarra · Guipuzkoa, Pays Basque Sud · Fruité &amp; légèrement piquant · Pot 40g.</p>
+          <h4>Poudre de Guindillas 40 g</h4>
+          <p class="prod-desc">Piment d'Ibarra · Guipuzkoa, Pays Basque Sud · Fruité &amp; légèrement piquant · Produite en petite quantité.</p>
           <div class="prod-footer">
-            <div class="prod-price">10 €<small>/ 40g</small></div>
+            <div class="prod-price">10,90 €<small>/ 40 g</small></div>
             <button class="btn-add" onclick="addToCart('poudre_guindillas')">+ Panier</button>
           </div>
         </div>
@@ -920,27 +966,17 @@
 
       <div class="product-card fi">
         <div class="prod-img">
-          <img src="images/noisettes.png" alt="Noisettes BIO à Coque BroKa">
+          <img src="images/noisettes.png" alt="Noisettes BIO à coque BroKa">
         </div>
         <div class="prod-body">
-          <h4>Noisettes BIO à Coque</h4>
-          <p class="prod-desc">Vrac · 10€/kg · Récoltées à la main dans notre verger basque · Certifiées BIO.</p>
-          <input type="range" id="noisettes-slider" min="250" max="5000" step="250" value="500"
-            style="width:100%;accent-color:var(--green-deep,#253D0D);margin:8px 0 4px;cursor:pointer;height:20px;"
-            oninput="syncNoisettesFromSlider()">
-          <div style="display:flex;justify-content:space-between;font-size:.7rem;color:var(--txt-lt);margin-bottom:10px;">
-            <span>250g</span><span>5 kg</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-            <input type="number" id="noisettes-poids" value="500" min="1"
-              style="width:80px;border:1.5px solid var(--cream-bd,#d9cfc2);border-radius:8px;padding:7px 10px;font-size:.95rem;font-family:inherit;text-align:center;"
-              oninput="syncNoisettesFromInput()"
-              onblur="snapNoisettes()">
-            <span style="font-size:.85rem;color:var(--txt-lt);">g</span>
-            <span id="noisettes-prix-calc" style="margin-left:auto;font-size:1.05rem;font-weight:700;color:var(--green-deep,#253D0D);">5,00 €</span>
+          <h4>Noisettes BIO à coque</h4>
+          <p class="prod-desc">Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées.</p>
+          <div class="vrac-sizes">
+            <button class="vrac-btn active" onclick="selectNoisettes(this,'noisettes_250g',4.90,'250 g')">250 g<small>4,90 €</small></button>
+            <button class="vrac-btn" onclick="selectNoisettes(this,'noisettes_500g',8.90,'500 g')">500 g<small>8,90 €</small></button>
           </div>
           <div class="prod-footer">
-            <div class="prod-price">10 €<small>/ kg</small></div>
+            <div class="prod-price" id="noisettes-price">4,90 €<small>/ 250 g</small></div>
             <button class="btn-add" onclick="addNoisettes()">+ Panier</button>
           </div>
         </div>
@@ -1211,16 +1247,23 @@
 <script>
   // ── Catalogue ──
   const CATALOG = {
-    vinaigre_500:        { name: 'Vinaigre de cidre BIO 500ml',       price: 17,  weight: 0.80 },
-    vinaigre_vrac_1_5l: { name: 'Vinaigre de cidre BIO vrac 1,5L',  price: 39,  weight: 1.60 },
-    vinaigre_vrac_3l:   { name: 'Vinaigre de cidre BIO vrac 3L',    price: 69,  weight: 3.50 },
-    vinaigre_vrac_5l:   { name: 'Vinaigre de cidre BIO vrac 5L',    price: 100, weight: 5.50 },
-    xipister:            { name: 'Xipister — Sauce plancha 500ml',  price: 19,  weight: 0.80 },
-    pack_cuisine_basque: { name: 'Pack Cuisine Basque',             price: 41,  weight: 1.90 },
-    pack_prestige:       { name: 'Pack Prestige BroKa',             price: 45,  weight: 2.50 },
-    pack_famille:        { name: 'Pack Recharge Famille BroKa',     price: 79,  weight: 4.00 },
-    noisettes_250g:      { name: 'Noisettes BIO à Coque',           price: 2.5, weight: 0.35, unit: '250g' },
-    poudre_guindillas:   { name: 'Poudre de Guindillas',            price: 10,  weight: 0.15 },
+    // ── Produits individuels ──
+    vinaigre_500:         { name: 'Vinaigre de cidre BIO 500 ml',          price: 17,    weight: 0.80 },
+    vinaigre_vrac_1_5l:   { name: 'Vinaigre de cidre BIO vrac 1,5 L',      price: 39,    weight: 1.60 },
+    vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',         price: 69,    weight: 3.50 },
+    vinaigre_vrac_5l:     { name: 'Vinaigre de cidre BIO vrac 5 L',         price: 100,   weight: 5.50 },
+    xipister:              { name: 'Xipister — Sauce plancha 500 ml',        price: 19,    weight: 0.80 },
+    poudre_guindillas:     { name: 'Poudre de Guindillas 40 g',             price: 10.90, weight: 0.15 },
+    noisettes_250g:        { name: 'Noisettes BIO à coque 250 g',           price: 4.90,  weight: 0.35 },
+    noisettes_500g:        { name: 'Noisettes BIO à coque 500 g',           price: 8.90,  weight: 0.65 },
+    // ── Packs ── (sélections pratiques, prix = somme des produits arrondie, sans remise affichée)
+    duo_decouverte:        { name: 'Duo Découverte BroKa',                  price: 36,    weight: 1.60 },
+    pack_cuisine_basque:   { name: 'Pack Cuisine Basque',                   price: 47,    weight: 1.90 },
+    pack_recharge_3l:      { name: 'Pack Recharge 3 L optimisé',            price: 80,    weight: 3.65 },
+    duo_recharge_1_5l:     { name: 'Duo Recharge 1,5 L + bouteille 500 ml', price: 56,    weight: 2.40 },
+    pack_famille:          { name: 'Pack Recharge Famille BroKa',           price: 79,    weight: 4.00 },
+    // TODO : pack_famille à peser emballé — si > 4 kg → tranche lourde, livraison non offerte automatiquement
+    pack_prestige:         { name: 'Pack Prestige BroKa',                   price: 56,    weight: 2.70 },
   };
 
   // ── Frais de port ──
@@ -1268,46 +1311,13 @@
     updateCartBtn();
   }
 
-  function snapToNearest250(g) {
-    return Math.max(250, Math.round(g / 250) * 250);
-  }
-  function updateNoisettesDisplay(g) {
-    const euros = (g / 1000 * 10).toFixed(2).replace('.', ',');
-    document.getElementById('noisettes-prix-calc').textContent = euros + ' €';
-  }
-  function syncNoisettesFromSlider() {
-    const g = parseInt(document.getElementById('noisettes-slider').value);
-    document.getElementById('noisettes-poids').value = g;
-    updateNoisettesDisplay(g);
-  }
-  function syncNoisettesFromInput() {
-    const raw = parseInt(document.getElementById('noisettes-poids').value) || 250;
-    updateNoisettesDisplay(Math.max(250, raw));
-    const snapped = Math.min(5000, snapToNearest250(raw));
-    document.getElementById('noisettes-slider').value = snapped;
-  }
-  function snapNoisettes() {
-    const raw = parseInt(document.getElementById('noisettes-poids').value) || 250;
-    const g = snapToNearest250(raw);
-    document.getElementById('noisettes-poids').value = g;
-    document.getElementById('noisettes-slider').value = Math.min(5000, g);
-    updateNoisettesDisplay(g);
-  }
-  function addNoisettes() {
-    snapNoisettes();
-    const g = parseInt(document.getElementById('noisettes-poids').value);
-    const units = g / 250;
-    const existing = cart.find(i => i.key === 'noisettes_250g');
-    if (existing) existing.qty = Number(existing.qty) + units;
-    else cart.push({ key: 'noisettes_250g', qty: units });
-    saveCart(); renderCart(); updateCartBtn();
-    showToast('✓ Noisettes BIO ' + g + 'g ajoutées');
-  }
+  // (fonctions slider noisettes supprimées — remplacées par sélecteur 250 g / 500 g)
 
-  // ── Vrac selector ──
+  // ── Sélecteur Vinaigre Vrac ──
   let vracKey = 'vinaigre_vrac_3l';
   function selectVrac(btn, key, price, vol, unit, img) {
-    document.querySelectorAll('.vrac-btn').forEach(b => b.classList.remove('active'));
+    // Scope au conteneur parent pour ne pas affecter d'autres sélecteurs similaires
+    btn.closest('.vrac-sizes').querySelectorAll('.vrac-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     vracKey = key;
     document.getElementById('vrac-price').innerHTML = `${price} €<small>/ ${vol} · ${unit}</small>`;
@@ -1315,6 +1325,19 @@
   }
   function addVrac() {
     addToCart(vracKey);
+  }
+
+  // ── Sélecteur Noisettes (250 g ou 500 g) ──
+  let noisettesKey = 'noisettes_250g';
+  function selectNoisettes(btn, key, price, label) {
+    btn.closest('.vrac-sizes').querySelectorAll('.vrac-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    noisettesKey = key;
+    const priceStr = price.toFixed(2).replace('.', ',');
+    document.getElementById('noisettes-price').innerHTML = `${priceStr} €<small>/ ${label}</small>`;
+  }
+  function addNoisettes() {
+    addToCart(noisettesKey);
   }
 
   function removeFromCart(key) {
@@ -1367,20 +1390,20 @@
     foot.style.display  = cart.length > 0   ? 'block' : 'none';
 
     items.innerHTML = cart.map(item => {
-      const p = CATALOG[item.key];
-      const isNoisettes = item.key === 'noisettes_250g';
-      const unitLabel = isNoisettes ? (item.qty * 250) + 'g · 10€/kg' : p.price + ' € / unité';
-      const qtyLabel  = isNoisettes ? '+250g' : '+1';
-      const total     = isNoisettes ? (item.qty * 2.5).toFixed(2).replace('.', ',') + ' €' : (p.price * item.qty) + ' €';
+      const p         = CATALOG[item.key];
+      const unitPrice = (p.price % 1 === 0)
+        ? p.price + ',00 €'
+        : p.price.toFixed(2).replace('.', ',') + ' €';
+      const total = (p.price * item.qty).toFixed(2).replace('.', ',') + ' €';
       return `<div class="cart-item">
         <div class="cart-item-info">
           <span class="cart-item-name">${p.name}</span>
-          <span class="cart-item-unit">${unitLabel}</span>
+          <span class="cart-item-unit">${unitPrice} / unité</span>
         </div>
         <div class="qty-ctrl">
           <button class="qty-btn" onclick="changeQty('${item.key}',-1)">−</button>
-          <span class="qty-val">${isNoisettes ? item.qty * 250 + 'g' : item.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${item.key}',1)" title="${qtyLabel}">+</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.key}',1)">+</button>
         </div>
         <span class="cart-item-price">${total}</span>
         <button class="cart-item-del" onclick="removeFromCart('${item.key}')" title="Supprimer">✕</button>
