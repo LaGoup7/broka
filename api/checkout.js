@@ -7,7 +7,6 @@ const PRODUCTS = {
   vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500 ml',           description: 'Sagar Ozpina · Artisanal, fermenté lentement · Pays Basque',                                         amount:  1700 },
   vinaigre_vrac_1_5l:  { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5 L',       description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',                                    amount:  3900 },
   vinaigre_vrac_3l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 3 L',         description: 'Sac push-up refermable · 23 €/L · Idéal familles et recharge',                                         amount:  6900 },
-  vinaigre_vrac_5l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 5 L',         description: 'Sac push-up refermable · 20 €/L · Grand format — participation livraison possible selon le poids',     amount: 10000 },
   xipister:             { name: 'Xipister — Sauce plancha 500 ml BroKa',           description: 'Sauce basque artisanale — Vinaigre Sagar Ozpina, huile bio, herbes et piment',                        amount:  1900 },
   poudre_guindillas:    { name: 'Poudre de Guindillas BroKa — 40 g',              description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant · Produite en petite quantité",     amount:  1090 },
   noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées',                    amount:   490 },
@@ -28,7 +27,6 @@ const WEIGHTS = {
   vinaigre_500:        0.90,  // 800 g réel
   vinaigre_vrac_1_5l:  1.60,  // 1 500 g réel
   vinaigre_vrac_3l:    3.65,  // 3 300 g réel
-  vinaigre_vrac_5l:    5.80,  // estimé — colis lourd, livraison offerte non applicable
   xipister:             0.95,  // 870 g réel
   poudre_guindillas:    0.10,  // 40 g + pot + emballage
   noisettes_250g:       0.30,  // 250 g + emballage
