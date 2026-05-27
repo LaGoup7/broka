@@ -41,7 +41,7 @@ Architecture de conversion optimisée :
 | 8 | **Footer** | Mentions légales légères |
 
 **Fonctionnalités clés :**
-- Formulaire avec envoi automatique par email (via `send.php`) — aucune action manuelle
+- Formulaire avec envoi automatique par email (via `send.js`) — aucune action manuelle
 - Téléchargement immédiat du guide PDF après inscription
 - 3 packs commandables directement via WhatsApp (message pré-rempli)
 - Bouton WhatsApp flottant visible en permanence
@@ -50,7 +50,7 @@ Architecture de conversion optimisée :
 
 ---
 
-### 2. `send.php` — Backend léger (envoi email)
+### 2. `send.js` — Backend léger (envoi email)
 
 Script PHP minimal hébergé sur le même serveur :
 - Reçoit les données du formulaire (Prénom, Nom, Email, Téléphone)
@@ -114,7 +114,7 @@ sites/
 └── yourqr.page/
     └── broka/
         ├── index.html
-        ├── send.php
+        ├── send.js
         ├── generer-qr.html
         ├── stand.html
         ├── Guide_BroKa_7_idees_vinaigre_pomme.pdf

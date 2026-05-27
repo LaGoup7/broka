@@ -8,9 +8,9 @@ const PRODUCTS = {
   vinaigre_vrac_1_5l:  { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5 L',       description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',                                    amount:  3900 },
   vinaigre_vrac_3l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 3 L',         description: 'Sac push-up refermable · 23 €/L · Idéal familles et recharge',                                         amount:  6900 },
   xipister:             { name: 'Xipister — Sauce plancha 500 ml BroKa',           description: 'Sauce basque artisanale — Vinaigre Sagar Ozpina, huile bio, herbes et piment',                        amount:  1900 },
-  poudre_guindillas:    { name: 'Poudre de Guindillas BroKa — 40 g',              description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant · Produite en petite quantité",     amount:  1090 },
-  noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées',                    amount:   490 },
-  noisettes_500g:       { name: 'Noisettes BIO à coque BroKa — 500 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées',                    amount:   890 },
+  poudre_guindillas:    { name: 'Poudre de Guindillas BroKa — 40 g',              description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant · Produite en petite quantité",     amount:  1390 },
+  noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',      amount:   490 },
+  noisettes_500g:       { name: 'Noisettes BIO à coque BroKa — 500 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',      amount:   890 },
   // Packs (sélections pratiques — prix arrondi, sans remise)
   duo_decouverte:       { name: 'Duo Découverte BroKa',                            description: 'Vinaigre de cidre BIO 500 ml + Xipister — Sauce plancha 500 ml',                                     amount:  3600 },
   pack_cuisine_basque:  { name: 'Pack Cuisine Basque BroKa',                       description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Guide offert',           amount:  4700 },

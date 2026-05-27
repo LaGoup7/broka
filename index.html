@@ -1105,7 +1105,7 @@
           <h4>Poudre de Guindillas 40 g</h4>
           <p class="prod-desc">Produite en petite quantité, notre poudre de Guindillas est l'un des produits les plus demandés sur les marchés. Elle relève simplement les grillades, les œufs, les légumes, les sauces, les pommes de terre, les marinades et les recettes basques du quotidien.</p>
           <div class="prod-footer">
-            <div class="prod-price">10,90 €<small>/ 40 g</small></div>
+            <div class="prod-price">13,90 €<small>/ 40 g</small></div>
             <button class="btn-add" onclick="addToCart('poudre_guindillas')">+ Panier</button>
           </div>
           <p class="prod-note">Disponible en ligne uniquement en complément d'une commande de 39 € minimum, dans la limite de 3 pots par commande.</p>
@@ -1118,7 +1118,7 @@
         </div>
         <div class="prod-body">
           <h4>Noisettes BIO à coque</h4>
-          <p class="prod-desc">Récoltées à la main dans notre verger basque · Certifiées BIO · Non décortiquées. Nos noisettes BIO à coque sont proposées en complément de votre commande ou dans nos coffrets gourmands.</p>
+          <p class="prod-desc">Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées. Nos noisettes BIO à coque sont proposées en complément de votre commande ou dans nos coffrets gourmands.</p>
           <div class="vrac-sizes">
             <button class="vrac-btn active" onclick="selectNoisettes(this,'noisettes_250g',4.90,'250 g')">250 g<small>4,90 €</small></button>
             <button class="vrac-btn" onclick="selectNoisettes(this,'noisettes_500g',8.90,'500 g')">500 g<small>8,90 €</small></button>
@@ -1361,7 +1361,7 @@
 
       <details class="faq-item fi">
         <summary>Les produits sont-ils certifiés BIO ?</summary>
-        <div class="faq-body">Le vinaigre de cidre Sagar Ozpina et les noisettes sont certifiés Agriculture Biologique (AB). Le Xipister est préparé avec du vinaigre BIO, de l'huile bio et des herbes et piments du Pays Basque.</div>
+        <div class="faq-body">Le vinaigre de cidre Sagar Ozpina et les Noisettes BIO à coque sont certifiés Agriculture Biologique par l'organisme certificateur FR-BIO-10. Le Xipister est préparé avec notre vinaigre BIO, de l'huile bio et des herbes et piments du Pays Basque.</div>
       </details>
 
       <details class="faq-item fi">
@@ -1559,7 +1559,7 @@
     vinaigre_vrac_1_5l:   { name: 'Vinaigre de cidre BIO vrac 1,5 L',      price: 39,    weight: 1.60 },
     vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',         price: 69,    weight: 3.65 },
     xipister:              { name: 'Xipister — Sauce plancha 500 ml',        price: 19,    weight: 0.95 },
-    poudre_guindillas:     { name: 'Poudre de Guindillas 40 g',             price: 10.90, weight: 0.10 },
+    poudre_guindillas:     { name: 'Poudre de Guindillas 40 g',             price: 13.90, weight: 0.10 },
     noisettes_250g:        { name: 'Noisettes BIO à coque 250 g',           price: 4.90,  weight: 0.30 },
     noisettes_500g:        { name: 'Noisettes BIO à coque 500 g',           price: 8.90,  weight: 0.65 },
     // ── Packs ── (sélections pratiques, prix = somme des produits arrondie, sans remise affichée)
@@ -2022,24 +2022,40 @@
   }
 
   // ── Marchés ──
-  function isoWeek(d) {
-    const dt = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-    dt.setUTCDate(dt.getUTCDate() + 4 - (dt.getUTCDay() || 7));
-    const y = new Date(Date.UTC(dt.getUTCFullYear(), 0, 1));
-    return Math.ceil((((dt - y) / 86400000) + 1) / 7);
-  }
+  // Alternance hebdomadaire stable basée sur un samedi de référence connu.
+  // REF_SAT_INDEX = index de MARCHES pour ce samedi-là.
+  // ⚠️ Si le calendrier change, mettre à jour REF_SAT_MS et REF_SAT_INDEX.
   const MARCHES = [
     { nom: 'Marché Bio de Billère', city: 'Billère · 64140', addr: '31 Route de Bayonne', hours: 'Sam. · 7h30–13h30' },
-    { nom: 'Marché des Halles', city: 'Biarritz', addr: 'Place Sobradiel · 3–11 rue des Halles', hours: 'Samedi matin' },
+    { nom: 'Marché des Halles',     city: 'Biarritz',        addr: 'Place Sobradiel · 3–11 rue des Halles', hours: 'Samedi matin' },
   ];
+  const REF_SAT_MS    = Date.UTC(2026, 4, 30); // Samedi 30 mai 2026
+  const REF_SAT_INDEX = 0;                      // → Billère ce jour-là
+
+  function saturdayIndexFor(satMs) {
+    const weeksElapsed = Math.round((satMs - REF_SAT_MS) / (7 * 24 * 60 * 60 * 1000));
+    return ((weeksElapsed % 2) + 2) % 2 === REF_SAT_INDEX % 2
+      ? REF_SAT_INDEX
+      : 1 - REF_SAT_INDEX;
+  }
+
+  function thisSaturdayUTC() {
+    const now = new Date();
+    const dow = now.getUTCDay(); // 0=Dim, 6=Sam
+    // Dimanche → reculer d'1 jour (weekend passé), sinon avancer jusqu'au prochain samedi
+    const offset = dow === 0 ? -1 : (6 - dow);
+    return Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + offset);
+  }
+
   (function() {
-    const w = isoWeek(new Date());
-    const now  = MARCHES[w % 2];
-    const next = MARCHES[(w + 1) % 2];
-    document.getElementById('market-text').textContent     = 'Samedi — ' + now.nom + ', ' + now.city;
-    document.getElementById('marche-now-nom').textContent  = now.nom;
-    document.getElementById('marche-now-city').textContent = now.city;
-    document.getElementById('marche-now-addr').textContent = now.addr;
+    const thisSat = thisSaturdayUTC();
+    const nextSat = thisSat + 7 * 24 * 60 * 60 * 1000;
+    const now  = MARCHES[saturdayIndexFor(thisSat)];
+    const next = MARCHES[saturdayIndexFor(nextSat)];
+    document.getElementById('market-text').textContent      = 'Samedi — ' + now.nom + ', ' + now.city;
+    document.getElementById('marche-now-nom').textContent   = now.nom;
+    document.getElementById('marche-now-city').textContent  = now.city;
+    document.getElementById('marche-now-addr').textContent  = now.addr;
     document.getElementById('marche-now-hours').textContent = now.hours;
     document.getElementById('marche-next-nom').textContent  = next.nom;
     document.getElementById('marche-next-city').textContent = next.city;
