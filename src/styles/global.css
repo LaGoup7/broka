@@ -243,7 +243,7 @@ section     { padding: 80px 0; }
 /* ── TERROIR ── */
 .terroir-section { background: var(--green-deep); color: #fff; overflow: hidden; }
 .terroir-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 520px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 380px;
 }
 .terroir-img {
   position: relative; overflow: hidden;
