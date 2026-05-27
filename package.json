@@ -1,16 +1,10 @@
 {
   "name": "broka",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
-  },
   "dependencies": {
     "@upstash/redis": "^1.38.0",
-    "astro": "^5.8.0",
     "nodemailer": "^8.0.7",
     "stripe": "^17.0.0"
   }
