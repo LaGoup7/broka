@@ -5,8 +5,8 @@ import Stripe from 'stripe';
 const PRODUCTS = {
   // Produits individuels
   vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500 ml',           description: 'Sagar Ozpina · Artisanal, fermenté lentement · Certifié Agriculture Biologique FR-BIO-10',                           amount:  1700 },
-  vinaigre_vrac_1_5l:  { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5 L',       description: 'Sac push-up refermable · 29 €/L · Non filtré, fermenté lentement · Certifié Agriculture Biologique FR-BIO-10',          amount:  4350 },
-  vinaigre_vrac_3l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 3 L',         description: 'Sac push-up refermable · 26 €/L · Idéal familles et recharge · Certifié Agriculture Biologique FR-BIO-10',               amount:  7800 },
+  vinaigre_vrac_1_5l:  { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5 L',       description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement · Certifié Agriculture Biologique FR-BIO-10',          amount:  3900 },
+  vinaigre_vrac_3l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 3 L',         description: 'Sac push-up refermable · 23 €/L · Idéal familles et recharge · Certifié Agriculture Biologique FR-BIO-10',               amount:  6900 },
   xipister:             { name: 'Xipister — Sauce plancha 500 ml BroKa',           description: 'Sauce basque artisanale — Vinaigre Sagar Ozpina, huile bio, herbes et piment · Certifié Agriculture Biologique FR-BIO-10', amount:  1900 },
   poudre_guindillas:    { name: 'Poudre de Guindillas BroKa — 40 g',              description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant · Certifié Agriculture Biologique FR-BIO-10",           amount:  1390 },
   noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',          amount:   490 },
