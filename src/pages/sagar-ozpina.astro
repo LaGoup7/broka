@@ -1,0 +1,155 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Sagar Ozpina — Vinaigre de cidre BIO mono-verger · BroKa"
+  description="Sagar Ozpina : vinaigre de cidre BIO de Soule. Quatre pommes ancestrales basques, fermentation lente, non filtré, non pasteurisé, avec la mère. Ferme Goyhenetxea."
+  canonicalPath="/sagar-ozpina"
+>
+
+<div style="padding-top:68px">
+
+  <!-- ════ HERO PRODUIT ════ -->
+  <section style="background:var(--green-deep);padding:80px 0;color:#fff">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center">
+        <div>
+          <p class="sec-label fi" style="color:var(--brown-lt)">Notre vinaigre signature</p>
+          <h1 class="fi" style="color:#fff;margin-bottom:12px">
+            <em style="color:var(--brown-lt)">Sagar Ozpina</em>
+          </h1>
+          <p class="fi" style="color:rgba(255,255,255,.6);font-size:1rem;margin-bottom:24px;letter-spacing:.05em">
+            Vinaigre de cidre BIO · Mono-verger · Soule, Pays Basque
+          </p>
+          <div class="divider fi" style="background:var(--brown-lt)"></div>
+          <p class="fi" style="color:rgba(255,255,255,.8);font-size:1.05rem;line-height:1.8;margin-bottom:28px">
+            <em>Sagar</em> — pomme. <em>Ozpina</em> — vinaigre, en basque.<br>
+            Un nom, une promesse : un vinaigre de cidre BIO issu d'un seul verger en Soule,
+            fermenté lentement, non filtré, non pasteurisé, conservé avec sa mère vivante.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <button class="btn btn-basque" onclick="addToCart('vinaigre_500')">+ Panier — 500 ml (17 €)</button>
+            <a href="/boutique" class="btn btn-outline">Voir tous les formats</a>
+          </div>
+        </div>
+        <div class="fi" style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-lg);aspect-ratio:3/4;background:rgba(255,255,255,.05)">
+          <img src="/images/broka_bouteille_pommes.jpg" alt="Sagar Ozpina — Vinaigre de cidre BIO BroKa"
+            style="width:100%;height:100%;object-fit:cover" loading="eager">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ ATTRIBUTS ════ -->
+  <div class="proof-strip">
+    <div class="proof-list">
+      <span class="proof-item">🌿 BIO FR-BIO-10</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-item">Non filtré</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-item">Non pasteurisé</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-item">Avec la mère</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-item">Sans additif</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-item">Sans sucre ajouté</span>
+      <span class="proof-sep">·</span>
+      <span class="proof-item">Mono-verger</span>
+    </div>
+  </div>
+
+  <!-- ════ LES 4 POMMES ════ -->
+  <section class="section-white" style="padding:80px 0">
+    <div class="container">
+      <p class="sec-label fi text-center">Le secret du goût</p>
+      <h2 class="fi text-center">Quatre pommes ancestrales basques</h2>
+      <div class="divider fi" style="margin:14px auto 28px"></div>
+      <p class="fi text-center" style="max-width:580px;margin:0 auto 48px">
+        La complexité aromatique de Sagar Ozpina naît du mariage de quatre variétés
+        anciennes, cultivées sans traitement dans le verger familial de Soule.
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px" class="fi">
+        {[
+          { nom: 'Moko', note: 'Amère, tannique, structurante. La colonne vertébrale du vinaigre.' },
+          { nom: 'Urtebi handi', note: 'Douce et aromatique. Apporte de la rondeur et du fruit.' },
+          { nom: 'Patzolua', note: 'Acidité vive. Contribue à la vivacité finale en bouche.' },
+          { nom: 'Gezamina', note: 'Sucrée et parfumée. Équilibre l\'ensemble.' },
+        ].map(v => (
+          <div style="background:#fff;border:1px solid var(--cream-bd);border-radius:var(--r-lg);padding:28px 20px;text-align:center">
+            <div style="font-size:2rem;margin-bottom:12px">🍎</div>
+            <h3 style="font-size:1.1rem;color:var(--green-deep);font-style:italic;margin-bottom:10px">{v.nom}</h3>
+            <p style="font-size:.83rem;color:var(--txt-lt);line-height:1.6">{v.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ DIFFÉRENCE ════ -->
+  <section style="background:var(--cream);padding:80px 0">
+    <div class="container">
+      <p class="sec-label fi text-center">Pourquoi Sagar Ozpina</p>
+      <h2 class="fi text-center">Artisanal vs industriel</h2>
+      <div class="divider fi" style="margin:14px auto 48px"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:800px;margin:0 auto">
+        <div class="fi" style="background:#fff;border-radius:var(--r-lg);padding:32px;border:2px solid var(--green-pale)">
+          <p style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green-mid);margin-bottom:16px">Sagar Ozpina</p>
+          {['Un seul verger, en Soule', 'Fermentation naturelle lente', 'Non filtré — la mère est présente', 'Non pasteurisé — vivant', '100 % pommes basques', 'Sans additif, sans correcteur'].map(item => (
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.88rem;color:var(--txt-md)">
+              <span style="color:#16a34a;font-weight:700">✓</span>{item}
+            </div>
+          ))}
+        </div>
+        <div class="fi" style="background:#fff;border-radius:var(--r-lg);padding:32px;border:1px solid var(--cream-bd)">
+          <p style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:16px">Vinaigre industriel</p>
+          {['Assemblage de matières premières multiples', 'Production rapide par oxydation forcée', 'Filtré, clarifié', 'Pasteurisé', 'Pommes non identifiées', 'Correcteurs d\'acidité possibles'].map(item => (
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.88rem;color:var(--txt-lt)">
+              <span style="color:#d1d5db">—</span>{item}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ FORMATS ════ -->
+  <section class="section-white" style="padding:80px 0">
+    <div class="container">
+      <p class="sec-label fi text-center">Choisir son format</p>
+      <h2 class="fi text-center">Sagar Ozpina, en trois formats</h2>
+      <div class="divider fi" style="margin:14px auto 48px"></div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+        <div class="fi" style="background:#fff;border:2px solid var(--cream-bd);border-radius:var(--r-xl);padding:32px;text-align:center">
+          <img src="/images/broka_bouteille_pommes.jpg" alt="Sagar Ozpina 500ml" style="width:140px;height:180px;object-fit:cover;border-radius:var(--r-lg);margin:0 auto 20px">
+          <h3 style="color:var(--green-deep)">500 ml</h3>
+          <p style="font-size:.83rem;color:var(--txt-lt);margin:8px 0 20px">La bouteille du quotidien. Idéale pour découvrir Sagar Ozpina.</p>
+          <div style="font-size:1.6rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp);margin-bottom:20px">17 €</div>
+          <button class="btn btn-basque btn-full" onclick="addToCart('vinaigre_500')">+ Ajouter au panier</button>
+        </div>
+        <div class="fi" style="background:#fff;border:2px solid var(--cream-bd);border-radius:var(--r-xl);padding:32px;text-align:center">
+          <img src="/images/vinaigre_refill_3L_seul.jpg" alt="Sagar Ozpina vrac 1,5L" style="width:140px;height:180px;object-fit:cover;border-radius:var(--r-lg);margin:0 auto 20px">
+          <h3 style="color:var(--green-deep)">Vrac 1,5 L</h3>
+          <p style="font-size:.83rem;color:var(--txt-lt);margin:8px 0 20px">Sac push-up refermable. Pour les utilisateurs réguliers. 26 €/L.</p>
+          <div style="font-size:1.6rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp);margin-bottom:20px">39 €</div>
+          <button class="btn btn-basque btn-full" onclick="addToCart('vinaigre_vrac_1_5l')">+ Ajouter au panier</button>
+        </div>
+        <div class="fi" style="background:#fff;border:2px solid var(--green-mid);border-radius:var(--r-xl);padding:32px;text-align:center;position:relative">
+          <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green-mid);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 16px;border-radius:var(--r-pill)">Meilleur prix/L</div>
+          <img src="/images/vinaigre_cidre_3L.png" alt="Sagar Ozpina vrac 3L" style="width:140px;height:180px;object-fit:cover;border-radius:var(--r-lg);margin:0 auto 20px">
+          <h3 style="color:var(--green-deep)">Vrac 3 L</h3>
+          <p style="font-size:.83rem;color:var(--txt-lt);margin:8px 0 20px">Sac push-up refermable. Idéal familles et usage intensif. 23 €/L.</p>
+          <div style="font-size:1.6rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp);margin-bottom:20px">69 €</div>
+          <button class="btn btn-basque btn-full" onclick="addToCart('vinaigre_vrac_3l')">+ Ajouter au panier</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</Layout>

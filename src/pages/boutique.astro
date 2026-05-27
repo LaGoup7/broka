@@ -1,0 +1,256 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const produits = [
+  {
+    key:     'vinaigre_500',
+    titre:   'Sagar Ozpina — 500 ml',
+    prix:    '17 €',
+    sous:    'La bouteille signature',
+    img:     '/images/broka_bouteille_pommes.jpg',
+    badges:  ['BIO FR-BIO-10', 'Non filtré', 'Avec la mère'],
+    desc:    'Vinaigre de cidre BIO mono-verger, non filtré, non pasteurisé. La bouteille du quotidien.',
+    vedette: false,
+  },
+  {
+    key:     'vinaigre_vrac_1_5l',
+    titre:   'Sagar Ozpina vrac — 1,5 L',
+    prix:    '39 €',
+    prixL:   '26 €/L',
+    sous:    'Sac push-up refermable',
+    img:     '/images/vinaigre_refill_3L_seul.jpg',
+    badges:  ['BIO FR-BIO-10', 'Non filtré'],
+    desc:    'Recharge en sac push-up refermable. Pour les utilisateurs réguliers.',
+    vedette: false,
+  },
+  {
+    key:     'vinaigre_vrac_3l',
+    titre:   'Sagar Ozpina vrac — 3 L',
+    prix:    '69 €',
+    prixL:   '23 €/L',
+    sous:    'Sac push-up refermable · Meilleur prix/L',
+    img:     '/images/vinaigre_cidre_3L.png',
+    badges:  ['BIO FR-BIO-10', 'Non filtré', '23 €/L'],
+    desc:    'Le grand format. Idéal familles et usage intensif.',
+    vedette: true,
+  },
+  {
+    key:   'xipister',
+    titre: 'Xipister — Sauce plancha 500 ml',
+    prix:  '19 €',
+    sous:  'Sauce basque artisanale',
+    img:   '/images/broka_bouteille_verger.png',
+    badges: ['BIO FR-BIO-10', 'Sans conservateurs'],
+    desc:  'Sauce basque préparée avec Sagar Ozpina, huile bio, herbes et piment du Pays Basque.',
+    vedette: false,
+  },
+  {
+    key:   'poudre_guindillas',
+    titre: 'Poudre de Guindillas — 40 g',
+    prix:  '13,90 €',
+    sous:  'Piment d\'Ibarra BIO · Disponible dès 39 €',
+    img:   '/images/poudre_de_guindillas.png',
+    badges: ['BIO FR-BIO-10', 'Fruité et piquant'],
+    desc:  'Piment basque d\'Ibarra séché et moulu. Relève grillades, légumes, œufs et sauces.',
+    vedette: false,
+    complement: true,
+  },
+  {
+    key:   'noisettes_250g',
+    titre: 'Noisettes BIO coques — 250 g',
+    prix:  '4,90 €',
+    sous:  'Verger basque · Disponible dès 39 €',
+    img:   '/images/noisettes.png',
+    badges: ['BIO FR-BIO-10', 'Non décortiquées'],
+    desc:  'Récoltées à la main dans notre verger. Certifiées Agriculture Biologique FR-BIO-10.',
+    vedette: false,
+    complement: true,
+  },
+  {
+    key:   'noisettes_500g',
+    titre: 'Noisettes BIO coques — 500 g',
+    prix:  '8,90 €',
+    sous:  'Verger basque · Disponible dès 39 €',
+    img:   '/images/noisettes.png',
+    badges: ['BIO FR-BIO-10', 'Non décortiquées'],
+    desc:  'Le grand format. Idéal pour cuisiner, pâtisser ou offrir.',
+    vedette: false,
+    complement: true,
+  },
+];
+
+const packs = [
+  {
+    key:    'duo_decouverte',
+    titre:  'Duo Découverte BroKa',
+    prix:   '36 €',
+    sous:   'Vinaigre 500 ml + Xipister',
+    img:    '/images/Duo_Découverte_BroKa.png',
+    desc:   'La sélection idéale pour découvrir les deux produits phares de la ferme.',
+    badge:  'Découverte',
+  },
+  {
+    key:    'pack_cuisine_basque',
+    titre:  'Pack Cuisine Basque',
+    prix:   '50 €',
+    sous:   'Vinaigre + Xipister + Guindillas + Guide',
+    img:    '/images/pack_cuisine_basque.png',
+    desc:   'Tout le terroir basque pour cuisiner au quotidien, avec le guide des 7 recettes offert.',
+    badge:  'Cuisine basque',
+  },
+  {
+    key:    'duo_recharge_1_5l',
+    titre:  'Duo Recharge 1,5 L + 500 ml',
+    prix:   '56 €',
+    sous:   'Bouteille 500 ml + recharge 1,5 L',
+    img:    '/images/Duo_Recharge_1,5 L_bouteille_500ml.png',
+    desc:   'La bouteille du quotidien avec sa recharge en sac push-up refermable.',
+    badge:  'Routine',
+  },
+  {
+    key:    'pack_recharge_3l',
+    titre:  'Pack Recharge 3 L optimisé',
+    prix:   '83 €',
+    sous:   'Vrac 3 L + Poudre de Guindillas',
+    img:    '/images/Pack_Recharge_3L_optimisé.png',
+    desc:   'Le grand format vrac avec un complément d\'épice rare. Colis sous 4 kg.',
+    badge:  'Recharge',
+  },
+  {
+    key:    'pack_famille',
+    titre:  'Pack Recharge Famille',
+    prix:   '86 €',
+    sous:   'Vrac 3 L + bouteille 500 ml',
+    img:    '/images/Pack_famille_vinaigre.png',
+    desc:   'Le format famille : toujours du Sagar Ozpina à portée de main.',
+    badge:  'Famille',
+  },
+  {
+    key:    'pack_prestige',
+    titre:  'Pack Prestige BroKa',
+    prix:   '59 €',
+    sous:   'Vinaigre + Xipister + Guindillas + Noisettes 500 g',
+    img:    '/images/pack_prestige.png',
+    desc:   'Les quatre saveurs de la ferme, réunies pour offrir. Le coffret idéal.',
+    badge:  '🎁 Idéal cadeau',
+  },
+];
+---
+
+<Layout
+  title="Boutique BroKa — Vinaigre de cidre BIO Sagar Ozpina, Xipister, Guindillas"
+  description="Commandez en ligne : vinaigre de cidre BIO Sagar Ozpina (500ml, 1,5L, 3L), Xipister, Poudre de Guindillas, Noisettes BIO et packs. Livraison France — Point Relais ou domicile."
+  canonicalPath="/boutique"
+>
+
+<div style="padding-top:68px">
+
+  <!-- ════ HERO ════ -->
+  <section style="background:var(--green-deep);padding:56px 0 32px;color:#fff">
+    <div class="container">
+      <p class="sec-label" style="color:var(--brown-lt)">Commande en ligne</p>
+      <h1 style="color:#fff;font-size:clamp(1.6rem,4vw,2.8rem)">Notre boutique</h1>
+      <p style="color:rgba(255,255,255,.65);margin-top:10px;max-width:480px">
+        Livraison en France — Point Relais® Mondial Relay ou Colissimo domicile.
+        Offerte dès 99 € en Point Relais.
+      </p>
+    </div>
+  </section>
+
+  <!-- ════ PRODUITS INDIVIDUELS ════ -->
+  <section class="section-white" style="padding:64px 0">
+    <div class="container">
+      <p class="sec-label">Produits individuels</p>
+      <h2 style="margin-bottom:8px">Sagar Ozpina & gamme BroKa</h2>
+      <p style="color:var(--txt-lt);font-size:.85rem;margin-bottom:40px;font-style:italic">
+        Les Noisettes BIO et la Poudre de Guindillas sont disponibles à partir de 39 € de commande.
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px">
+        {produits.map(p => (
+          <div style={`background:#fff;border:${p.vedette ? '2px solid var(--green-mid)' : '1px solid var(--cream-bd)'};border-radius:var(--r-xl);overflow:hidden;position:relative;${p.complement ? 'opacity:.9' : ''}`}>
+            {p.vedette && (
+              <div style="position:absolute;top:12px;right:12px;background:var(--green-mid);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:var(--r-pill)">
+                Meilleur prix/L
+              </div>
+            )}
+            <div style="height:200px;overflow:hidden;background:var(--cream-dark)">
+              <img src={p.img} alt={p.titre} style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div style="padding:20px">
+              {p.complement && (
+                <div style="font-size:.68rem;font-weight:700;color:var(--txt-lt);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">
+                  Complément · dès 39 €
+                </div>
+              )}
+              <h3 style="font-size:.95rem;color:var(--green-deep);margin-bottom:6px">{p.titre}</h3>
+              <p style="font-size:.75rem;color:var(--txt-lt);margin-bottom:10px">{p.sous}</p>
+              <p style="font-size:.82rem;color:var(--txt-md);margin-bottom:16px;line-height:1.6">{p.desc}</p>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:1.3rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">
+                  {p.prix} {p.prixL && <span style="font-size:.8rem;color:var(--txt-lt);font-weight:400">· {p.prixL}</span>}
+                </span>
+                <button class="btn btn-basque btn-sm" onclick={`addToCart('${p.key}')`}>+ Panier</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ PACKS ════ -->
+  <section style="background:var(--cream);padding:64px 0">
+    <div class="container">
+      <p class="sec-label">Sélections pratiques</p>
+      <h2 style="margin-bottom:8px">Nos packs</h2>
+      <p style="color:var(--txt-lt);font-size:.85rem;margin-bottom:40px;font-style:italic">
+        Des associations pensées par la ferme. Prix = somme des produits, aucune remise cachée.
+      </p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px">
+        {packs.map(p => (
+          <div style="background:#fff;border:1px solid var(--cream-bd);border-radius:var(--r-xl);overflow:hidden">
+            <div style="height:220px;overflow:hidden;background:var(--cream-dark)">
+              <img src={p.img} alt={p.titre} style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div style="padding:22px">
+              <span style="display:inline-block;background:var(--green-pale);color:var(--green-mid);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);margin-bottom:10px">
+                {p.badge}
+              </span>
+              <h3 style="font-size:1rem;color:var(--green-deep);margin-bottom:4px">{p.titre}</h3>
+              <p style="font-size:.78rem;color:var(--txt-lt);margin-bottom:10px">{p.sous}</p>
+              <p style="font-size:.82rem;color:var(--txt-md);margin-bottom:18px;line-height:1.6">{p.desc}</p>
+              <div style="display:flex;align-items:center;justify-content:space-between">
+                <span style="font-size:1.4rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">{p.prix}</span>
+                <button class="btn btn-brown btn-sm" onclick={`addToCart('${p.key}')`}>+ Ajouter</button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ LIVRAISON INFO ════ -->
+  <section style="background:var(--green-deep);padding:48px 0;color:#fff">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
+        {[
+          { icon: '📦', titre: 'Point Relais® Mondial Relay', texte: 'Dès 3,90 € · Offerte dès 99 € · 3–5 jours ouvrés' },
+          { icon: '🏠', titre: 'Colissimo domicile', texte: 'Dès 7,90 € · Offerte dès 179 € · 3–5 jours ouvrés' },
+          { icon: '🌿', titre: 'Emballé avec soin', texte: 'Chaque commande préparée à la ferme Goyhenetxea, en Soule.' },
+        ].map(item => (
+          <div style="text-align:center">
+            <div style="font-size:2.5rem;margin-bottom:12px">{item.icon}</div>
+            <h3 style="font-size:.95rem;color:#fff;margin-bottom:8px">{item.titre}</h3>
+            <p style="font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.6">{item.texte}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</Layout>

@@ -19,6 +19,9 @@ dist/
 build/
 out/
 
+# Astro
+.astro/
+
 # OS / éditeurs
 .DS_Store
 Thumbs.db
