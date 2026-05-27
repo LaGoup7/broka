@@ -323,8 +323,8 @@ const packs = [
                 Meilleur prix/L
               </div>
             )}
-            <div style="height:190px;overflow:hidden;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;padding:14px">
-              <img src={p.img} alt={p.titre} style="width:100%;height:100%;object-fit:contain">
+            <div style="height:220px;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box">
+              <img src={p.img} alt={p.titre} style="max-width:100%;max-height:180px;width:auto;height:auto;display:block">
             </div>
             <div style="padding:18px">
               {p.complement && (
@@ -360,8 +360,8 @@ const packs = [
 
       <!-- Pack cuisine basque mis en avant -->
       <div class="fi" style="background:#fff;border-radius:var(--r-xl);overflow:hidden;border:2px solid var(--basque);margin-bottom:32px;display:grid;grid-template-columns:320px 1fr;align-items:stretch">
-        <div style="height:100%;overflow:hidden;background:var(--cream-dark);min-height:240px;display:flex;align-items:center;justify-content:center;padding:20px">
-          <img src="/images/pack_cuisine_basque.png" alt="Pack Cuisine Basque BroKa" style="width:100%;height:100%;object-fit:contain">
+        <div style="background:var(--cream-dark);min-height:260px;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box">
+          <img src="/images/pack_cuisine_basque.png" alt="Pack Cuisine Basque BroKa" style="max-width:100%;max-height:212px;width:auto;height:auto;display:block">
         </div>
         <div style="padding:36px 40px;display:flex;flex-direction:column;justify-content:center">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
@@ -389,8 +389,8 @@ const packs = [
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px">
         {packs.filter(p => p.key !== 'pack_cuisine_basque').map(p => (
           <div style="background:#fff;border:1px solid var(--cream-bd);border-radius:var(--r-xl);overflow:hidden" class="fi">
-            <div style="height:200px;overflow:hidden;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;padding:16px">
-              <img src={p.img} alt={p.titre} style="width:100%;height:100%;object-fit:contain">
+            <div style="height:220px;background:var(--cream-dark);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box">
+              <img src={p.img} alt={p.titre} style="max-width:100%;max-height:180px;width:auto;height:auto;display:block">
             </div>
             <div style="padding:22px">
               <span style="display:inline-block;background:var(--green-pale);color:var(--green-mid);font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);margin-bottom:10px">
