@@ -20,17 +20,17 @@ const PRODUCT_IMAGES = {
 
 const CATALOG = {
   vinaigre_500:         { name: 'Vinaigre de cidre BIO 500 ml',           price: 17,    weight: 0.90 },
-  vinaigre_vrac_1_5l:   { name: 'Vinaigre de cidre BIO vrac 1,5 L',       price: 39,    weight: 1.60 },
-  vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',          price: 69,    weight: 3.65 },
+  vinaigre_vrac_1_5l:   { name: 'Vinaigre de cidre BIO vrac 1,5 L',       price: 43.50, weight: 1.60 },
+  vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',          price: 78,    weight: 3.65 },
   xipister:             { name: 'Xipister — Sauce plancha 500 ml',         price: 19,    weight: 0.95 },
   poudre_guindillas:    { name: 'Poudre de Guindillas 40 g',               price: 13.90, weight: 0.10 },
   noisettes_250g:       { name: 'Noisettes BIO coques 250 g',              price: 4.90,  weight: 0.30 },
   noisettes_500g:       { name: 'Noisettes BIO coques 500 g',              price: 8.90,  weight: 0.65 },
   duo_decouverte:       { name: 'Duo Découverte BroKa',                    price: 36,    weight: 1.85 },
   pack_cuisine_basque:  { name: 'Pack Cuisine Basque',                     price: 50,    weight: 2.10 },
-  pack_recharge_3l:     { name: 'Pack Recharge 3 L optimisé',              price: 83,    weight: 3.75 },
-  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml',   price: 56,    weight: 2.50 },
-  pack_famille:         { name: 'Pack Recharge Famille BroKa',             price: 86,    weight: 4.65 },
+  pack_recharge_3l:     { name: 'Pack Recharge 3 L optimisé',              price: 91.90, weight: 3.75 },
+  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml',   price: 60.50, weight: 2.50 },
+  pack_famille:         { name: 'Pack Recharge Famille BroKa',             price: 95,    weight: 4.65 },
   pack_prestige:        { name: 'Pack Prestige BroKa',                     price: 59,    weight: 2.70 },
 };
 
