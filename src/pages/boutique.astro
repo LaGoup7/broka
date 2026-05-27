@@ -190,13 +190,12 @@ const packs = [
           <div style="padding:24px 28px;flex:1;display:flex;flex-direction:column">
             <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:16px">Notre recommandation</p>
 
-            <div style="background:var(--cream);border-radius:var(--r-lg);padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px">
-              <img src="/images/broka_bouteille_pommes.jpg" alt="Sagar Ozpina 500ml" style="width:48px;height:64px;object-fit:contain;border-radius:var(--r-sm);background:var(--cream)">
-              <div style="flex:1">
-                <p style="font-size:.85rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Sagar Ozpina 500 ml</p>
+            <div style="background:var(--cream);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+              <div>
+                <p style="font-size:.88rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Sagar Ozpina 500 ml</p>
                 <p style="font-size:.75rem;color:var(--txt-lt)">La bouteille signature</p>
               </div>
-              <div style="font-size:1.1rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">17 €</div>
+              <div style="font-size:1.1rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp);white-space:nowrap">17 €</div>
             </div>
 
             <p style="font-size:.78rem;color:var(--txt-lt);text-align:center;margin-bottom:12px">ou, si vous voulez les deux produits phares :</p>
@@ -243,9 +242,11 @@ const packs = [
                 </div>
                 <div style="font-size:1.2rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">50 €</div>
               </div>
-              <div style="display:flex;flex-direction:column;gap:5px">
-                {['🍾 Sagar Ozpina 500 ml', '🫙 Xipister sauce plancha', '🌶 Poudre de Guindillas', '📖 Guide 7 recettes offert'].map(i => (
-                  <div style="font-size:.78rem;color:var(--txt-md);display:flex;align-items:center;gap:6px">{i}</div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                {['Sagar Ozpina 500 ml', 'Xipister sauce plancha', 'Poudre de Guindillas', 'Guide 7 recettes offert'].map(i => (
+                  <div style="font-size:.82rem;color:var(--txt-md);display:flex;align-items:center;gap:8px">
+                    <span style="color:var(--basque);font-weight:700;flex-shrink:0">✓</span>{i}
+                  </div>
                 ))}
               </div>
             </div>
@@ -268,29 +269,29 @@ const packs = [
           <div style="padding:24px 28px;flex:1;display:flex;flex-direction:column">
             <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:16px">Formats de recharge</p>
 
-            <div style="background:var(--cream);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px">
-              <img src="/images/vinaigre_refill_3L_seul.jpg" alt="Vrac 1.5L" style="width:48px;height:64px;object-fit:contain;border-radius:var(--r-sm);background:var(--cream)">
+            <div style="background:var(--cream);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px">
+              <img src="/images/vinaigre_refill_3L_seul.jpg" alt="Vrac 1.5L" style="width:56px;height:72px;object-fit:contain;flex-shrink:0">
               <div style="flex:1">
-                <p style="font-size:.85rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Vrac 1,5 L</p>
+                <p style="font-size:.88rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Vrac 1,5 L</p>
                 <p style="font-size:.75rem;color:var(--txt-lt)">Sac push-up · 29 €/L</p>
               </div>
-              <div style="font-size:1.05rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">43,50 €</div>
+              <div style="font-size:1.05rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp);white-space:nowrap">43,50 €</div>
             </div>
 
-            <div style="background:var(--green-pale);border-radius:var(--r-lg);padding:16px;margin-bottom:20px;display:flex;align-items:center;gap:14px;border:1px solid var(--green-mid)">
-              <img src="/images/vinaigre_cidre_3L.png" alt="Vrac 3L" style="width:48px;height:64px;object-fit:contain;border-radius:var(--r-sm);background:var(--cream)">
+            <div style="background:var(--green-pale);border-radius:var(--r-lg);padding:14px 16px;margin-bottom:20px;display:flex;align-items:center;gap:12px;border:1px solid var(--green-mid)">
+              <img src="/images/vinaigre_cidre_3L.png" alt="Vrac 3L" style="width:56px;height:72px;object-fit:contain;flex-shrink:0">
               <div style="flex:1">
-                <p style="font-size:.85rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Vrac 3 L</p>
-                <p style="font-size:.75rem;color:var(--green-mid);font-weight:600">Meilleur prix/L · 26 €/L</p>
+                <p style="font-size:.88rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Vrac 3 L</p>
+                <p style="font-size:.75rem;color:var(--green-mid);font-weight:600">Meilleur prix · 26 €/L</p>
               </div>
-              <div style="font-size:1.05rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">78 €</div>
+              <div style="font-size:1.05rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp);white-space:nowrap">78 €</div>
             </div>
 
             <button class="btn btn-outline-dk btn-full" onclick="addToCart('vinaigre_vrac_1_5l')" style="margin-bottom:10px;text-transform:none;letter-spacing:0">
               Vrac 1,5 L — 43,50 €
             </button>
             <button class="btn btn-basque btn-full" onclick="addToCart('vinaigre_vrac_3l')" style="text-transform:none;letter-spacing:0">
-              Vrac 3 L — Meilleur prix/L · 78 €
+              Vrac 3 L · 78 €
             </button>
           </div>
         </div>
