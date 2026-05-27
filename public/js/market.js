@@ -1,16 +1,16 @@
 /* BroKa V2 — Logique marchés (alternance semaine paire/impaire) */
 const MARCHES = [
   {
-    nom:   'Marché de Billère',
-    city:  'Billère (64140)',
-    addr:  'Place du Foirail',
-    hours: '8h – 13h',
+    nom:   'Marché Bio de Billère',
+    city:  'Billère · 64140',
+    addr:  '31 Route de Bayonne',
+    hours: 'Sam. · 7h30–13h30',
   },
   {
-    nom:   'Marché d\'Oloron-Sainte-Marie',
-    city:  'Oloron-Sainte-Marie (64400)',
-    addr:  'Place de la Résistance',
-    hours: '8h – 13h',
+    nom:   'Marché des Halles',
+    city:  'Biarritz',
+    addr:  'Place Sobradiel · 3–11 rue des Halles',
+    hours: 'Samedi matin',
   },
 ];
 
