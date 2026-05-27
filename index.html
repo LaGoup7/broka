@@ -990,7 +990,7 @@
           <h3>Pack Recharge 3 L optimisé</h3>
           <p class="pack-desc">Vinaigre de cidre BIO vrac 3 L · Poudre de Guindillas 40 g. Le grand format avec un complément d'épice rare. Colis sous 4 kg — livraison standard.</p>
           <div class="pack-pricing">
-            <span class="pack-price">83 €</span>
+            <span class="pack-price">91,90 €</span>
           </div>
           <button class="btn btn-brown btn-full" onclick="addToCart('pack_recharge_3l')">+ Ajouter au panier</button>
         </div>
@@ -1007,7 +1007,7 @@
           <h3>Duo Recharge 1,5 L + bouteille 500 ml</h3>
           <p class="pack-desc">Vinaigre de cidre BIO 500 ml · Vinaigre de cidre BIO vrac 1,5 L. La bouteille du quotidien avec sa recharge en sac push-up refermable. Pratique à conserver.</p>
           <div class="pack-pricing">
-            <span class="pack-price">56 €</span>
+            <span class="pack-price">60,50 €</span>
           </div>
           <button class="btn btn-brown btn-full" onclick="addToCart('duo_recharge_1_5l')">+ Ajouter au panier</button>
         </div>
@@ -1024,7 +1024,7 @@
           <h3>Pack Recharge Famille BroKa</h3>
           <p class="pack-desc">Vinaigre de cidre BIO 500 ml pour le quotidien · Vinaigre de cidre BIO vrac 3 L en sac push-up refermable. Le format famille : toujours du vinaigre BIO à portée de main.</p>
           <div class="pack-pricing">
-            <span class="pack-price">86 €</span>
+            <span class="pack-price">95 €</span>
           </div>
           <button class="btn btn-brown btn-full" onclick="addToCart('pack_famille')">+ Ajouter au panier</button>
         </div>
@@ -1073,11 +1073,11 @@
           <h4>Vinaigre de cidre BIO — Vrac</h4>
           <p class="prod-desc">Sac push-up refermable · Non filtré, fermenté lentement · Plus le format est grand, plus le prix au litre baisse. Certifié Agriculture Biologique FR-BIO-10.</p>
           <div class="vrac-sizes">
-            <button class="vrac-btn" onclick="selectVrac(this,'vinaigre_vrac_1_5l',39,'1,5L','26 €/L','images/vinaigre_refill_3L_seul.jpg')">1,5 L<small>39 €</small></button>
-            <button class="vrac-btn active" onclick="selectVrac(this,'vinaigre_vrac_3l',69,'3L','23 €/L','images/vinaigre_cidre_3L.png')">3 L<small>69 €</small></button>
+            <button class="vrac-btn" onclick="selectVrac(this,'vinaigre_vrac_1_5l',43.50,'1,5L','29 €/L','images/vinaigre_refill_3L_seul.jpg')">1,5 L<small>43,50 €</small></button>
+            <button class="vrac-btn active" onclick="selectVrac(this,'vinaigre_vrac_3l',78,'3L','26 €/L','images/vinaigre_cidre_3L.png')">3 L<small>78 €</small></button>
           </div>
           <div class="prod-footer">
-            <div class="prod-price" id="vrac-price">69 €<small>/ 3L · 23 €/L</small></div>
+            <div class="prod-price" id="vrac-price">78 €<small>/ 3L · 26 €/L</small></div>
             <button class="btn-add" onclick="addVrac()">+ Panier</button>
           </div>
         </div>
@@ -1556,8 +1556,8 @@
   const CATALOG = {
     // ── Produits individuels ──
     vinaigre_500:         { name: 'Vinaigre de cidre BIO 500 ml',          price: 17,    weight: 0.90 },
-    vinaigre_vrac_1_5l:   { name: 'Vinaigre de cidre BIO vrac 1,5 L',      price: 39,    weight: 1.60 },
-    vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',         price: 69,    weight: 3.65 },
+    vinaigre_vrac_1_5l:   { name: 'Vinaigre de cidre BIO vrac 1,5 L',      price: 43.50, weight: 1.60 },
+    vinaigre_vrac_3l:     { name: 'Vinaigre de cidre BIO vrac 3 L',         price: 78,    weight: 3.65 },
     xipister:              { name: 'Xipister — Sauce plancha 500 ml',        price: 19,    weight: 0.95 },
     poudre_guindillas:     { name: 'Poudre de Guindillas 40 g',             price: 13.90, weight: 0.10 },
     noisettes_250g:        { name: 'Noisettes BIO à coque 250 g',           price: 4.90,  weight: 0.30 },
@@ -1565,9 +1565,9 @@
     // ── Packs ── (sélections pratiques, prix = somme des produits arrondie, sans remise affichée)
     duo_decouverte:        { name: 'Duo Découverte BroKa',                  price: 36,    weight: 1.85 },
     pack_cuisine_basque:   { name: 'Pack Cuisine Basque',                   price: 50,    weight: 2.10 },
-    pack_recharge_3l:      { name: 'Pack Recharge 3 L optimisé',            price: 83,    weight: 3.75 },
-    duo_recharge_1_5l:     { name: 'Duo Recharge 1,5 L + bouteille 500 ml', price: 56,    weight: 2.50 },
-    pack_famille:          { name: 'Pack Recharge Famille BroKa',           price: 86,    weight: 4.65 },
+    pack_recharge_3l:      { name: 'Pack Recharge 3 L optimisé',            price: 91.90, weight: 3.75 },
+    duo_recharge_1_5l:     { name: 'Duo Recharge 1,5 L + bouteille 500 ml', price: 60.50, weight: 2.50 },
+    pack_famille:          { name: 'Pack Recharge Famille BroKa',           price: 95,    weight: 4.65 },
     // ATTENTION : pack_famille > 4 kg emballé → colis lourd, participation livraison maintenue
     pack_prestige:         { name: 'Pack Prestige BroKa',                   price: 59,    weight: 2.70 },
   };
