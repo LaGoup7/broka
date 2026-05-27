@@ -137,7 +137,6 @@ async function sendFarmerEmail(session, lineItems) {
   await makeTransporter().sendMail({
     from:    `"BroKa Commandes" <${process.env.GMAIL_USER}>`,
     to:      'contact@ferme-broka.fr',
-    cc:      'contact@ferme-broka.fr',
     replyTo: customer.email ?? 'contact@ferme-broka.fr',
     subject: `🛒 Commande #${ref} — ${customer.name ?? 'Client'} — ${fmt(orderTotal)}`,
     html,

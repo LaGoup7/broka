@@ -1,1 +1,37 @@
+# Vercel
 .vercel
+
+# Variables d'environnement — NE JAMAIS COMMITER
+.env
+.env.*
+.env*.local
+.env.local
+.env.prod
+.env.staging
+.env.development
+
+# Dépendances
+node_modules/
+
+# Fichiers de build
+.next/
+dist/
+build/
+out/
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# Fichiers sensibles
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Fichiers internes / outils locaux (non déployés)
+BroKa_Grille_Tarifaire.xlsx
+gen_tarifs.py
+
