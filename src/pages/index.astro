@@ -183,6 +183,51 @@ import Layout from '../layouts/Layout.astro';
   </div>
 </section>
 
+<!-- ════ RITUEL ════ -->
+<section style="background:var(--cream-dark);padding:80px 0">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center">
+
+      <div>
+        <p class="sec-label fi">Rituels & usages</p>
+        <h2 class="fi">Un rituel simple,<br>toute l'année</h2>
+        <div class="divider fi"></div>
+        <p class="fi" style="font-size:1.05rem;line-height:1.8;margin-bottom:20px">
+          Sagar Ozpina accompagne les gestes simples du quotidien :
+          une vinaigrette, une marinade, un déglaçage,
+          ou une cuillère diluée dans un grand verre d'eau.
+        </p>
+        <p class="fi" style="color:var(--txt-lt);line-height:1.75;margin-bottom:32px">
+          Au fil des saisons, il trouve sa place dans les cuisines attentives,
+          les tables familiales et les habitudes sobres.
+          Hiver, printemps, été, automne — quatre saisons, quatre façons de l'intégrer.
+        </p>
+        <div class="fi" style="display:flex;gap:12px;flex-wrap:wrap">
+          <a href="/programme-des-saisons" class="btn btn-primary">Le programme des saisons →</a>
+          <a href="/rituels"               class="btn btn-outline-dk">Rituels & usages</a>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="fi">
+        {[
+          { icon: '❄️', saison: 'Hiver',     titre: 'Les 21 matins d\'attention',    txt: 'Un geste sobre, une cuillère dans un verre d\'eau, quelques minutes pour soi.' },
+          { icon: '🌿', saison: 'Printemps', titre: 'Le rituel de printemps',        txt: 'Salades vives, herbes fraîches, légumes nouveaux et vinaigrettes légères.' },
+          { icon: '☀️', saison: 'Été',       titre: 'L\'été vif & basque',           txt: 'Grillades, marinades, plancha, Xipister et Guindillas.' },
+          { icon: '🍎', saison: 'Automne',   titre: 'Le temps des pommes',           txt: 'Récolte, terroir, déglaçages et plats généreux d\'automne.' },
+        ].map(s => (
+          <a href="/programme-des-saisons" style="background:#fff;border:1px solid var(--cream-bd);border-radius:var(--r-xl);padding:20px;text-decoration:none;color:inherit;display:block">
+            <div style="font-size:1.8rem;margin-bottom:10px">{s.icon}</div>
+            <p style="font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:4px">{s.saison}</p>
+            <h4 style="color:var(--green-deep);font-size:.88rem;margin-bottom:8px">{s.titre}</h4>
+            <p style="font-size:.78rem;color:var(--txt-lt);line-height:1.55">{s.txt}</p>
+          </a>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ════ RECETTES TEASER ════ -->
 <section class="recettes-section">
   <div class="container">
