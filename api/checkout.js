@@ -12,11 +12,8 @@ const PRODUCTS = {
   noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',          amount:   490 },
   noisettes_500g:       { name: 'Noisettes BIO à coque BroKa — 500 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',          amount:   890 },
   // Packs (sélections pratiques — prix = somme des produits arrondie, sans remise)
-  duo_decouverte:       { name: 'Duo Découverte BroKa',                            description: 'Vinaigre de cidre BIO 500 ml + Xipister — Sauce plancha 500 ml · Certifiés Agriculture Biologique FR-BIO-10',           amount:  3600 },
-  pack_cuisine_basque:  { name: 'Pack Cuisine Basque BroKa',                       description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Guide offert · Certifiés FR-BIO-10',       amount:  5000 },
-  pack_recharge_3l:     { name: 'Pack Recharge 3 L optimisé BroKa',               description: 'Vinaigre de cidre BIO vrac 3 L + Poudre de Guindillas 40 g · Certifiés Agriculture Biologique FR-BIO-10',               amount:  9190 },
-  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml BroKa',    description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L · Certifiés Agriculture Biologique FR-BIO-10',          amount:  6050 },
-  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L · Certifiés Agriculture Biologique FR-BIO-10',            amount:  9500 },
+  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml BroKa',    description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L · Certifiés Agriculture Biologique FR-BIO-10',          amount:  5600 },
+  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L · Certifiés Agriculture Biologique FR-BIO-10',            amount:  8600 },
   pack_prestige:        { name: 'Pack Prestige BroKa',                             description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Noisettes BIO 500 g · Certifiés FR-BIO-10', amount: 5900 },
 };
 
@@ -32,9 +29,6 @@ const WEIGHTS = {
   noisettes_250g:       0.30,  // 250 g + emballage
   noisettes_500g:       0.65,  // 500 g + emballage (estimé — à peser)
   // Packs
-  duo_decouverte:       1.85,  // vinaigre(0.90) + xipister(0.95)
-  pack_cuisine_basque:  2.10,  // vinaigre(0.90) + xipister(0.95) + guindillas(0.10) + guide (~0.15)
-  pack_recharge_3l:     3.75,  // vrac 3L(3.65) + guindillas(0.10)
   duo_recharge_1_5l:    2.50,  // vinaigre(0.90) + vrac 1,5L(1.60)
   // ATTENTION : pack_famille à peser réellement emballé — si > 4 kg → tranche lourde (participation livraison obligatoire)
   pack_famille:         4.65,  // vinaigre(0.90) + vrac 3L(3.65) — déjà > 4 kg emballé
