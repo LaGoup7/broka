@@ -98,11 +98,41 @@ import Layout from '../layouts/Layout.astro';
         </div>
 
         <div class="phare-actions fi">
-          <button class="btn btn-basque" onclick="addToCart('vinaigre_500')">+ Ajouter au panier</button>
-          <a href="/boutique" class="btn btn-outline-dk">Voir tous les formats</a>
+          <button class="btn btn-basque" onclick="addToCart('vinaigre_500')">+ Ajouter au panier — 17 €</button>
+          <a href="/sagar-ozpina" class="btn btn-outline-dk">En savoir plus</a>
         </div>
+
+        <!-- Production limitée -->
+        <p class="fi" style="font-size:.75rem;color:var(--txt-lt);margin-top:14px;font-style:italic">
+          🌿 Production limitée · récolte annuelle · ferme Goyhenetxea, Soule
+        </p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ════ 3 OFFRES ════ -->
+<section style="background:var(--cream-dark);padding:48px 0">
+  <div class="container">
+    <p class="fi text-center" style="font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:24px">Comment commander ?</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:840px;margin:0 auto">
+      {[
+        { icon: '🍾', titre: 'Vous découvrez', sous: 'Bouteille 500 ml', prix: '17 €', key: 'vinaigre_500',      label: 'Je commence' },
+        { icon: '👨‍🍳', titre: 'Vous cuisinez',  sous: 'Pack Cuisine Basque', prix: '50 €', key: 'pack_cuisine_basque', label: 'Je cuisine basque' },
+        { icon: '♻️', titre: 'Vous rechargez', sous: 'Vrac 3 L', prix: '78 €',  key: 'vinaigre_vrac_3l',  label: 'Je recharge' },
+      ].map(o => (
+        <div style="background:#fff;border:1px solid var(--cream-bd);border-radius:var(--r-xl);padding:22px;text-align:center" class="fi">
+          <div style="font-size:1.8rem;margin-bottom:8px">{o.icon}</div>
+          <p style="font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:4px">{o.titre}</p>
+          <p style="font-size:.88rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">{o.sous}</p>
+          <p style="font-size:1.1rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp);margin-bottom:14px">{o.prix}</p>
+          <button class="btn btn-basque btn-sm btn-full" onclick={`addToCart('${o.key}')`}>{o.label}</button>
+        </div>
+      ))}
+    </div>
+    <p class="fi text-center" style="font-size:.78rem;color:var(--txt-lt);margin-top:16px">
+      <a href="/boutique" style="color:var(--green-mid);font-weight:600;text-decoration:none">Voir tous les produits et packs →</a>
+    </p>
   </div>
 </section>
 

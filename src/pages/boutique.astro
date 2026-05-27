@@ -1,80 +1,85 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// ── Catalogue complet ────────────────────────────────────────────────
 const produits = [
   {
-    key:     'vinaigre_500',
-    titre:   'Sagar Ozpina — 500 ml',
-    prix:    '17 €',
-    sous:    'La bouteille signature',
-    img:     '/images/broka_bouteille_pommes.jpg',
-    badges:  ['BIO FR-BIO-10', 'Non filtré', 'Avec la mère'],
-    desc:    'Vinaigre de cidre BIO mono-verger, non filtré, non pasteurisé. La bouteille du quotidien.',
-    vedette: false,
+    key:        'vinaigre_500',
+    titre:      'Sagar Ozpina — 500 ml',
+    prix:       '17 €',
+    sous:       'La bouteille signature',
+    img:        '/images/broka_bouteille_pommes.jpg',
+    badges:     ['BIO FR-BIO-10', 'Non filtré', 'Avec la mère'],
+    desc:       'Vinaigre de cidre BIO mono-verger, non filtré, non pasteurisé. La bouteille du quotidien.',
+    vedette:    false,
+    complement: false,
   },
   {
-    key:     'vinaigre_vrac_1_5l',
-    titre:   'Sagar Ozpina vrac — 1,5 L',
-    prix:    '43,50 €',
-    prixL:   '29 €/L',
-    sous:    'Sac push-up refermable',
-    img:     '/images/vinaigre_refill_3L_seul.jpg',
-    badges:  ['BIO FR-BIO-10', 'Non filtré'],
-    desc:    'Recharge en sac push-up refermable. Pour les utilisateurs réguliers.',
-    vedette: false,
+    key:        'vinaigre_vrac_1_5l',
+    titre:      'Sagar Ozpina vrac — 1,5 L',
+    prix:       '43,50 €',
+    prixL:      '29 €/L',
+    sous:       'Sac push-up refermable',
+    img:        '/images/vinaigre_refill_3L_seul.jpg',
+    badges:     ['BIO FR-BIO-10', 'Non filtré'],
+    desc:       'Recharge en sac push-up refermable. Pour les utilisateurs réguliers.',
+    vedette:    false,
+    complement: false,
   },
   {
-    key:     'vinaigre_vrac_3l',
-    titre:   'Sagar Ozpina vrac — 3 L',
-    prix:    '78 €',
-    prixL:   '26 €/L',
-    sous:    'Sac push-up refermable · Meilleur prix/L',
-    img:     '/images/vinaigre_cidre_3L.png',
-    badges:  ['BIO FR-BIO-10', 'Non filtré', '26 €/L'],
-    desc:    'Le grand format. Idéal familles et usage intensif.',
-    vedette: true,
+    key:        'vinaigre_vrac_3l',
+    titre:      'Sagar Ozpina vrac — 3 L',
+    prix:       '78 €',
+    prixL:      '26 €/L',
+    sous:       'Sac push-up refermable · Meilleur prix/L',
+    img:        '/images/vinaigre_cidre_3L.png',
+    badges:     ['BIO FR-BIO-10', 'Non filtré', '26 €/L'],
+    desc:       'Le grand format. Idéal familles et usage intensif.',
+    vedette:    true,
+    complement: false,
   },
   {
-    key:   'xipister',
-    titre: 'Xipister — Sauce plancha 500 ml',
-    prix:  '19 €',
-    sous:  'Sauce basque artisanale',
-    img:   '/images/broka_bouteille_verger.png',
-    badges: ['BIO FR-BIO-10', 'Sans conservateurs'],
-    desc:  'Sauce basque préparée avec Sagar Ozpina, huile bio, herbes et piment du Pays Basque.',
-    vedette: false,
+    key:        'xipister',
+    titre:      'Xipister — Sauce plancha 500 ml',
+    prix:       '19 €',
+    sous:       'Sauce basque artisanale',
+    img:        '/images/broka_bouteille_verger.png',
+    badges:     ['BIO FR-BIO-10', 'Sans conservateurs'],
+    desc:       'Sauce basque préparée avec Sagar Ozpina, huile bio, herbes et piment du Pays Basque.',
+    vedette:    false,
+    complement: false,
   },
   {
-    key:   'poudre_guindillas',
-    titre: 'Poudre de Guindillas — 40 g',
-    prix:  '13,90 €',
-    sous:  'Piment d\'Ibarra BIO · Disponible dès 39 €',
-    img:   '/images/poudre_de_guindillas.png',
-    badges: ['BIO FR-BIO-10', 'Fruité et piquant'],
-    desc:  'Piment basque d\'Ibarra séché et moulu. Relève grillades, légumes, œufs et sauces.',
-    vedette: false,
+    key:        'poudre_guindillas',
+    titre:      'Poudre de Guindillas — 40 g',
+    prix:       '13,90 €',
+    sous:       'Piment d\'Ibarra BIO',
+    img:        '/images/poudre_de_guindillas.png',
+    badges:     ['BIO FR-BIO-10', 'Fruité et piquant'],
+    desc:       'Piment basque d\'Ibarra séché et moulu. Relève grillades, légumes, œufs et sauces.',
+    vedette:    false,
     complement: true,
   },
   {
-    key:   'noisettes_250g',
-    titre: 'Noisettes BIO coques — 250 g',
-    prix:  '4,90 €',
-    sous:  'Verger basque · Disponible dès 39 €',
-    img:   '/images/noisettes.png',
-    badges: ['BIO FR-BIO-10', 'Non décortiquées'],
-    desc:  'Récoltées à la main dans notre verger. Certifiées Agriculture Biologique FR-BIO-10.',
-    vedette: false,
+    key:        'noisettes_250g',
+    titre:      'Noisettes BIO coques — 250 g',
+    prix:       '4,90 €',
+    sous:       'Verger basque',
+    img:        '/images/noisettes.png',
+    badges:     ['BIO FR-BIO-10', 'Non décortiquées'],
+    desc:       'Récoltées à la main dans notre verger. Certifiées Agriculture Biologique FR-BIO-10.',
+    vedette:    false,
     complement: true,
   },
   {
-    key:   'noisettes_500g',
-    titre: 'Noisettes BIO coques — 500 g',
-    prix:  '8,90 €',
-    sous:  'Verger basque · Disponible dès 39 €',
-    img:   '/images/noisettes.png',
-    badges: ['BIO FR-BIO-10', 'Non décortiquées'],
-    desc:  'Le grand format. Idéal pour cuisiner, pâtisser ou offrir.',
-    vedette: false,
+    key:        'noisettes_500g',
+    titre:      'Noisettes BIO coques — 500 g',
+    prix:       '8,90 €',
+    sous:       'Verger basque',
+    img:        '/images/noisettes.png',
+    badges:     ['BIO FR-BIO-10', 'Non décortiquées'],
+    desc:       'Le grand format. Idéal pour cuisiner, pâtisser ou offrir.',
+    vedette:    false,
     complement: true,
   },
 ];
@@ -84,7 +89,7 @@ const packs = [
     key:    'duo_decouverte',
     titre:  'Duo Découverte BroKa',
     prix:   '36 €',
-    sous:   'Vinaigre 500 ml + Xipister',
+    sous:   'Vinaigre 500 ml + Xipister 500 ml',
     img:    '/images/Duo_Découverte_BroKa.png',
     desc:   'La sélection idéale pour découvrir les deux produits phares de la ferme.',
     badge:  'Découverte',
@@ -93,9 +98,9 @@ const packs = [
     key:    'pack_cuisine_basque',
     titre:  'Pack Cuisine Basque',
     prix:   '50 €',
-    sous:   'Vinaigre + Xipister + Guindillas + Guide',
+    sous:   'Vinaigre + Xipister + Guindillas + Guide recettes',
     img:    '/images/pack_cuisine_basque.png',
-    desc:   'Tout le terroir basque pour cuisiner au quotidien, avec le guide des 7 recettes offert.',
+    desc:   'Tout le terroir basque pour cuisiner au quotidien. Guide des 7 recettes offert.',
     badge:  'Cuisine basque',
   },
   {
@@ -113,7 +118,7 @@ const packs = [
     prix:   '91,90 €',
     sous:   'Vrac 3 L + Poudre de Guindillas',
     img:    '/images/Pack_Recharge_3L_optimisé.png',
-    desc:   'Le grand format vrac avec un complément d\'épice rare. Colis sous 4 kg.',
+    desc:   'Le grand format vrac avec la Poudre de Guindillas. Colis sous 4 kg.',
     badge:  'Recharge',
   },
   {
@@ -131,14 +136,14 @@ const packs = [
     prix:   '59 €',
     sous:   'Vinaigre + Xipister + Guindillas + Noisettes 500 g',
     img:    '/images/pack_prestige.png',
-    desc:   'Les quatre saveurs de la ferme, réunies pour offrir. Le coffret idéal.',
+    desc:   'Les quatre saveurs de la ferme, réunies pour offrir.',
     badge:  '🎁 Idéal cadeau',
   },
 ];
 ---
 
 <Layout
-  title="Boutique BroKa — Vinaigre de cidre BIO Sagar Ozpina, Xipister, Guindillas"
+  title="Boutique BroKa — Vinaigre de cidre BIO Sagar Ozpina"
   description="Commandez en ligne : vinaigre de cidre BIO Sagar Ozpina (500ml, 1,5L, 3L), Xipister, Poudre de Guindillas, Noisettes BIO et packs. Livraison France — Point Relais ou domicile."
   canonicalPath="/boutique"
 >
@@ -146,49 +151,194 @@ const packs = [
 <div style="padding-top:68px">
 
   <!-- ════ HERO ════ -->
-  <section style="background:var(--green-deep);padding:56px 0 32px;color:#fff">
+  <section style="background:var(--green-deep);padding:56px 0 40px;color:#fff">
     <div class="container">
       <p class="sec-label" style="color:var(--brown-lt)">Commande en ligne</p>
-      <h1 style="color:#fff;font-size:clamp(1.6rem,4vw,2.8rem)">Notre boutique</h1>
-      <p style="color:rgba(255,255,255,.65);margin-top:10px;max-width:480px">
-        Livraison en France — Point Relais® Mondial Relay ou Colissimo domicile.
-        Offerte dès 99 € en Point Relais.
+      <h1 style="color:#fff;font-size:clamp(1.6rem,4vw,2.6rem);margin-bottom:12px">Boutique BroKa</h1>
+      <p style="color:rgba(255,255,255,.65);max-width:500px;line-height:1.7">
+        Production limitée — ferme Goyhenetxea, Soule, Pays Basque.
+        Livraison en France · Point Relais® offert dès 99 €.
       </p>
+      <!-- Navigation ancrée -->
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px">
+        {['#decouvrir','#cuisiner','#recharger','#catalogue','#packs'].map((h,i) => {
+          const l = ['Découvrir','Cuisiner','Recharger','Tous les produits','Packs'];
+          return <a href={h} style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);font-size:.76rem;font-weight:600;padding:6px 14px;border-radius:var(--r-pill);text-decoration:none">{l[i]}</a>;
+        })}
+      </div>
     </div>
   </section>
 
-  <!-- ════ PRODUITS INDIVIDUELS ════ -->
-  <section class="section-white" style="padding:64px 0">
+  <!-- ════ PAR OÙ COMMENCER ? ════ -->
+  <section style="background:var(--cream-dark);padding:72px 0">
     <div class="container">
-      <p class="sec-label">Produits individuels</p>
-      <h2 style="margin-bottom:8px">Sagar Ozpina & gamme BroKa</h2>
-      <p style="color:var(--txt-lt);font-size:.85rem;margin-bottom:40px;font-style:italic">
-        Les Noisettes BIO et la Poudre de Guindillas sont disponibles à partir de 39 € de commande.
+      <p class="sec-label fi text-center">Par où commencer ?</p>
+      <h2 class="fi text-center" style="margin-bottom:8px">Trois questions, une réponse</h2>
+      <div class="divider fi" style="margin:14px auto 48px"></div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+
+        <!-- 1. Découvrir -->
+        <div id="decouvrir" style="background:#fff;border-radius:var(--r-xl);overflow:hidden;border:2px solid var(--cream-bd);display:flex;flex-direction:column" class="fi">
+          <div style="background:var(--green-deep);padding:28px 28px 24px">
+            <div style="font-size:2.4rem;margin-bottom:10px">🍾</div>
+            <h3 style="color:#fff;font-size:1.15rem;margin-bottom:6px">Vous découvrez BroKa ?</h3>
+            <p style="color:rgba(255,255,255,.6);font-size:.83rem;line-height:1.6">
+              Premier achat, vous voulez goûter avant de vous engager.
+            </p>
+          </div>
+          <div style="padding:24px 28px;flex:1;display:flex;flex-direction:column">
+            <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:16px">Notre recommandation</p>
+
+            <div style="background:var(--cream);border-radius:var(--r-lg);padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px">
+              <img src="/images/broka_bouteille_pommes.jpg" alt="Sagar Ozpina 500ml" style="width:48px;height:64px;object-fit:cover;border-radius:var(--r-sm)">
+              <div style="flex:1">
+                <p style="font-size:.85rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Sagar Ozpina 500 ml</p>
+                <p style="font-size:.75rem;color:var(--txt-lt)">La bouteille signature</p>
+              </div>
+              <div style="font-size:1.1rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">17 €</div>
+            </div>
+
+            <p style="font-size:.78rem;color:var(--txt-lt);text-align:center;margin-bottom:12px">ou, si vous voulez les deux produits phares :</p>
+
+            <div style="background:var(--green-pale);border-radius:var(--r-lg);padding:16px;margin-bottom:20px;border:1px solid var(--green-mid)">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <p style="font-size:.85rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Duo Découverte BroKa</p>
+                  <p style="font-size:.75rem;color:var(--txt-lt)">Vinaigre + Xipister</p>
+                </div>
+                <div style="font-size:1.1rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">36 €</div>
+              </div>
+            </div>
+
+            <button class="btn btn-basque btn-full" onclick="addToCart('vinaigre_500')" style="margin-bottom:10px">
+              + Je commence — 500 ml (17 €)
+            </button>
+            <button class="btn btn-outline-dk btn-full" onclick="addToCart('duo_decouverte')">
+              + Duo Découverte (36 €)
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Cuisiner -->
+        <div id="cuisiner" style="background:#fff;border-radius:var(--r-xl);overflow:hidden;border:3px solid var(--basque);display:flex;flex-direction:column;position:relative" class="fi">
+          <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--basque);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 16px;border-radius:0 0 var(--r-md) var(--r-md)">
+            Offre centrale
+          </div>
+          <div style="background:var(--basque);padding:28px 28px 24px;padding-top:36px">
+            <div style="font-size:2.4rem;margin-bottom:10px">👨‍🍳</div>
+            <h3 style="color:#fff;font-size:1.15rem;margin-bottom:6px">Vous cuisinez souvent ?</h3>
+            <p style="color:rgba(255,255,255,.6);font-size:.83rem;line-height:1.6">
+              Vous voulez enrichir votre cuisine avec les saveurs basques.
+            </p>
+          </div>
+          <div style="padding:24px 28px;flex:1;display:flex;flex-direction:column">
+            <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:16px">Notre recommandation</p>
+
+            <div style="background:var(--cream);border-radius:var(--r-lg);padding:18px;margin-bottom:20px;border:2px solid var(--basque)">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+                <div>
+                  <p style="font-size:.9rem;font-weight:700;color:var(--green-deep)">Pack Cuisine Basque</p>
+                  <p style="font-size:.75rem;color:var(--txt-lt);margin-top:2px">Vinaigre + Xipister + Guindillas</p>
+                </div>
+                <div style="font-size:1.2rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">50 €</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                {['🍾 Sagar Ozpina 500 ml', '🫙 Xipister sauce plancha', '🌶 Poudre de Guindillas', '📖 Guide 7 recettes offert'].map(i => (
+                  <div style="font-size:.78rem;color:var(--txt-md);display:flex;align-items:center;gap:6px">{i}</div>
+                ))}
+              </div>
+            </div>
+
+            <button class="btn btn-full" style="background:var(--basque);color:#fff;border:none;border-radius:var(--r-pill);padding:13px 20px;font-size:.9rem;font-weight:700;cursor:pointer;letter-spacing:.02em;margin-top:auto" onclick="addToCart('pack_cuisine_basque')">
+              + Pack Cuisine Basque — 50 €
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Recharger -->
+        <div id="recharger" style="background:#fff;border-radius:var(--r-xl);overflow:hidden;border:2px solid var(--cream-bd);display:flex;flex-direction:column" class="fi">
+          <div style="background:var(--brown);padding:28px 28px 24px">
+            <div style="font-size:2.4rem;margin-bottom:10px">♻️</div>
+            <h3 style="color:#fff;font-size:1.15rem;margin-bottom:6px">Vous connaissez déjà ?</h3>
+            <p style="color:rgba(255,255,255,.6);font-size:.83rem;line-height:1.6">
+              Vous êtes conquis et voulez passer au grand format économique.
+            </p>
+          </div>
+          <div style="padding:24px 28px;flex:1;display:flex;flex-direction:column">
+            <p style="font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--txt-lt);margin-bottom:16px">Formats de recharge</p>
+
+            <div style="background:var(--cream);border-radius:var(--r-lg);padding:16px;margin-bottom:10px;display:flex;align-items:center;gap:14px">
+              <img src="/images/vinaigre_refill_3L_seul.jpg" alt="Vrac 1.5L" style="width:48px;height:64px;object-fit:cover;border-radius:var(--r-sm)">
+              <div style="flex:1">
+                <p style="font-size:.85rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Vrac 1,5 L</p>
+                <p style="font-size:.75rem;color:var(--txt-lt)">Sac push-up · 29 €/L</p>
+              </div>
+              <div style="font-size:1.05rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">43,50 €</div>
+            </div>
+
+            <div style="background:var(--green-pale);border-radius:var(--r-lg);padding:16px;margin-bottom:20px;display:flex;align-items:center;gap:14px;border:1px solid var(--green-mid)">
+              <img src="/images/vinaigre_cidre_3L.png" alt="Vrac 3L" style="width:48px;height:64px;object-fit:cover;border-radius:var(--r-sm)">
+              <div style="flex:1">
+                <p style="font-size:.85rem;font-weight:700;color:var(--green-deep);margin-bottom:2px">Vrac 3 L</p>
+                <p style="font-size:.75rem;color:var(--green-mid);font-weight:600">Meilleur prix/L · 26 €/L</p>
+              </div>
+              <div style="font-size:1.05rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">78 €</div>
+            </div>
+
+            <button class="btn btn-outline-dk btn-full" onclick="addToCart('vinaigre_vrac_1_5l')" style="margin-bottom:10px">
+              + Vrac 1,5 L (43,50 €)
+            </button>
+            <button class="btn btn-basque btn-full" onclick="addToCart('vinaigre_vrac_3l')">
+              + Vrac 3 L — Meilleur prix/L (78 €)
+            </button>
+          </div>
+        </div>
+
+      </div><!-- /grid 3 chemins -->
+
+      <!-- Rareté -->
+      <div class="fi" style="text-align:center;margin-top:32px">
+        <p style="font-size:.82rem;color:var(--txt-lt);font-style:italic">
+          🌿 Production limitée · récolte annuelle · ferme Goyhenetxea, Soule, Pays Basque
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ CATALOGUE COMPLET ════ -->
+  <section id="catalogue" class="section-white" style="padding:64px 0">
+    <div class="container">
+      <p class="sec-label fi">Catalogue complet</p>
+      <h2 style="margin-bottom:6px">Tous les produits</h2>
+      <p style="color:var(--txt-lt);font-size:.85rem;margin-bottom:36px;font-style:italic">
+        Les Noisettes BIO et la Poudre de Guindillas sont disponibles en complément d'une commande de 39 € minimum.
       </p>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px">
         {produits.map(p => (
-          <div style={`background:#fff;border:${p.vedette ? '2px solid var(--green-mid)' : '1px solid var(--cream-bd)'};border-radius:var(--r-xl);overflow:hidden;position:relative;${p.complement ? 'opacity:.9' : ''}`}>
+          <div style={`background:#fff;border:${p.vedette ? '2px solid var(--green-mid)' : '1px solid var(--cream-bd)'};border-radius:var(--r-xl);overflow:hidden;position:relative;${p.complement ? 'opacity:.88' : ''}`} class="fi">
             {p.vedette && (
-              <div style="position:absolute;top:12px;right:12px;background:var(--green-mid);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:var(--r-pill)">
+              <div style="position:absolute;top:12px;right:12px;background:var(--green-mid);color:#fff;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill)">
                 Meilleur prix/L
               </div>
             )}
-            <div style="height:200px;overflow:hidden;background:var(--cream-dark)">
+            <div style="height:190px;overflow:hidden;background:var(--cream-dark)">
               <img src={p.img} alt={p.titre} style="width:100%;height:100%;object-fit:cover">
             </div>
-            <div style="padding:20px">
+            <div style="padding:18px">
               {p.complement && (
-                <div style="font-size:.68rem;font-weight:700;color:var(--txt-lt);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px">
+                <div style="font-size:.65rem;font-weight:700;color:var(--txt-lt);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">
                   Complément · dès 39 €
                 </div>
               )}
-              <h3 style="font-size:.95rem;color:var(--green-deep);margin-bottom:6px">{p.titre}</h3>
-              <p style="font-size:.75rem;color:var(--txt-lt);margin-bottom:10px">{p.sous}</p>
-              <p style="font-size:.82rem;color:var(--txt-md);margin-bottom:16px;line-height:1.6">{p.desc}</p>
+              <h3 style="font-size:.93rem;color:var(--green-deep);margin-bottom:4px">{p.titre}</h3>
+              <p style="font-size:.73rem;color:var(--txt-lt);margin-bottom:8px">{p.sous}</p>
+              <p style="font-size:.8rem;color:var(--txt-md);margin-bottom:14px;line-height:1.55">{p.desc}</p>
               <div style="display:flex;align-items:center;justify-content:space-between">
-                <span style="font-size:1.3rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">
-                  {p.prix} {p.prixL && <span style="font-size:.8rem;color:var(--txt-lt);font-weight:400">· {p.prixL}</span>}
+                <span style="font-size:1.25rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">
+                  {p.prix}
+                  {p.prixL && <span style="font-size:.75rem;color:var(--txt-lt);font-weight:400"> · {p.prixL}</span>}
                 </span>
                 <button class="btn btn-basque btn-sm" onclick={`addToCart('${p.key}')`}>+ Panier</button>
               </div>
@@ -200,29 +350,57 @@ const packs = [
   </section>
 
   <!-- ════ PACKS ════ -->
-  <section style="background:var(--cream);padding:64px 0">
+  <section id="packs" style="background:var(--cream);padding:64px 0">
     <div class="container">
-      <p class="sec-label">Sélections pratiques</p>
-      <h2 style="margin-bottom:8px">Nos packs</h2>
-      <p style="color:var(--txt-lt);font-size:.85rem;margin-bottom:40px;font-style:italic">
-        Des associations pensées par la ferme. Prix = somme des produits, aucune remise cachée.
+      <p class="sec-label fi">Sélections pratiques</p>
+      <h2 style="margin-bottom:6px">Nos packs</h2>
+      <p style="color:var(--txt-lt);font-size:.85rem;margin-bottom:36px;font-style:italic">
+        Prix = somme des produits, sans remise cachée.
       </p>
 
+      <!-- Pack cuisine basque mis en avant -->
+      <div class="fi" style="background:#fff;border-radius:var(--r-xl);overflow:hidden;border:2px solid var(--basque);margin-bottom:32px;display:grid;grid-template-columns:320px 1fr;align-items:stretch">
+        <div style="height:100%;overflow:hidden;background:var(--cream-dark);min-height:240px">
+          <img src="/images/pack_cuisine_basque.png" alt="Pack Cuisine Basque BroKa" style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <div style="padding:36px 40px;display:flex;flex-direction:column;justify-content:center">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <span style="background:var(--basque);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:var(--r-pill)">Notre offre centrale</span>
+          </div>
+          <h3 style="font-size:1.5rem;color:var(--green-deep);margin-bottom:8px">Pack Cuisine Basque</h3>
+          <p style="font-size:.9rem;color:var(--txt-md);margin-bottom:20px;line-height:1.65">
+            Tout ce qu'il faut pour cuisiner basque au quotidien. Vinaigrettes, marinades, grillades, sauces.
+          </p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:24px">
+            {['🍾 Sagar Ozpina 500 ml', '🫙 Xipister sauce plancha', '🌶 Poudre de Guindillas', '📖 Guide 7 recettes offert'].map(i => (
+              <div style="font-size:.82rem;color:var(--txt-md);display:flex;align-items:center;gap:8px">{i}</div>
+            ))}
+          </div>
+          <div style="display:flex;align-items:center;gap:20px">
+            <span style="font-size:2rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">50 €</span>
+            <button class="btn btn-full" style="background:var(--basque);color:#fff;border:none;border-radius:var(--r-pill);padding:14px 28px;font-size:.92rem;font-weight:700;cursor:pointer;flex:1;max-width:240px" onclick="addToCart('pack_cuisine_basque')">
+              + Ajouter au panier
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reste des packs -->
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px">
-        {packs.map(p => (
-          <div style="background:#fff;border:1px solid var(--cream-bd);border-radius:var(--r-xl);overflow:hidden">
-            <div style="height:220px;overflow:hidden;background:var(--cream-dark)">
+        {packs.filter(p => p.key !== 'pack_cuisine_basque').map(p => (
+          <div style="background:#fff;border:1px solid var(--cream-bd);border-radius:var(--r-xl);overflow:hidden" class="fi">
+            <div style="height:200px;overflow:hidden;background:var(--cream-dark)">
               <img src={p.img} alt={p.titre} style="width:100%;height:100%;object-fit:cover">
             </div>
             <div style="padding:22px">
-              <span style="display:inline-block;background:var(--green-pale);color:var(--green-mid);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);margin-bottom:10px">
+              <span style="display:inline-block;background:var(--green-pale);color:var(--green-mid);font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:var(--r-pill);margin-bottom:10px">
                 {p.badge}
               </span>
-              <h3 style="font-size:1rem;color:var(--green-deep);margin-bottom:4px">{p.titre}</h3>
-              <p style="font-size:.78rem;color:var(--txt-lt);margin-bottom:10px">{p.sous}</p>
-              <p style="font-size:.82rem;color:var(--txt-md);margin-bottom:18px;line-height:1.6">{p.desc}</p>
+              <h3 style="font-size:.97rem;color:var(--green-deep);margin-bottom:4px">{p.titre}</h3>
+              <p style="font-size:.76rem;color:var(--txt-lt);margin-bottom:10px">{p.sous}</p>
+              <p style="font-size:.8rem;color:var(--txt-md);margin-bottom:18px;line-height:1.6">{p.desc}</p>
               <div style="display:flex;align-items:center;justify-content:space-between">
-                <span style="font-size:1.4rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">{p.prix}</span>
+                <span style="font-size:1.35rem;font-weight:700;color:var(--green-deep);font-family:var(--ff-disp)">{p.prix}</span>
                 <button class="btn btn-brown btn-sm" onclick={`addToCart('${p.key}')`}>+ Ajouter</button>
               </div>
             </div>
@@ -232,19 +410,19 @@ const packs = [
     </div>
   </section>
 
-  <!-- ════ LIVRAISON INFO ════ -->
+  <!-- ════ LIVRAISON ════ -->
   <section style="background:var(--green-deep);padding:48px 0;color:#fff">
     <div class="container">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:32px">
         {[
           { icon: '📦', titre: 'Point Relais® Mondial Relay', texte: 'Dès 3,90 € · Offerte dès 99 € · 3–5 jours ouvrés' },
-          { icon: '🏠', titre: 'Colissimo domicile', texte: 'Dès 7,90 € · Offerte dès 179 € · 3–5 jours ouvrés' },
-          { icon: '🌿', titre: 'Emballé avec soin', texte: 'Chaque commande préparée à la ferme Goyhenetxea, en Soule.' },
+          { icon: '🏠', titre: 'Colissimo domicile',          texte: 'Dès 7,90 € · Offerte dès 179 € · 3–5 jours ouvrés' },
+          { icon: '🌿', titre: 'Préparé à la ferme',          texte: 'Chaque commande préparée par Olivier et Maïté à la ferme Goyhenetxea, en Soule.' },
         ].map(item => (
           <div style="text-align:center">
             <div style="font-size:2.5rem;margin-bottom:12px">{item.icon}</div>
-            <h3 style="font-size:.95rem;color:#fff;margin-bottom:8px">{item.titre}</h3>
-            <p style="font-size:.82rem;color:rgba(255,255,255,.6);line-height:1.6">{item.texte}</p>
+            <h3 style="font-size:.92rem;color:#fff;margin-bottom:8px">{item.titre}</h3>
+            <p style="font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.6">{item.texte}</p>
           </div>
         ))}
       </div>
