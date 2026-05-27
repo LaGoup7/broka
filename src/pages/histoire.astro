@@ -11,83 +11,153 @@ import Layout from '../layouts/Layout.astro';
 <div style="padding-top:68px">
 
   <!-- ════ HERO ════ -->
-  <section style="background:var(--green-deep);padding:80px 0;color:#fff">
-    <div class="container">
+  <section style="position:relative;padding:108px 0 96px;overflow:hidden;background:var(--green-deep)">
+    <div style="position:absolute;inset:0">
+      <img src="/images/broka_couples_berger_verger.jpg" alt="" aria-hidden="true"
+        style="width:100%;height:100%;object-fit:cover;object-position:center 35%;opacity:.38">
+    </div>
+    <div class="container" style="position:relative;z-index:1">
       <p class="sec-label fi" style="color:var(--brown-lt)">La ferme Goyhenetxea</p>
-      <h1 class="fi" style="color:#fff">Une ferme familiale,<br>enracinée en <em style="color:var(--brown-lt)">Xiberoa</em></h1>
+      <h1 class="fi" style="color:#fff;max-width:640px">Une ferme familiale,<br>enracinée en <em style="color:var(--brown-lt)">Xiberoa</em></h1>
       <div class="divider fi" style="background:var(--brown-lt)"></div>
-      <p class="fi" style="color:rgba(255,255,255,.8);max-width:560px;font-size:1.05rem;line-height:1.8">
+      <p class="fi" style="color:rgba(255,255,255,.82);max-width:520px;font-size:1.05rem;line-height:1.8">
         Soule — Xiberoa, la plus petite et l'une des plus authentiques provinces du Pays Basque.
         C'est là que Maïté et Olivier Latchere font vivre la ferme Goyhenetxea, depuis trois générations.
       </p>
     </div>
   </section>
 
-  <!-- ════ L'HISTOIRE ════ -->
-  <section class="section-white" style="padding:80px 0">
+  <!-- ════ CHIFFRES CLÉS ════ -->
+  <div style="background:var(--brown);padding:0">
+    <div class="container">
+      <div style="display:flex;justify-content:center;flex-wrap:wrap">
+        {[
+          { num: '3',       label: 'générations' },
+          { num: '1 500',   label: 'pommiers' },
+          { num: 'BIO',     label: 'certifié AB' },
+          { num: 'Xiberoa', label: 'Soule · Pyrénées' },
+        ].map((s, i) => (
+          <div style={`padding:24px 36px;text-align:center;${i > 0 ? 'border-left:1px solid rgba(255,255,255,.22)' : ''}`}>
+            <div style="font-family:var(--ff-disp);font-size:1.55rem;font-weight:700;color:#fff;line-height:1">{s.num}</div>
+            <div style="font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-top:5px">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ MAÏTÉ & OLIVIER ════ -->
+  <section class="section-white" style="padding:88px 0">
     <div class="container">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center">
+
         <div class="fi" style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-lg)">
           <img src="/images/broka_couples_berger_verger.jpg" alt="Maïté et Olivier Latchere dans le verger de la ferme Goyhenetxea"
-            style="width:100%;aspect-ratio:4/3;object-fit:cover">
+            style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:center 30%">
         </div>
+
         <div>
           <p class="sec-label fi">Maïté & Olivier</p>
           <h2 class="fi">Paysans bio,<br>troisième génération</h2>
           <div class="divider fi"></div>
           <p class="fi">Maïté et Olivier Latchere sont paysans bio au cœur des montagnes basques, en Soule — Xiberoa, la plus petite et l'une des plus authentiques provinces du Pays Basque.</p>
-          <p class="fi" style="margin-top:14px">Troisième génération à faire vivre la ferme Goyhenetxea, ils cultivent un verger de 1 500 pommiers de variétés anciennes basques, sans traitement, dans le respect du vivant, des sols et des saisons.</p>
-          <p class="fi" style="margin-top:14px">De ces pommes de caractère naît Sagar Ozpina, leur vinaigre de cidre BIO, élevé lentement à l'air libre, au rythme du vent, du froid et du soleil.</p>
-          <p class="fi" style="margin-top:20px;font-family:var(--ff-disp);font-style:italic;font-size:1.15rem;color:var(--green-mid)">
-            Ici, le temps fait tout.
-          </p>
+          <p class="fi" style="margin-top:14px">Troisième génération à faire vivre la ferme Goyhenetxea, ils cultivent un verger de <strong>1 500 pommiers de variétés anciennes basques</strong>, sans traitement, dans le respect du vivant, des sols et des saisons.</p>
+          <p class="fi" style="margin-top:14px">De ces pommes de caractère naît <strong>Sagar Ozpina</strong>, leur vinaigre de cidre BIO, élevé lentement à l'air libre, au rythme du vent, du froid et du soleil.</p>
+
+          <blockquote class="fi" style="margin-top:28px;padding:18px 22px;border-left:3px solid var(--brown);background:var(--cream);border-radius:0 var(--r-md) var(--r-md) 0">
+            <p style="font-family:var(--ff-disp);font-style:italic;font-size:1.12rem;color:var(--green-mid);margin:0;line-height:1.55">
+              Ici, le temps fait tout.
+            </p>
+          </blockquote>
         </div>
+
       </div>
     </div>
   </section>
 
   <!-- ════ ÉCOPÂTURAGE ════ -->
-  <section style="background:var(--green-deep);padding:80px 0;color:#fff">
+  <section style="background:var(--green-deep);padding:88px 0;color:#fff">
     <div class="container">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center">
+
         <div>
           <p class="sec-label fi" style="color:var(--brown-lt)">L'écopâturage</p>
           <h2 class="fi" style="color:#fff">Le verger<br>et le troupeau</h2>
           <div class="divider fi" style="background:var(--brown-lt)"></div>
           <p class="fi" style="color:rgba(255,255,255,.75)">Entre les 1 500 pommiers de Goyhenetxea, des agneaux basques paissent librement. Pas d'herbicides, pas de moteurs — les animaux tondent, fertilisent et aèrent le sol, naturellement.</p>
-          <p class="fi" style="color:rgba(255,255,255,.75);margin-top:14px">L'écopâturage, c'est l'alliance du troupeau et du verger : chaque espèce nourrit l'autre, au rythme des saisons et du vivant. Le sol s'en souvient. Les pommes aussi.</p>
-          <p class="fi" style="color:rgba(255,255,255,.75);margin-top:14px">Un sol vivant, nourri par le troupeau, donne des pommes de caractère. Et des pommes de caractère donnent Sagar Ozpina.</p>
+          <p class="fi" style="color:rgba(255,255,255,.75);margin-top:14px">L'écopâturage, c'est l'alliance du troupeau et du verger : chaque espèce nourrit l'autre, au rythme des saisons. Le sol s'en souvient. Les pommes aussi.</p>
+
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:28px">
+            {[
+              'Zéro herbicide dans le verger',
+              'Fertilisation naturelle par le troupeau',
+              'Sols vivants, biodiversité préservée',
+            ].map(item => (
+              <div class="fi" style="display:flex;align-items:center;gap:12px">
+                <span style="color:var(--brown-lt);font-size:1rem;font-weight:700;flex-shrink:0">✓</span>
+                <span style="color:rgba(255,255,255,.8);font-size:.9rem">{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
+
         <div class="fi" style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-lg);aspect-ratio:4/3;background:rgba(255,255,255,.05)">
           <video autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover">
             <source src="/video_ecopaturage_vinaigre.mp4" type="video/mp4">
           </video>
         </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ SAGAR OZPINA ════ -->
+  <section class="section-white" style="padding:88px 0">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center">
+
+        <div class="fi" style="border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-lg);background:var(--cream);display:flex;align-items:center;justify-content:center;min-height:340px;padding:32px">
+          <img src="/images/broka_bouteille_verger.png" alt="Bouteille Sagar Ozpina dans le verger"
+            style="max-height:320px;max-width:100%;width:auto;height:auto;display:block">
+        </div>
+
+        <div>
+          <p class="sec-label fi">Le vinaigre</p>
+          <h2 class="fi">Sagar Ozpina,<br>lentement élevé</h2>
+          <div class="divider fi"></div>
+          <p class="fi">Après la récolte, le jus de pomme est fermenté pour donner un cidre brut. Ce cidre est ensuite acétifié à l'air libre, dans des cuves ouvertes, au contact du vent et des micro-organismes naturels du lieu.</p>
+          <p class="fi" style="margin-top:14px">Le résultat : un vinaigre vif, fruité, avec du fond. Un vinaigre qui a du caractère parce qu'il vient d'un lieu, d'une méthode et d'un temps qui ne se raccourcit pas.</p>
+
+          <div style="margin-top:32px;display:flex;gap:12px;flex-wrap:wrap">
+            <a href="/sagar-ozpina" class="btn btn-primary fi" style="text-transform:none;letter-spacing:0">Découvrir Sagar Ozpina →</a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <!-- ════ XIBEROA ════ -->
-  <section class="section-white" style="padding:80px 0">
+  <section style="background:var(--green-deep);padding:88px 0">
     <div class="container">
-      <p class="sec-label fi text-center">Le territoire</p>
-      <h2 class="fi text-center">Soule — Xiberoa</h2>
-      <div class="divider fi" style="margin:14px auto 28px"></div>
-      <p class="fi text-center" style="max-width:580px;margin:0 auto 48px">
+      <p class="sec-label fi text-center" style="color:var(--brown-lt)">Le territoire</p>
+      <h2 class="fi text-center" style="color:#fff">Soule — Xiberoa</h2>
+      <div class="divider fi" style="margin:14px auto 28px;background:var(--brown-lt)"></div>
+      <p class="fi text-center" style="max-width:560px;margin:0 auto 52px;color:rgba(255,255,255,.72)">
         La Soule est la plus petite des sept provinces basques. Enclavée dans les Pyrénées,
         elle est restée à l'écart de l'industrialisation agricole. Ses forêts, ses rivières
         et ses montagnards en ont fait un territoire d'exception.
       </p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px" class="fi">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
         {[
-          { icon: '🏔️', titre: 'Montagnes pyrénéennes', texte: 'Un microclimat frais et humide, idéal pour la culture de pommes de caractère.' },
-          { icon: '🌳', titre: 'Verger familial', texte: '1 500 pommiers de variétés anciennes, cultivés sans traitement depuis trois générations.' },
-          { icon: '🐑', titre: 'Élevage traditionnel', texte: 'Des agneaux basques qui fertilisent naturellement les sols du verger par l\'écopâturage.' },
+          { label: 'Altitude',  titre: 'Montagnes pyrénéennes', texte: 'Un microclimat frais et humide, idéal pour la culture de pommes de caractère et l\'acidité naturelle du vinaigre.' },
+          { label: 'Verger',    titre: '1 500 pommiers anciens', texte: 'Des variétés basques oubliées, cultivées sans traitement depuis trois générations.' },
+          { label: 'Tradition', titre: 'Élevage traditionnel',  texte: 'Des agneaux basques qui fertilisent naturellement les sols du verger par écopâturage.' },
         ].map(item => (
-          <div style="background:var(--cream);border-radius:var(--r-lg);padding:28px;text-align:center;border:1px solid var(--cream-bd)">
-            <div style="font-size:2.5rem;margin-bottom:14px">{item.icon}</div>
-            <h3 style="font-size:1rem;color:var(--green-deep);margin-bottom:10px">{item.titre}</h3>
-            <p style="font-size:.85rem;color:var(--txt-lt);line-height:1.65">{item.texte}</p>
+          <div class="fi" style="background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:28px 24px">
+            <p style="font-size:.67rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--brown-lt);margin-bottom:10px;font-family:var(--ff-body)">{item.label}</p>
+            <h3 style="font-size:1.05rem;color:#fff;margin-bottom:10px;font-family:var(--ff-disp);font-weight:600">{item.titre}</h3>
+            <p style="font-size:.85rem;color:rgba(255,255,255,.62);line-height:1.65;margin:0">{item.texte}</p>
           </div>
         ))}
       </div>
@@ -95,15 +165,16 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- ════ CTA ════ -->
-  <section style="background:var(--cream-dark);padding:64px 0;text-align:center">
+  <section style="background:var(--cream-dark);padding:88px 0;text-align:center">
     <div class="container">
+      <p class="sec-label fi text-center">Envie d'aller plus loin ?</p>
       <h2 class="fi" style="margin-bottom:16px">Découvrir Sagar Ozpina</h2>
-      <p class="fi" style="max-width:480px;margin:0 auto 32px">
+      <p class="fi" style="max-width:480px;margin:0 auto 32px;color:var(--txt-lt)">
         Un vinaigre de cidre BIO qui raconte une ferme, un terroir et une méthode.
       </p>
       <div class="fi" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <a href="/sagar-ozpina" class="btn btn-primary">Le vinaigre →</a>
-        <a href="/boutique"     class="btn btn-outline-dk">Commander en ligne</a>
+        <a href="/sagar-ozpina" class="btn btn-primary" style="text-transform:none;letter-spacing:0">Découvrir le vinaigre →</a>
+        <a href="/boutique"     class="btn btn-outline-dk" style="text-transform:none;letter-spacing:0">Commander en ligne</a>
       </div>
     </div>
   </section>
