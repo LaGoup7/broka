@@ -4,20 +4,20 @@ import Stripe from 'stripe';
 // Les packs sont des sélections pratiques. Prix = somme des produits arrondie. Aucune remise affichée.
 const PRODUCTS = {
   // Produits individuels
-  vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500 ml',           description: 'Sagar Ozpina · Artisanal, fermenté lentement · Pays Basque',                                         amount:  1700 },
-  vinaigre_vrac_1_5l:  { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5 L',       description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement',                                    amount:  3900 },
-  vinaigre_vrac_3l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 3 L',         description: 'Sac push-up refermable · 23 €/L · Idéal familles et recharge',                                         amount:  6900 },
-  xipister:             { name: 'Xipister — Sauce plancha 500 ml BroKa',           description: 'Sauce basque artisanale — Vinaigre Sagar Ozpina, huile bio, herbes et piment',                        amount:  1900 },
-  poudre_guindillas:    { name: 'Poudre de Guindillas BroKa — 40 g',              description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant · Produite en petite quantité",     amount:  1390 },
-  noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',      amount:   490 },
-  noisettes_500g:       { name: 'Noisettes BIO à coque BroKa — 500 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',      amount:   890 },
-  // Packs (sélections pratiques — prix arrondi, sans remise)
-  duo_decouverte:       { name: 'Duo Découverte BroKa',                            description: 'Vinaigre de cidre BIO 500 ml + Xipister — Sauce plancha 500 ml',                                     amount:  3600 },
-  pack_cuisine_basque:  { name: 'Pack Cuisine Basque BroKa',                       description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Guide offert',           amount:  4700 },
-  pack_recharge_3l:     { name: 'Pack Recharge 3 L optimisé BroKa',               description: 'Vinaigre de cidre BIO vrac 3 L + Poudre de Guindillas 40 g',                                         amount:  8000 },
-  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml BroKa',    description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L',                                    amount:  5600 },
-  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L',                                     amount:  8600 },
-  pack_prestige:        { name: 'Pack Prestige BroKa',                             description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Noisettes BIO à coque 500 g', amount: 5600 },
+  vinaigre_500:        { name: 'Vinaigre de cidre BIO BroKa — 500 ml',           description: 'Sagar Ozpina · Artisanal, fermenté lentement · Certifié Agriculture Biologique FR-BIO-10',                           amount:  1700 },
+  vinaigre_vrac_1_5l:  { name: 'Vinaigre de cidre BIO BroKa — Vrac 1,5 L',       description: 'Sac push-up refermable · 26 €/L · Non filtré, fermenté lentement · Certifié Agriculture Biologique FR-BIO-10',          amount:  3900 },
+  vinaigre_vrac_3l:    { name: 'Vinaigre de cidre BIO BroKa — Vrac 3 L',         description: 'Sac push-up refermable · 23 €/L · Idéal familles et recharge · Certifié Agriculture Biologique FR-BIO-10',               amount:  6900 },
+  xipister:             { name: 'Xipister — Sauce plancha 500 ml BroKa',           description: 'Sauce basque artisanale — Vinaigre Sagar Ozpina, huile bio, herbes et piment · Certifié Agriculture Biologique FR-BIO-10', amount:  1900 },
+  poudre_guindillas:    { name: 'Poudre de Guindillas BroKa — 40 g',              description: "Piment d'Ibarra · Pays Basque Sud · Fruité et légèrement piquant · Certifié Agriculture Biologique FR-BIO-10",           amount:  1390 },
+  noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',          amount:   490 },
+  noisettes_500g:       { name: 'Noisettes BIO à coque BroKa — 500 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',          amount:   890 },
+  // Packs (sélections pratiques — prix = somme des produits arrondie, sans remise)
+  duo_decouverte:       { name: 'Duo Découverte BroKa',                            description: 'Vinaigre de cidre BIO 500 ml + Xipister — Sauce plancha 500 ml · Certifiés Agriculture Biologique FR-BIO-10',           amount:  3600 },
+  pack_cuisine_basque:  { name: 'Pack Cuisine Basque BroKa',                       description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Guide offert · Certifiés FR-BIO-10',       amount:  5000 },
+  pack_recharge_3l:     { name: 'Pack Recharge 3 L optimisé BroKa',               description: 'Vinaigre de cidre BIO vrac 3 L + Poudre de Guindillas 40 g · Certifiés Agriculture Biologique FR-BIO-10',               amount:  8300 },
+  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml BroKa',    description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L · Certifiés Agriculture Biologique FR-BIO-10',          amount:  5600 },
+  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L · Certifiés Agriculture Biologique FR-BIO-10',            amount:  8600 },
+  pack_prestige:        { name: 'Pack Prestige BroKa',                             description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Noisettes BIO 500 g · Certifiés FR-BIO-10', amount: 5900 },
 };
 
 // Poids emballé (kg) — pesés réels + marge ~10%
