@@ -66,10 +66,10 @@
 ### Phase 3 — Sémantique HTML
 > Priorité : 🟡 Moyenne — améliore la compréhension du contenu par les robots
 
-- [ ] Vérifier la hiérarchie H1 → H2 → H3 (un seul H1, pertinent avec le mot-clé)
-- [ ] Attributs `alt` complets et descriptifs sur toutes les images
-- [ ] Balises sémantiques : `<nav>`, `<header>`, `<main>`, `<footer>`, `<article>` bien utilisées
-- [ ] Textes des liens (`<a>`) descriptifs (pas de "cliquez ici")
+- [x] Vérifier la hiérarchie H1 → H2 → H3 — un seul H1 : "Sagar Ozpina — vinaigre de cidre BIO de la ferme Goyhenetxea" ✓
+- [x] Attributs `alt` enrichis sur 5 images produits clés (vinaigre 500ml, vrac 3L, Xipister, Coffret, Sagar Ozpina transparent)
+- [x] Balises sémantiques : `<main>` ✓, `<footer>` ✓, `<nav aria-label="Nos produits">` ajouté dans footer
+- [x] Textes des liens : tous descriptifs ("Voir nos produits →", "+ Ajouter au panier", etc.) — aucun "cliquez ici"
 
 ---
 
