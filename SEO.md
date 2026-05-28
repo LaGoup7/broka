@@ -1,7 +1,7 @@
 # Plan SEO — ferme-broka.fr
 
 > Document de suivi de la mise en place du référencement naturel.
-> Statut global : 🔴 Non démarré
+> Statut global : 🟡 En cours
 
 ---
 
@@ -40,15 +40,15 @@
 ### Phase 1 — Fondations techniques
 > Priorité : 🔴 Haute — invisible sans ces éléments
 
-- [ ] **`<title>`** — titre unique et descriptif (actuellement générique ou absent)
-- [ ] **`<meta name="description">`** — description 150–160 caractères avec mot-clé principal
-- [ ] **`<html lang="fr">`** — vérifier l'attribut de langue
-- [ ] **Open Graph** (`og:title`, `og:description`, `og:image`, `og:url`) — pour le partage réseaux sociaux
-- [ ] **Twitter Card** (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`)
-- [ ] **Canonical** (`<link rel="canonical">`) — éviter le duplicate content
-- [ ] **`robots.txt`** — fichier de directives pour les crawlers
-- [ ] **`sitemap.xml`** — carte du site soumise à Google
-- [ ] **Favicon** — vérifier sa présence (signal indirect de qualité)
+- [x] **`<title>`** — "Vinaigre de cidre BIO artisanal | Sagar Ozpina — BroKa Pays Basque" (69 car.)
+- [x] **`<meta name="description">`** — 157 caractères avec mot-clé principal
+- [x] **`<html lang="fr">`** — attribut de langue présent
+- [x] **Open Graph** (`og:title`, `og:description`, `og:image`, `og:url`, `og:image:height`) — complet
+- [x] **Twitter Card** (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`) — présent
+- [x] **Canonical** (`<link rel="canonical" href="https://ferme-broka.fr/">`) — ajouté
+- [x] **`robots.txt`** — créé à la racine avec directive Sitemap
+- [x] **`sitemap.xml`** — créé à la racine (URL canonique, lastmod 2026-05-28)
+- [x] **Favicon** — présent (logo_seul.png + apple-touch-icon)
 
 ---
 
