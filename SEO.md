@@ -121,10 +121,10 @@
 ### Phase 8 — Mesure & suivi
 > Priorité : 🔴 Haute — sans mesure, pas d'optimisation possible
 
-- [ ] **Google Search Console** — vérifier la propriété du site, soumettre le sitemap
-- [ ] **Google Analytics 4** (ou alternative privacy-first : Plausible, Umami) — installer et configurer
-- [ ] Mettre en place un suivi des conversions (ajout au panier, paiement complété)
-- [ ] Suivre le positionnement sur les mots-clés cibles (outil : Ubersuggest, Semrush, ou Google Search Console)
+- [ ] **Google Search Console** — ⚠️ ACTION MANUELLE : (1) Aller sur search.google.com/search-console, (2) Ajouter la propriété https://ferme-broka.fr/, (3) Vérifier via Google Analytics (lier le même compte GA4) ou via balise HTML/DNS TXT, (4) Soumettre https://ferme-broka.fr/sitemap.xml
+- [x] **Google Analytics 4** — snippet gtag.js intégré dans `<head>` (⚠️ remplacer G-XXXXXXXXXX par votre Measurement ID réel)
+- [x] Suivi des conversions câblé : `add_to_cart`, `begin_checkout`, `purchase` (avec valeur panier et items)
+- [ ] Suivre le positionnement sur les mots-clés cibles (outil : Google Search Console → Performances, après vérification)
 
 ---
 

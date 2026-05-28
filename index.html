@@ -28,6 +28,18 @@
   <meta name="twitter:image"       content="https://ferme-broka.fr/images/header.jpg">
 
   <link rel="canonical" href="https://ferme-broka.fr/">
+
+  <!-- ── Google Analytics 4 ──
+       IMPORTANT : remplacez G-XXXXXXXXXX par votre Measurement ID (Google Analytics → Admin → Flux de données)
+       La vérification de propriété dans Google Search Console peut se faire via ce même ID GA4.  -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -1960,6 +1972,13 @@
     renderCart();
     showToast('✓ ' + prod.name + ' ajouté');
     updateCartBtn();
+    if (typeof gtag === 'function') {
+      gtag('event', 'add_to_cart', {
+        currency: 'EUR',
+        value: prod.price,
+        items: [{ item_id: key, item_name: prod.name, price: prod.price, quantity: 1 }]
+      });
+    }
   }
 
   // (fonctions slider noisettes supprimées — remplacées par sélecteur 250 g / 500 g)
@@ -2190,6 +2209,14 @@
 
   function checkoutCart() {
     if (cart.length === 0) return;
+    if (typeof gtag === 'function') {
+      const subTotal = Math.round(cart.reduce((s, i) => s + CATALOG[i.key].price * Number(i.qty), 0) * 100) / 100;
+      gtag('event', 'begin_checkout', {
+        currency: 'EUR',
+        value: subTotal,
+        items: cart.map(i => ({ item_id: i.key, item_name: CATALOG[i.key].name, price: CATALOG[i.key].price, quantity: Number(i.qty) }))
+      });
+    }
     const fmtPrice = n => n === 0
       ? '<span style="color:#4ADE80;font-weight:700">Offert !</span>'
       : n.toFixed(2).replace('.', ',') + ' €';
@@ -2312,6 +2339,15 @@
   }
 
   if (new URLSearchParams(location.search).get('paiement') === 'ok') {
+    if (typeof gtag === 'function' && cart.length > 0) {
+      const purchaseValue = Math.round(cart.reduce((s, i) => s + CATALOG[i.key].price * Number(i.qty), 0) * 100) / 100;
+      gtag('event', 'purchase', {
+        currency: 'EUR',
+        transaction_id: 'broka-' + Date.now(),
+        value: purchaseValue,
+        items: cart.map(i => ({ item_id: i.key, item_name: CATALOG[i.key].name, price: CATALOG[i.key].price, quantity: Number(i.qty) }))
+      });
+    }
     cart = []; saveCart(); renderCart(); updateCartBtn();
     history.replaceState({}, '', location.pathname);
     document.getElementById('confirm-overlay').classList.add('open');
