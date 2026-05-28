@@ -719,11 +719,17 @@
 
     /* ── SAGAR OZPINA ── */
     #vinaigre { background: var(--green-deep); }
-    .vinaigre-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 40px; }
+    .vinaigre-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 40px; }
     .vinaigre-chip {
-      font-size: .73rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 100px;
-      border: 1px solid rgba(201,164,90,.4); color: rgba(201,164,90,.85);
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      padding: 6px 14px 6px 10px; border-radius: 100px;
+      background: rgba(201,164,90,.1);
+      border: 1px solid rgba(201,164,90,.28);
+      color: rgba(201,164,90,.9);
+    }
+    .vinaigre-chip::before {
+      content: '✦'; font-size: .5rem; opacity: .7; flex-shrink: 0;
     }
     .vinaigre-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
     @media (min-width: 640px) { .vinaigre-grid { grid-template-columns: 1fr 1fr; } }
@@ -1381,8 +1387,11 @@
     </div>
 
     <div class="vinaigre-cta fi">
-      <a href="/sagar-ozpina" class="btn btn-brown">Découvrir Sagar Ozpina →</a>
-      <button class="btn btn-outline" onclick="addToCart('vinaigre_500')">+ Panier — 500 ml · 17 €</button>
+      <a href="#produits" class="btn btn-brown">Voir nos produits →</a>
+      <button class="btn btn-basque" onclick="addToCart('vinaigre_500')" style="gap:10px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+        Sagar Ozpina 500 ml — 17 €
+      </button>
     </div>
   </div>
 </section>
