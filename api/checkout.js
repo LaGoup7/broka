@@ -12,9 +12,9 @@ const PRODUCTS = {
   noisettes_250g:       { name: 'Noisettes BIO à coque BroKa — 250 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',          amount:   490 },
   noisettes_500g:       { name: 'Noisettes BIO à coque BroKa — 500 g',            description: 'Récoltées à la main dans notre verger basque · Certifiées Agriculture Biologique FR-BIO-10 · Non décortiquées',          amount:   890 },
   // Packs (sélections pratiques — prix = somme des produits arrondie, sans remise)
-  duo_recharge_1_5l:    { name: 'Duo Recharge 1,5 L + bouteille 500 ml BroKa',    description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L · Certifiés Agriculture Biologique FR-BIO-10',          amount:  5600 },
-  pack_famille:         { name: 'Pack Recharge Famille BroKa',                     description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L · Certifiés Agriculture Biologique FR-BIO-10',            amount:  8600 },
-  pack_prestige:        { name: 'Pack Prestige BroKa',                             description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Noisettes BIO 500 g · Certifiés FR-BIO-10', amount: 5880 },
+  duo_recharge_1_5l:    { name: 'Le Quotidien BroKa',                              description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 1,5 L · Certifiés Agriculture Biologique FR-BIO-10',          amount:  5600 },
+  pack_famille:         { name: 'La Réserve BroKa',                                description: 'Vinaigre de cidre BIO 500 ml + Vinaigre de cidre BIO vrac 3 L · Certifiés Agriculture Biologique FR-BIO-10',            amount:  8600 },
+  pack_prestige:        { name: 'Le Coffret BroKa',                                description: 'Vinaigre de cidre BIO 500 ml + Xipister 500 ml + Poudre de Guindillas 40 g + Noisettes BIO 500 g · Certifiés FR-BIO-10', amount: 5880 },
 };
 
 // Poids emballé (kg) — pesés réels + marge ~10%
