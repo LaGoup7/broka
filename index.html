@@ -1327,28 +1327,43 @@
     <div class="vinaigre-grid">
 
       <!-- Colonne Caractéristiques -->
-      <div class="vinaigre-card fi">
+      <div class="vinaigre-card fi" style="display:flex;flex-direction:column">
+
+        <!-- Bouteille -->
+        <div style="background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,rgba(201,164,90,.07) 100%);border-radius:14px;padding:20px 20px 12px;margin-bottom:22px;display:flex;justify-content:center;align-items:flex-end;min-height:160px">
+          <img src="images/broka_bouteille_pommes.jpg" alt="Sagar Ozpina 500 ml"
+            style="height:148px;width:auto;object-fit:contain;display:block;filter:drop-shadow(0 8px 20px rgba(0,0,0,.45))">
+        </div>
+
         <p class="vinaigre-card-label">Ce que c'est</p>
-        <h3>Un vinaigre vivant,<br>fermenté lentement</h3>
-        <p style="margin-bottom:20px">
-          Deux fermentations artisanales : alcoolique puis acétique, à l'air libre.
-          La mère — ce voile naturel d'acétobactéries — reste dans le contenant.
-          Elle est vivante, active et bénéfique.
+        <h3 style="margin-bottom:10px">Sagar Ozpina —<br>vinaigre artisanal BIO</h3>
+        <p style="font-size:.86rem;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:20px;flex:1">
+          Deux fermentations artisanales — alcoolique puis acétique, à l'air libre.
+          La mère reste intacte dans le contenant. Aucun additif. Aucun raccourci.
         </p>
-        <div style="display:flex;flex-direction:column;gap:12px">
-          <div style="display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:10px">
-            <span style="font-size:.82rem;color:rgba(255,255,255,.65)">Acidité naturelle</span>
-            <span style="font-size:.9rem;font-weight:700;color:#fff;font-family:var(--ff-disp)">~ 5–6 %</span>
+
+        <!-- Stats 3 colonnes -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
+          <div style="text-align:center;padding:12px 6px;background:rgba(255,255,255,.07);border-radius:10px">
+            <div style="font-family:var(--ff-disp);font-size:1.25rem;font-weight:700;color:var(--brown-lt);line-height:1">5–6%</div>
+            <div style="font-size:.6rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Acidité</div>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:10px">
-            <span style="font-size:.82rem;color:rgba(255,255,255,.65)">Couleur</span>
-            <span style="font-size:.9rem;font-weight:700;color:#fff;font-family:var(--ff-disp)">Ambre dorée</span>
+          <div style="text-align:center;padding:12px 6px;background:rgba(255,255,255,.07);border-radius:10px">
+            <div style="font-family:var(--ff-disp);font-size:1.25rem;font-weight:700;color:var(--brown-lt);line-height:1">2×</div>
+            <div style="font-size:.6rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">Fermentation</div>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:10px">
-            <span style="font-size:.82rem;color:rgba(255,255,255,.65)">Notes</span>
-            <span style="font-size:.9rem;font-weight:700;color:#fff;font-family:var(--ff-disp)">Pomme · Vif · Rond</span>
+          <div style="text-align:center;padding:12px 6px;background:rgba(255,255,255,.07);border-radius:10px">
+            <div style="font-family:var(--ff-disp);font-size:1.25rem;font-weight:700;color:var(--brown-lt);line-height:1">BIO</div>
+            <div style="font-size:.6rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;margin-top:4px">FR-BIO-10</div>
           </div>
         </div>
+
+        <!-- Notes dégustation -->
+        <div style="padding:12px 16px;border-left:2px solid rgba(201,164,90,.5);background:rgba(201,164,90,.06);border-radius:0 10px 10px 0">
+          <p style="font-size:.67rem;color:rgba(201,164,90,.7);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:5px">Notes de dégustation</p>
+          <p style="font-family:var(--ff-disp);font-style:italic;font-size:.95rem;color:rgba(255,255,255,.85);margin:0">Pomme &middot; Vif &middot; Rond &middot; Ambre dorée</p>
+        </div>
+
       </div>
 
       <!-- Colonne Vertus & Cure -->
