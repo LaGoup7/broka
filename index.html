@@ -622,8 +622,9 @@
       #marches       { order: 4; }
       #avis          { order: 5; }
       #histoire      { order: 6; }
-      .video-section { order: 7; }
-      #faq           { order: 8; }
+      #vinaigre      { order: 7; }
+      .video-section { order: 8; }
+      #faq           { order: 9; }
     }
 
     /* ── MODAL AVIS ── */
@@ -715,6 +716,37 @@
     /* ── HISTOIRE text ── */
     .histoire-txt { display: flex; flex-direction: column; gap: 16px; }
     .histoire-closing { font-style: italic; font-weight: 600; }
+
+    /* ── SAGAR OZPINA ── */
+    #vinaigre { background: var(--green-deep); }
+    .vinaigre-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 40px; }
+    .vinaigre-chip {
+      font-size: .73rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 100px;
+      border: 1px solid rgba(201,164,90,.4); color: rgba(201,164,90,.85);
+    }
+    .vinaigre-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media (min-width: 640px) { .vinaigre-grid { grid-template-columns: 1fr 1fr; } }
+    .vinaigre-card {
+      background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 20px; padding: 26px 24px;
+    }
+    .vinaigre-card-label {
+      font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--brown-lt); margin-bottom: 10px;
+    }
+    .vinaigre-card h3 {
+      font-family: var(--ff-disp); font-size: 1.1rem; font-weight: 600;
+      color: #fff; margin-bottom: 10px;
+    }
+    .vinaigre-card p { font-size: .88rem; color: rgba(255,255,255,.65); line-height: 1.7; margin: 0; }
+    .vinaigre-usage-list { display: flex; flex-direction: column; gap: 10px; }
+    .vinaigre-usage-item { display: flex; align-items: flex-start; gap: 12px; }
+    .vinaigre-usage-item span:first-child {
+      color: var(--brown-lt); font-weight: 700; font-size: 1rem; flex-shrink: 0; margin-top: 1px;
+    }
+    .vinaigre-usage-item span:last-child { font-size: .88rem; color: rgba(255,255,255,.7); line-height: 1.6; }
+    .vinaigre-cta { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; }
 
     /* ── FOOTER ── */
     footer { background: #0B1A0E; color: rgba(255,255,255,.5); font-size: .85rem; }
@@ -1258,6 +1290,94 @@
           <p class="fi histoire-closing">Ici, le temps fait tout.</p>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ SAGAR OZPINA ════ -->
+<section id="vinaigre">
+  <div class="container">
+    <p class="sec-label fi" style="color:var(--brown-lt)">Notre vinaigre signature</p>
+    <h2 class="fi" style="color:#fff">Sagar Ozpina — <em style="color:var(--brown-lt)">ce que c'est vraiment</em></h2>
+    <div class="divider fi" style="background:var(--brown-lt)"></div>
+    <p class="fi" style="color:rgba(255,255,255,.75);max-width:560px;font-size:1rem;line-height:1.8">
+      Un vinaigre de cidre BIO issu d'un seul verger en Soule, fermenté lentement à l'air libre,
+      non filtré, non pasteurisé. À l'opposé de l'industriel.
+    </p>
+
+    <div class="vinaigre-chips fi">
+      <span class="vinaigre-chip">BIO · FR-BIO-10</span>
+      <span class="vinaigre-chip">Non filtré</span>
+      <span class="vinaigre-chip">Non pasteurisé</span>
+      <span class="vinaigre-chip">Avec la mère</span>
+      <span class="vinaigre-chip">Sans additif</span>
+      <span class="vinaigre-chip">Mono-verger · Soule</span>
+    </div>
+
+    <div class="vinaigre-grid">
+
+      <!-- Colonne Caractéristiques -->
+      <div class="vinaigre-card fi">
+        <p class="vinaigre-card-label">Ce que c'est</p>
+        <h3>Un vinaigre vivant,<br>fermenté lentement</h3>
+        <p style="margin-bottom:20px">
+          Deux fermentations artisanales : alcoolique puis acétique, à l'air libre.
+          La mère — ce voile naturel d'acétobactéries — reste dans le contenant.
+          Elle est vivante, active et bénéfique.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:10px">
+            <span style="font-size:.82rem;color:rgba(255,255,255,.65)">Acidité naturelle</span>
+            <span style="font-size:.9rem;font-weight:700;color:#fff;font-family:var(--ff-disp)">~ 5–6 %</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:10px">
+            <span style="font-size:.82rem;color:rgba(255,255,255,.65)">Couleur</span>
+            <span style="font-size:.9rem;font-weight:700;color:#fff;font-family:var(--ff-disp)">Ambre dorée</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 14px;background:rgba(255,255,255,.07);border-radius:10px">
+            <span style="font-size:.82rem;color:rgba(255,255,255,.65)">Notes</span>
+            <span style="font-size:.9rem;font-weight:700;color:#fff;font-family:var(--ff-disp)">Pomme · Vif · Rond</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne Usages -->
+      <div class="vinaigre-card fi">
+        <p class="vinaigre-card-label">En cuisine au quotidien</p>
+        <h3>Six façons de l'utiliser</h3>
+        <div class="vinaigre-usage-list">
+          <div class="vinaigre-usage-item">
+            <span>✓</span>
+            <span><strong style="color:rgba(255,255,255,.9)">Vinaigrettes</strong> — son acidité fine remplace tout vinaigre du commerce</span>
+          </div>
+          <div class="vinaigre-usage-item">
+            <span>✓</span>
+            <span><strong style="color:rgba(255,255,255,.9)">Marinades</strong> — attendrit les viandes, imprègne les saveurs basques</span>
+          </div>
+          <div class="vinaigre-usage-item">
+            <span>✓</span>
+            <span><strong style="color:rgba(255,255,255,.9)">Déglaçage</strong> — fixe les sucs, allonge un jus de viande naturellement</span>
+          </div>
+          <div class="vinaigre-usage-item">
+            <span>✓</span>
+            <span><strong style="color:rgba(255,255,255,.9)">Légumes rôtis</strong> — un filet en fin de cuisson, et tout change</span>
+          </div>
+          <div class="vinaigre-usage-item">
+            <span>✓</span>
+            <span><strong style="color:rgba(255,255,255,.9)">Plats mijotés</strong> — piperade, basquaise, haricots blancs</span>
+          </div>
+          <div class="vinaigre-usage-item">
+            <span>✓</span>
+            <span><strong style="color:rgba(255,255,255,.9)">Le matin</strong> — une cuillère dans un grand verre d'eau, dilué</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="vinaigre-cta fi">
+      <a href="/sagar-ozpina" class="btn btn-brown">Découvrir Sagar Ozpina →</a>
+      <button class="btn btn-outline" onclick="addToCart('vinaigre_500')">+ Panier — 500 ml · 17 €</button>
     </div>
   </div>
 </section>
