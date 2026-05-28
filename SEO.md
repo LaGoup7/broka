@@ -1,7 +1,7 @@
 # Plan SEO — ferme-broka.fr
 
 > Document de suivi de la mise en place du référencement naturel.
-> Statut global : 🟡 En cours
+> Statut global : 🟢 Phases techniques complètes — actions manuelles en cours
 
 ---
 
@@ -115,10 +115,10 @@
 ### Phase 7 — Netlinking & autorité
 > Priorité : 🟢 Moyen terme — construction progressive
 
-- [ ] Soumission dans les annuaires BIO : bio-annuaire.fr, Nature & Progrès, etc.
-- [ ] Fiche sur les plateformes producteurs locaux (Amap, La Ruche qui dit Oui, etc.)
-- [ ] Liens depuis les pages des marchés de Billère et Biarritz si possible
-- [ ] Encourager les mentions presse / blogs sur le vinaigre artisanal
+- [ ] Annuaires BIO — ⚠️ ACTION MANUELLE : soumettre sur bio-annuaire.fr, annuaire Nature & Progrès (naturesetprogres.org), Bioadresses.fr, Altermundi
+- [ ] Plateformes producteurs locaux — ⚠️ ACTION MANUELLE : créer une fiche sur La Ruche qui dit Oui (laruchequiditoui.fr), AMAPs Pays Basque, Agrilocal 64
+- [ ] Liens marchés — ⚠️ ACTION MANUELLE : contacter les pages web du Marché Bio de Billère et du Marché des Halles de Biarritz pour demander un lien vers ferme-broka.fr
+- [ ] Mentions presse — ⚠️ ACTION MANUELLE : contacter blogs vinaigre de cidre artisanal, presse locale Pays Basque (Sud-Ouest, Mediabask), labels BIO pour articles producteurs
 
 ---
 
