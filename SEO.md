@@ -89,12 +89,12 @@
 ### Phase 5 — Performance & Core Web Vitals
 > Priorité : 🟡 Moyenne — facteur de classement Google depuis 2021
 
-- [ ] Audit Google PageSpeed Insights (desktop + mobile)
-- [ ] **LCP** (Largest Contentful Paint) < 2,5 s — optimiser l'image hero
-- [ ] **CLS** (Cumulative Layout Shift) < 0,1 — vérifier les images sans dimensions déclarées
-- [ ] **INP** (Interaction to Next Paint) < 200 ms
-- [ ] Compression images (WebP pour les JPEG/PNG existants)
-- [ ] Lazy loading sur les images hors viewport (`loading="lazy"`)
+- [ ] Audit Google PageSpeed Insights (desktop + mobile) — ⚠️ ACTION MANUELLE : https://pagespeed.web.dev/ → tester ferme-broka.fr
+- [x] **LCP** — `<link rel="preload" as="image" fetchpriority="high">` ajouté pour images/header.jpg (hero CSS background)
+- [x] **CLS** — containers avec `aspect-ratio` CSS (1/1 pour produits, 4/5 pour histoire) → pas de layout shift. `loading="lazy"` ajoute la gestion intrinsic size.
+- [ ] **INP** — à surveiller dans Search Console (Expérience de page). JS SPA léger → risque faible.
+- [ ] Compression images WebP — ⚠️ ACTION MANUELLE : utiliser Squoosh, ImageOptim ou sharp pour convertir JPEG/PNG en WebP (gain ~30%)
+- [x] Lazy loading : 10 images below-fold avec `loading="lazy"` (packs, produits individuels, histoire, Sagar Ozpina)
 
 ---
 
