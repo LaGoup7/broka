@@ -76,13 +76,17 @@
 ### Phase 4 — SEO local
 > Priorité : 🟡 Moyenne — essentiel pour capter la clientèle régionale
 
-- [ ] **Fiche Google Business Profile** — créer ou revendiquer la fiche GAEC Goyhenetxea
-  - Nom, adresse, téléphone (NAP)
-  - Horaires marchés (Billère + Biarritz)
-  - Photos produits
-  - Lien vers ferme-broka.fr
-- [ ] **Cohérence NAP** — vérifier que Nom/Adresse/Téléphone sont identiques sur le site, Google, réseaux sociaux
-- [ ] **Schéma LocalBusiness** avec coordonnées GPS et zones desservies
+- [ ] **Fiche Google Business Profile** — ⚠️ ACTION MANUELLE (externe, non scriptable) :
+  1. Aller sur business.google.com → "Ajouter ou revendiquer votre établissement"
+  2. Nom : GAEC Goyhenetxea — BroKa | Catégorie : Producteur agricole / Boutique alimentaire
+  3. Adresse : Soule, Pyrénées-Atlantiques 64 (préciser la commune exacte)
+  4. Téléphone : 07 70 01 26 52 | Site Web : https://ferme-broka.fr
+  5. Horaires : Samedi 7h30–13h30 (Marché Bio de Billère / Marché des Halles Biarritz — en alternance)
+  6. Ajouter photos produits (vinaigre, Xipister, stand marché, ferme)
+  7. Vérification : carte postale Google ou appel téléphonique
+- [x] **Cohérence NAP** — Nom : "GAEC Goyhenetxea / BroKa" · Tél : +33 7 70 01 26 52 · Site : https://ferme-broka.fr
+  - Site ✓, JSON-LD ✓ — à vérifier : Facebook, Instagram, annuaires
+- [x] **Schéma LocalBusiness** — implémenté en Phase 2 (adresse Soule, téléphone, horaires marchés, areaServed [Billère, Biarritz, France])
 
 ---
 
