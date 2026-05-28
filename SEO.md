@@ -105,10 +105,10 @@
 ### Phase 6 — Contenu optimisé
 > Priorité : 🟢 Moyen terme — renforce l'autorité thématique
 
-- [ ] Intégrer les mots-clés principaux naturellement dans les textes existants (sans sur-optimisation)
-- [ ] Page mentions légales : ajouter adresse complète GAEC (signal local)
-- [ ] Texte alternatif enrichi sur les images produits
-- [ ] Vérifier la densité de mots-clés : "vinaigre de cidre BIO" doit apparaître plusieurs fois sans être répétitif
+- [x] Mots-clés principaux intégrés naturellement — vérification densité : "vinaigre de cidre BIO" ×7 dans index.html, "Sagar Ozpina" ×6+, "Pays Basque" multiple, "artisanal" multiple — pas de sur-optimisation
+- [x] Mentions légales — téléphone 07 70 01 26 52 ajouté (était placeholder). ⚠️ SIRET et adresse postale complète à compléter manuellement dans mentions-legales.html
+- [x] Texte alternatif enrichi sur les images — fait en Phase 3
+- [x] Footer contact : "Soule · Pays Basque, France" + `<a href="tel:+33770012652">` visible (signal NAP local)
 
 ---
 
