@@ -807,6 +807,203 @@
     .footer-bottom a:hover { color: rgba(255,255,255,.6); }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
+
+  <!-- ── Données structurées JSON-LD ── -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://ferme-broka.fr/#organization",
+        "name": "BroKa — GAEC Goyhenetxea",
+        "alternateName": "Ferme Goyhenetxea",
+        "url": "https://ferme-broka.fr/",
+        "logo": { "@type": "ImageObject", "url": "https://ferme-broka.fr/logo_seul.png" },
+        "email": "contact@ferme-broka.fr",
+        "telephone": "+33770012652",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Soule",
+          "addressRegion": "Pyrénées-Atlantiques",
+          "addressCountry": "FR"
+        },
+        "sameAs": [
+          "https://www.facebook.com/p/BroKa-Mait%C3%A9-et-Olivier-GAEC-Goyhenetxea-100057794253978/",
+          "https://www.instagram.com/broka_maite_olivier_latchere/"
+        ]
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://ferme-broka.fr/#localbusiness",
+        "name": "BroKa — GAEC Goyhenetxea",
+        "description": "Ferme biologique en Soule (Pays Basque) produisant le vinaigre de cidre BIO Sagar Ozpina, Xipister et Guindillas. Certifiée Agriculture Biologique FR-BIO-10.",
+        "url": "https://ferme-broka.fr/",
+        "telephone": "+33770012652",
+        "email": "contact@ferme-broka.fr",
+        "image": "https://ferme-broka.fr/images/header.jpg",
+        "logo": "https://ferme-broka.fr/logo_seul.png",
+        "priceRange": "€€",
+        "currenciesAccepted": "EUR",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Soule — Xiberoa",
+          "addressRegion": "Pyrénées-Atlantiques",
+          "addressCountry": "FR"
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Billère" },
+          { "@type": "City", "name": "Biarritz" },
+          { "@type": "Country", "name": "France" }
+        ],
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "07:30",
+            "closes": "13:30",
+            "description": "Marché Bio de Billère / Marché des Halles de Biarritz (en alternance chaque samedi)"
+          }
+        ],
+        "sameAs": [
+          "https://www.facebook.com/p/BroKa-Mait%C3%A9-et-Olivier-GAEC-Goyhenetxea-100057794253978/",
+          "https://www.instagram.com/broka_maite_olivier_latchere/"
+        ]
+      },
+      {
+        "@type": "Product",
+        "@id": "https://ferme-broka.fr/#product-vinaigre-500",
+        "name": "Vinaigre de cidre BIO BroKa — 500 ml",
+        "description": "Sagar Ozpina — vinaigre artisanal fermenté lentement, non filtré, avec la mère. Certifié Agriculture Biologique FR-BIO-10.",
+        "image": "https://ferme-broka.fr/images/broka_bouteille_pommes.jpg",
+        "brand": { "@type": "Brand", "name": "Sagar Ozpina" },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://ferme-broka.fr/",
+          "priceCurrency": "EUR",
+          "price": "17.00",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@id": "https://ferme-broka.fr/#organization" }
+        }
+      },
+      {
+        "@type": "Product",
+        "@id": "https://ferme-broka.fr/#product-vinaigre-vrac-1-5l",
+        "name": "Vinaigre de cidre BIO BroKa — Vrac 1,5 L",
+        "description": "Sac push-up refermable — 26 €/L. Non filtré, fermenté lentement. Certifié Agriculture Biologique FR-BIO-10.",
+        "image": "https://ferme-broka.fr/images/vinaigre_refill_3L_seul.jpg",
+        "brand": { "@type": "Brand", "name": "Sagar Ozpina" },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://ferme-broka.fr/",
+          "priceCurrency": "EUR",
+          "price": "39.00",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@id": "https://ferme-broka.fr/#organization" }
+        }
+      },
+      {
+        "@type": "Product",
+        "@id": "https://ferme-broka.fr/#product-vinaigre-vrac-3l",
+        "name": "Vinaigre de cidre BIO BroKa — Vrac 3 L",
+        "description": "Sac push-up refermable — 23 €/L. Idéal familles et recharge. Certifié Agriculture Biologique FR-BIO-10.",
+        "image": "https://ferme-broka.fr/images/vinaigre_cidre_3L.png",
+        "brand": { "@type": "Brand", "name": "Sagar Ozpina" },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://ferme-broka.fr/",
+          "priceCurrency": "EUR",
+          "price": "69.00",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@id": "https://ferme-broka.fr/#organization" }
+        }
+      },
+      {
+        "@type": "Product",
+        "@id": "https://ferme-broka.fr/#product-xipister",
+        "name": "Xipister — Sauce plancha 500 ml BroKa",
+        "description": "Sauce basque artisanale — vinaigre Sagar Ozpina, huile bio, herbes et piment. Certifié Agriculture Biologique FR-BIO-10.",
+        "image": "https://ferme-broka.fr/images/broka_bouteille_verger.png",
+        "brand": { "@type": "Brand", "name": "BroKa" },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://ferme-broka.fr/",
+          "priceCurrency": "EUR",
+          "price": "19.00",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@id": "https://ferme-broka.fr/#organization" }
+        }
+      },
+      {
+        "@type": "Product",
+        "@id": "https://ferme-broka.fr/#product-guindillas",
+        "name": "Poudre de Guindillas BroKa — 40 g",
+        "description": "Piment d'Ibarra, Pays Basque Sud — fruité et légèrement piquant. Certifié Agriculture Biologique FR-BIO-10.",
+        "image": "https://ferme-broka.fr/images/poudre_de_guindillas.png",
+        "brand": { "@type": "Brand", "name": "BroKa" },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://ferme-broka.fr/",
+          "priceCurrency": "EUR",
+          "price": "13.90",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@id": "https://ferme-broka.fr/#organization" }
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://ferme-broka.fr/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Quel délai pour recevoir ma commande ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Nous expédions sous 1 à 2 jours ouvrés après confirmation du paiement. La livraison prend ensuite 3 à 5 jours ouvrés — en Point Relais comme à domicile. Vous recevez un numéro de suivi dès l'expédition." }
+          },
+          {
+            "@type": "Question",
+            "name": "Pourquoi privilégier la livraison en Point Relais ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Le Point Relais / Locker nous permet de vous proposer les meilleurs tarifs de port. C'est aussi plus flexible : vous retirez votre colis quand vous voulez, sans risquer de manquer le livreur." }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment suivre ma commande ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Un email de confirmation vous est envoyé dès le paiement avec le détail de votre commande. Dès l'expédition, vous recevez un second email ou SMS de Mondial Relay (Point Relais) ou Colissimo (domicile) avec votre numéro de suivi." }
+          },
+          {
+            "@type": "Question",
+            "name": "Les produits sont-ils certifiés BIO ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Tous nos produits sont certifiés Agriculture Biologique par l'organisme certificateur FR-BIO-10 : vinaigre de cidre Sagar Ozpina, Xipister, Poudre de Guindillas et Noisettes BIO coques." }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment conserver le vinaigre de cidre ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "À température ambiante, à l'abri de la lumière directe. Une fois ouvert, le vinaigre se conserve indéfiniment — son acidité naturelle l'auto-préserve. Les contenants vrac push-up refermables se conservent de la même façon." }
+          },
+          {
+            "@type": "Question",
+            "name": "Puis-je modifier ou annuler ma commande ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Contactez-nous dès que possible par WhatsApp (+33 7 70 01 26 52) ou par email à contact@ferme-broka.fr. Avant l'expédition, nous faisons notre possible pour traiter votre demande." }
+          },
+          {
+            "@type": "Question",
+            "name": "Le vinaigre en 5 L est-il disponible en ligne ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Le format 5 L n'est pas encore disponible à la commande en ligne en raison de son poids. Contactez-nous directement par WhatsApp ou email — nous trouverons une solution." }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://ferme-broka.fr/#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil BroKa",                          "item": "https://ferme-broka.fr/" },
+          { "@type": "ListItem", "position": 2, "name": "Nos produits",                            "item": "https://ferme-broka.fr/#produits" },
+          { "@type": "ListItem", "position": 3, "name": "Sagar Ozpina — Vinaigre de cidre BIO",   "item": "https://ferme-broka.fr/#vinaigre" },
+          { "@type": "ListItem", "position": 4, "name": "FAQ",                                     "item": "https://ferme-broka.fr/#faq" }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

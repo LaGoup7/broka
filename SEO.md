@@ -55,11 +55,11 @@
 ### Phase 2 — Données structurées (JSON-LD)
 > Priorité : 🔴 Haute — génère des rich snippets dans les résultats Google
 
-- [ ] **Organization** — nom, URL, logo, réseaux sociaux, coordonnées GAEC Goyhenetxea
-- [ ] **LocalBusiness** — adresse, horaires, zone de service (marchés Billère + Biarritz)
-- [ ] **Product** × 5 — vinaigre 500ml, vrac 1,5L, vrac 3L, Xipister, Guindillas (nom, description, prix, availability, image, brand)
-- [ ] **FAQPage** — les questions de la section FAQ déjà présente
-- [ ] **BreadcrumbList** — navigation structurée pour les moteurs
+- [x] **Organization** — nom, URL, logo, réseaux sociaux, coordonnées GAEC Goyhenetxea
+- [x] **LocalBusiness** — adresse Soule, téléphone, horaires marchés Billère + Biarritz, areaServed France
+- [x] **Product** × 5 — vinaigre 500ml (17 €), vrac 1,5L (39 €), vrac 3L (69 €), Xipister (19 €), Guindillas (13,90 €)
+- [x] **FAQPage** — 7 questions/réponses de la section FAQ
+- [x] **BreadcrumbList** — 4 nœuds : Accueil > Produits > Sagar Ozpina > FAQ
 
 ---
 
