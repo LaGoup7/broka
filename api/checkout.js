@@ -40,45 +40,39 @@ const COMPLEMENT_KEYS = ['poudre_guindillas', 'noisettes_250g', 'noisettes_500g'
 const COMPLEMENT_MIN_CENTS = 3900;  // 39 €
 const GUINDILLAS_MAX_QTY   = 3;
 
-// ── Grille Point Relais / Locker — progressive par tranche de panier (centimes) ──
-// Colis > 4 kg : participation minimum 5,90 € même si panier ≥ 99 €
+// ── Grille Point Relais / Locker — par tranche de poids (centimes) ──
+// Livraison offerte à partir de 170 € d'achat, uniquement en Mondial Relay
 function relayRate(subtotalCents, weightKg) {
-  let cents;
-  if      (subtotalCents < 2900) cents = 790;
-  else if (subtotalCents < 4900) cents = 690;
-  else if (subtotalCents < 7900) cents = 490;
-  else if (subtotalCents < 9900) cents = 390;
-  else                            cents = 0;
-  if (weightKg > 4 && cents < 590) cents = 590; // colis lourd
-  return cents;
+  if (subtotalCents >= 17000) return 0;
+  if (weightKg <= 1)  return  450;
+  if (weightKg <= 2)  return  830;
+  if (weightKg <= 3)  return 1050;
+  if (weightKg <= 4)  return 1170;
+  return 1850; // 5–10 kg
 }
 
-// ── Grille Domicile — option confort, progressive par tranche de panier (centimes) ──
-// Colis > 4 kg : participation minimum 7,90 € même si panier ≥ 179 €
+// ── Grille Domicile — par tranche de poids (centimes) ──
+// Jamais de livraison offerte à domicile
 function homeRate(subtotalCents, weightKg) {
-  let cents;
-  if      (subtotalCents < 4900)  cents = 1190;
-  else if (subtotalCents < 7900)  cents = 990;
-  else if (subtotalCents < 12900) cents = 790;
-  else if (subtotalCents < 17900) cents = 490;
-  else                             cents = 0;
-  if (weightKg > 4 && cents < 790) cents = 790; // colis lourd
-  return cents;
+  if (weightKg <= 1)  return  950;
+  if (weightKg <= 2)  return 1300;
+  if (weightKg <= 3)  return 1900;
+  if (weightKg <= 4)  return 2100;
+  if (weightKg <= 5)  return 2130;
+  if (weightKg <= 6)  return 2500;
+  if (weightKg <= 7)  return 2990;
+  return 3000; // 8–10 kg
 }
 
 // ── Coût réel Mondial Relay (usage interne — calcul de marge, jamais affiché au client) ──
-// Tarifs indicatifs HT par tranche de poids — à mettre à jour si les tarifs Mondial Relay évoluent
-// Source : grille tarifaire Mondial Relay (expéditeur professionnel)
-// Retourne null si le colis dépasse 30 kg (validation manuelle requise)
+// Source : grille tarifaire Mondial Relay communiquée — retourne null si > 10 kg (validation manuelle)
 function getMondialRelayEstimatedCost(weightKg) {
-  if (weightKg <= 0.5) return 3.42;
-  if (weightKg <= 1)   return 3.76;
-  if (weightKg <= 2)   return 5.27;
-  if (weightKg <= 4)   return 5.59;
-  if (weightKg <= 10)  return 11.13;
-  if (weightKg <= 25)  return 17.47;
-  if (weightKg <= 30)  return 19.99;
-  return null; // > 30 kg : validation manuelle
+  if (weightKg <= 1)  return  4.50;
+  if (weightKg <= 2)  return  8.30;
+  if (weightKg <= 3)  return 10.50;
+  if (weightKg <= 4)  return 11.70;
+  if (weightKg <= 10) return 18.50;
+  return null; // > 10 kg : validation manuelle
 }
 
 export default async function handler(req, res) {

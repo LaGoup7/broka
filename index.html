@@ -1889,32 +1889,28 @@
   const COMPLEMENT_MIN    = 39;   // panier minimum pour accéder aux produits complémentaires
   const GUINDILLAS_MAX    = 3;    // maximum 3 pots de Guindillas par commande
 
-  // ── Grille frais de port Point Relais / Locker ──
-  // Progressive par tranche de panier produits (hors port).
-  // Colis > 4 kg : participation minimum 5,90 € maintenue même si panier ≥ 99 €.
+  // ── Grille frais de port Point Relais / Locker — par tranche de poids ──
+  // Livraison offerte à partir de 170 € d'achat, uniquement en Mondial Relay.
   function relayShipping(cartTotal, weight) {
-    let rate;
-    if      (cartTotal < 29) rate = 7.90;
-    else if (cartTotal < 49) rate = 6.90;
-    else if (cartTotal < 79) rate = 4.90;
-    else if (cartTotal < 99) rate = 3.90;
-    else                      rate = 0;
-    if (weight > 4 && rate < 5.90) rate = 5.90; // colis lourd
-    return rate;
+    if (cartTotal >= 170) return 0;
+    if (weight <= 1)  return  4.50;
+    if (weight <= 2)  return  8.30;
+    if (weight <= 3)  return 10.50;
+    if (weight <= 4)  return 11.70;
+    return 18.50; // 5–10 kg
   }
 
-  // ── Grille frais de port Domicile — option confort ──
-  // Progressive par tranche de panier produits (hors port).
-  // Colis > 4 kg : participation minimum 7,90 € maintenue même si panier ≥ 179 €.
+  // ── Grille frais de port Domicile — par tranche de poids ──
+  // Jamais de livraison offerte à domicile.
   function homeShipping(cartTotal, weight) {
-    let rate;
-    if      (cartTotal < 49)  rate = 11.90;
-    else if (cartTotal < 79)  rate = 9.90;
-    else if (cartTotal < 129) rate = 7.90;
-    else if (cartTotal < 179) rate = 4.90;
-    else                       rate = 0;
-    if (weight > 4 && rate < 7.90) rate = 7.90; // colis lourd
-    return rate;
+    if (weight <= 1)  return  9.50;
+    if (weight <= 2)  return 13.00;
+    if (weight <= 3)  return 19.00;
+    if (weight <= 4)  return 21.00;
+    if (weight <= 5)  return 21.30;
+    if (weight <= 6)  return 25.00;
+    if (weight <= 7)  return 29.90;
+    return 30.00; // 8–10 kg
   }
 
   // ── Cart state ──
@@ -2125,12 +2121,10 @@
     } else if (complementWarning) {
       francoEl.innerHTML =
         '<span style="color:#f59e0b;font-weight:700">⚠️ Votre panier contient des produits disponibles à partir de 39 €. Ajoutez d\'autres produits pour valider votre commande.</span>';
-    } else if (subtotal >= 99 && weight <= 4) {
+    } else if (subtotal >= 170) {
       francoEl.innerHTML = '<span style="color:#4ADE80;font-weight:700">✓ Livraison offerte en Point Relais !</span>';
-    } else if (subtotal >= 99 && weight > 4) {
-      francoEl.innerHTML = '<span style="color:#C9A45A;font-weight:700">Colis lourd — participation livraison maintenue (5,90 €).</span>';
     } else {
-      const remaining = fmt(99 - subtotal);
+      const remaining = fmt(170 - subtotal);
       francoEl.textContent = `Plus que ${remaining} pour la livraison offerte en Point Relais.`;
     }
 
@@ -2138,13 +2132,13 @@
     renderUpsell(subtotal, weight);
   }
 
-  // ── Upsell — suggestions pour atteindre 99 € (livraison offerte Point Relais) ──
+  // ── Upsell — suggestions pour atteindre 170 € (livraison offerte Point Relais) ──
   function renderUpsell(subtotal, weight) {
     const el        = document.getElementById('cart-upsell');
-    const remaining = Math.round((99 - subtotal) * 100) / 100;
+    const remaining = Math.round((170 - subtotal) * 100) / 100;
 
-    // N'afficher que si le seuil est atteignable (entre 1 ct et 70 €) et colis pas lourd
-    if (cart.length === 0 || remaining <= 0 || remaining > 70 || weight > 4) {
+    // N'afficher que si le seuil est atteignable (entre 1 ct et 70 €)
+    if (cart.length === 0 || remaining <= 0 || remaining > 70) {
       el.innerHTML = ''; return;
     }
 
@@ -2153,7 +2147,6 @@
     const candidates = Object.entries(CATALOG)
       .filter(([key, p]) => {
         if (inCart.has(key)) return false;
-        if (weight + p.weight > 4) return false;                          // évite le colis lourd
         if (COMPLEMENT_KEYS.includes(key) && subtotal < COMPLEMENT_MIN) return false; // règle 39 €
         if (key === 'poudre_guindillas') {                                 // règle max 3 pots
           const ex = cart.find(i => i.key === 'poudre_guindillas');

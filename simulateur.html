@@ -134,40 +134,36 @@
   const MINIMUM_COMPLEMENT = 39;
   const MAX_GUINDILLAS     = 3;
 
-  // ── Grille Point Relais (client) ──
+  // ── Grille Point Relais (client) — par poids, offert ≥ 170 € ──
   function portRelay(total, poids) {
-    let t;
-    if      (total < 29) t = 7.90;
-    else if (total < 49) t = 6.90;
-    else if (total < 79) t = 4.90;
-    else if (total < 99) t = 3.90;
-    else                  t = 0;
-    if (poids > 4 && t < 5.90) t = 5.90;
-    return t;
+    if (total >= 170) return 0;
+    if (poids <= 1)  return  4.50;
+    if (poids <= 2)  return  8.30;
+    if (poids <= 3)  return 10.50;
+    if (poids <= 4)  return 11.70;
+    return 18.50; // 5–10 kg
   }
 
-  // ── Grille Domicile (client) ──
+  // ── Grille Domicile (client) — par poids, jamais offert ──
   function portDomicile(total, poids) {
-    let t;
-    if      (total < 49)  t = 11.90;
-    else if (total < 79)  t = 9.90;
-    else if (total < 129) t = 7.90;
-    else if (total < 179) t = 4.90;
-    else                   t = 0;
-    if (poids > 4 && t < 7.90) t = 7.90;
-    return t;
+    if (poids <= 1)  return  9.50;
+    if (poids <= 2)  return 13.00;
+    if (poids <= 3)  return 19.00;
+    if (poids <= 4)  return 21.00;
+    if (poids <= 5)  return 21.30;
+    if (poids <= 6)  return 25.00;
+    if (poids <= 7)  return 29.90;
+    return 30.00; // 8–10 kg
   }
 
   // ── Coût réel Mondial Relay (interne) ──
   function coutMondialRelay(poids) {
-    if (poids <= 0.5) return 3.42;
-    if (poids <= 1)   return 3.76;
-    if (poids <= 2)   return 5.27;
-    if (poids <= 4)   return 5.59;
-    if (poids <= 10)  return 11.13;
-    if (poids <= 25)  return 17.47;
-    if (poids <= 30)  return 19.99;
-    return null;
+    if (poids <= 1)  return  4.50;
+    if (poids <= 2)  return  8.30;
+    if (poids <= 3)  return 10.50;
+    if (poids <= 4)  return 11.70;
+    if (poids <= 10) return 18.50;
+    return null; // > 10 kg : validation manuelle
   }
 
   // ── Commission Stripe (1,5 % + 0,25 €) ──
