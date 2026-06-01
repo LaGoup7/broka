@@ -65,14 +65,13 @@ function homeRate(subtotalCents, weightKg) {
 }
 
 // ── Coût réel Mondial Relay (usage interne — calcul de marge, jamais affiché au client) ──
-// Source : grille tarifaire Mondial Relay communiquée — retourne null si > 10 kg (validation manuelle)
+// Source : grille tarifaire Mondial Relay communiquée — 5 kg et plus : tarif unique 18,50 €
 function getMondialRelayEstimatedCost(weightKg) {
   if (weightKg <= 1)  return  4.50;
   if (weightKg <= 2)  return  8.30;
   if (weightKg <= 3)  return 10.50;
   if (weightKg <= 4)  return 11.70;
-  if (weightKg <= 10) return 18.50;
-  return null; // > 10 kg : validation manuelle
+  return 18.50; // 5 kg et plus
 }
 
 export default async function handler(req, res) {

@@ -363,10 +363,12 @@ export default async function handler(req, res) {
     // Email fermier — critique : si échec, on renvoie 500 pour que Stripe retente
     await sendFarmerEmail(session, lineItems);
 
-    // Email client — non bloquant
-    sendCustomerEmail(session, lineItems).catch(err =>
-      console.error('Email client non envoyé:', err.message)
-    );
+    // Email client — attendu ; erreur logguée sans renvoyer 500 (évite double email fermier)
+    try {
+      await sendCustomerEmail(session, lineItems);
+    } catch (err) {
+      console.error('Email client non envoyé:', err.message);
+    }
 
     // Google Sheets — non bloquant
     appendToGoogleSheets(session, lineItems).catch(err =>
