@@ -80,12 +80,12 @@ export default async function handler(req, res) {
         <p style="margin:0 0 8px;font-size:13px;color:#b09070;letter-spacing:2px;text-transform:uppercase;">Bonjour,</p>
         <h2 style="margin:0 0 28px;font-size:26px;color:#1e3209;font-weight:400;font-style:italic;">${safePrenom} ${safeNom}</h2>
 
-        <p style="margin:0 0 16px;font-size:15px;color:#444;line-height:1.8;">Merci de votre interet pour nos produits artisanaux. Voici votre guide gratuit &mdash; conseils et idees recettes avec notre vinaigre de cidre BIO.</p>
+        <p style="margin:0 0 16px;font-size:15px;color:#444;line-height:1.8;">Merci de votre int&eacute;r&ecirc;t pour nos produits artisanaux. Voici votre guide gratuit &mdash; conseils et id&eacute;es recettes avec notre vinaigre de cidre BIO.</p>
 
-        <p style="margin:0 0 36px;font-size:15px;color:#444;line-height:1.8;">Elabore lentement en Xiberoa, au rythme du vent et des saisons, notre vinaigre de cidre BIO porte le caractere authentique du Pays Basque.</p>
+        <p style="margin:0 0 36px;font-size:15px;color:#444;line-height:1.8;">&Eacute;labor&eacute; lentement en Xiberoa, au rythme du vent et des saisons, notre vinaigre de cidre BIO porte le caract&egrave;re authentique du Pays Basque.</p>
 
         <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding-bottom:40px;">
-          <a href="${GUIDE}" style="display:inline-block;background:#1e3209;color:#f4ede3;text-decoration:none;padding:18px 44px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">Telecharger le guide</a>
+          <a href="${GUIDE}" style="display:inline-block;background:#1e3209;color:#f4ede3;text-decoration:none;padding:18px 44px;border-radius:4px;font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;">T&eacute;l&eacute;charger le guide</a>
         </td></tr></table>
 
         <table width="100%" cellpadding="0" cellspacing="0"><tr>
@@ -94,7 +94,7 @@ export default async function handler(req, res) {
           <td style="border-top:1px solid #e8ddd0;"></td>
         </tr></table>
 
-        <p style="margin:32px 0 24px;font-size:14px;color:#888;line-height:1.8;text-align:center;">Retrouvez-nous chaque samedi sur les marches du Pays Basque,<br>ou commandez directement sur notre site.</p>
+        <p style="margin:32px 0 24px;font-size:14px;color:#888;line-height:1.8;text-align:center;">Retrouvez-nous chaque samedi sur les march&eacute;s du Pays Basque,<br>ou commandez directement sur notre site.</p>
 
         <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
           <a href="${SITE}" style="display:inline-block;background:transparent;color:#1e3209;text-decoration:none;padding:14px 36px;border-radius:4px;border:1.5px solid #1e3209;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Visiter le site</a>
@@ -113,10 +113,10 @@ export default async function handler(req, res) {
   const farmerHtml = `
     <h2 style="color:#253D0D;font-family:sans-serif;">Nouveau contact BroKa</h2>
     <table style="border-collapse:collapse;font-family:sans-serif;font-size:15px;">
-      <tr><td style="padding:6px 16px 6px 0;color:#666;">Prenom</td><td><b>${safePrenom}</b></td></tr>
+      <tr><td style="padding:6px 16px 6px 0;color:#666;">Pr&eacute;nom</td><td><b>${safePrenom}</b></td></tr>
       <tr><td style="padding:6px 16px 6px 0;color:#666;">Nom</td><td><b>${safeNom}</b></td></tr>
       <tr><td style="padding:6px 16px 6px 0;color:#666;">Email</td><td><a href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
-      <tr><td style="padding:6px 16px 6px 0;color:#666;">Telephone</td><td>${safeTel || '—'}</td></tr>
+      <tr><td style="padding:6px 16px 6px 0;color:#666;">T&eacute;l&eacute;phone</td><td>${safeTel || '—'}</td></tr>
     </table>`;
 
   // Sauvegarde du lead en premier — indépendant de l'envoi email

@@ -25,9 +25,14 @@ function parseReview(r) {
 
 // ── GET — avis approuvés (publics) ───────────────────────────────────────────
 async function handleGet(res) {
-  const raw     = await redis.lrange('broka:reviews:approved', 0, 49);
-  const reviews = raw.map(parseReview).reverse(); // du plus ancien au plus récent
-  return res.status(200).json({ reviews });
+  try {
+    const raw     = await redis.lrange('broka:reviews:approved', 0, 49);
+    const reviews = raw.map(parseReview).reverse();
+    return res.status(200).json({ reviews });
+  } catch (e) {
+    console.error('Redis reviews GET failed:', e.message);
+    return res.status(200).json({ reviews: [] });
+  }
 }
 
 // ── POST — soumettre un nouvel avis ──────────────────────────────────────────
@@ -56,7 +61,10 @@ async function handlePost(req, res) {
     date:    new Date().toISOString().slice(0, 10),
   };
 
-  await redis.lpush('broka:reviews:pending', JSON.stringify(review));
+  try { await redis.lpush('broka:reviews:pending', JSON.stringify(review)); } catch (e) {
+    console.error('Redis reviews POST failed:', e.message);
+    return res.status(503).json({ error: 'Service temporairement indisponible.' });
+  }
 
   // Email de modération à Rémi
   await sendModerationEmail(review).catch(e =>

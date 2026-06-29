@@ -587,8 +587,27 @@
     #avis .sec-label { color: var(--green-mid); }
     #avis h2 { color: var(--txt-dk); }
     #avis .divider { background: var(--green-mid); }
-    .avis-grid { display: grid; gap: 20px; margin-top: 32px; }
-    @media (min-width: 640px) { .avis-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    /* ── CAROUSEL AVIS ── */
+    .avis-carousel { position: relative; margin-top: 32px; }
+    .avis-track-outer { overflow: hidden; }
+    .avis-track { display: flex; gap: 20px; transition: transform .45s cubic-bezier(.4,0,.2,1); will-change: transform; }
+    .avis-track .avis-card { flex: 0 0 calc((100% - 40px) / 3); }
+    @media (max-width: 959px) { .avis-track .avis-card { flex: 0 0 calc((100% - 20px) / 2); } }
+    @media (max-width: 639px)  { .avis-track .avis-card { flex: 0 0 100%; } }
+    #avis-dynamic { display: contents; }
+    .avis-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; }
+    .avis-prev, .avis-next {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: white; border: 1.5px solid var(--cream-bd);
+      color: var(--green-deep); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: var(--tr); flex-shrink: 0;
+    }
+    .avis-prev:hover, .avis-next:hover { background: var(--green-deep); color: white; border-color: var(--green-deep); }
+    .avis-prev:disabled, .avis-next:disabled { opacity: .3; cursor: not-allowed; pointer-events: none; }
+    .avis-dots { display: flex; gap: 6px; align-items: center; }
+    .avis-dot { width: 8px; height: 8px; border-radius: 4px; background: var(--cream-bd); border: none; cursor: pointer; transition: var(--tr); padding: 0; }
+    .avis-dot.active { background: var(--green-deep); width: 24px; }
     .avis-card {
       background: #fff;
       border-radius: var(--r-lg);
@@ -631,19 +650,22 @@
     .histoire-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
 
     /* ── MOBILE REORDER ── */
-    /* Desktop DOM : hero > produits > vinaigre > avis > histoire > video > marches > guide > faq */
-    /* Mobile      : idem sauf marches avant video (info pratique avant contenu inspirant)        */
+    /* Desktop DOM : hero > produits > vinaigre > vinaigre-vivant > comparatif > confiance > avis > histoire > video > marches > guide > faq */
+    /* Mobile      : idem sauf marches avant video (info pratique avant contenu inspirant)                                                   */
     @media (max-width: 639px) {
       main { display: flex; flex-direction: column; }
-      #hero          { order: 1; }
-      #produits      { order: 2; }
-      #vinaigre      { order: 3; }
-      #avis          { order: 4; }
-      #histoire      { order: 5; }
-      #marches       { order: 6; }
-      .video-section { order: 7; }
-      #guide         { order: 8; }
-      #faq           { order: 9; }
+      #hero             { order: 1; }
+      #produits         { order: 2; }
+      #vinaigre         { order: 3; }
+      #vinaigre-vivant  { order: 4; }
+      #comparatif       { order: 5; }
+      #confiance        { order: 6; }
+      #avis             { order: 7; }
+      #histoire         { order: 8; }
+      #marches          { order: 9; }
+      .video-section    { order: 10; }
+      #guide            { order: 11; }
+      #faq              { order: 12; }
     }
 
     /* ── MODAL AVIS ── */
@@ -772,6 +794,95 @@
     }
     .vinaigre-usage-item span:last-child { font-size: .88rem; color: rgba(255,255,255,.7); line-height: 1.6; }
     .vinaigre-cta { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; }
+
+    /* ── USAGE QUOTIDIEN ── */
+    .usage-quotidien { margin-top: 36px; }
+    .usage-quotidien-title { font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--brown-lt); margin-bottom: 4px; }
+    .usage-grid { display: flex; flex-direction: column; }
+    .usage-item {
+      display: grid; grid-template-columns: 170px 1fr; gap: 0 28px;
+      padding: 14px 0; align-items: baseline;
+      border-top: 1px solid rgba(255,255,255,.09);
+    }
+    .usage-item:last-child { border-bottom: 1px solid rgba(255,255,255,.09); }
+    .usage-label { font-size: .65rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--brown-lt); line-height: 1.6; }
+    .usage-item p { font-size: .88rem; color: rgba(255,255,255,.68); line-height: 1.65; margin: 0; }
+    @media (max-width: 540px) {
+      .usage-item { grid-template-columns: 1fr; gap: 2px; padding: 12px 0; }
+    }
+
+    /* ── VINAIGRE VIVANT ── */
+    #vinaigre-vivant { background: var(--cream); }
+    .vivant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px; }
+    @media (min-width: 720px) { .vivant-grid { grid-template-columns: repeat(4, 1fr); } }
+    .vivant-card { background: #fff; border: 1px solid var(--cream-bd); border-radius: var(--r-lg); padding: 28px 22px; }
+    .vivant-card-icon { font-size: 1.1rem; color: var(--brown); margin-bottom: 14px; letter-spacing: .08em; }
+    .vivant-card h3 { font-size: 1rem; color: var(--green-deep); margin-bottom: 8px; }
+    .vivant-card p { font-size: .86rem; color: var(--txt-lt); line-height: 1.65; margin: 0; }
+
+    /* ── COMPARATIF ── */
+    #comparatif { background: var(--green-deep); }
+    #comparatif .sec-label { color: var(--brown-lt); }
+    #comparatif h2 { color: #fff; }
+    #comparatif .divider { background: var(--brown-lt); }
+    #comparatif > .container > p { color: rgba(255,255,255,.7); max-width: 600px; margin-bottom: 36px; }
+    .comparatif-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 480px) { .comparatif-grid { grid-template-columns: 1fr; } }
+    .comparatif-col { border-radius: var(--r-lg); padding: 28px 24px; }
+    .comparatif-col.std { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); }
+    .comparatif-col.artisan { background: rgba(201,164,90,.1); border: 1px solid rgba(201,164,90,.28); }
+    .comparatif-col-label { font-size: .68rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 20px; display: block; }
+    .comparatif-col.std .comparatif-col-label { color: rgba(255,255,255,.35); }
+    .comparatif-col.artisan .comparatif-col-label { color: var(--brown-lt); }
+    .comparatif-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .comparatif-list li { font-size: .88rem; line-height: 1.5; padding-left: 22px; position: relative; }
+    .comparatif-col.std .comparatif-list li { color: rgba(255,255,255,.4); }
+    .comparatif-col.std .comparatif-list li::before { content: '—'; position: absolute; left: 0; color: rgba(255,255,255,.2); }
+    .comparatif-col.artisan .comparatif-list li { color: rgba(255,255,255,.85); }
+    .comparatif-col.artisan .comparatif-list li::before { content: '✓'; position: absolute; left: 0; color: var(--brown-lt); font-weight: 700; }
+
+    /* ── CONFIANCE ── */
+    #confiance { background: var(--cream-dark); }
+    .confiance-inner { max-width: 620px; text-align: center; margin: 0 auto; padding-top: 8px; }
+    .confiance-inner h2 { color: var(--green-deep); font-size: clamp(1.2rem,3vw,1.9rem); }
+    .confiance-inner p { font-size: .97rem; color: var(--txt-md); line-height: 1.85; margin-top: 20px; }
+
+    /* ── POURQUOI CE PRIX ── */
+    .prix-justif {
+      background: var(--green-deep); border-radius: var(--r-lg);
+      padding: 32px 36px; margin-bottom: 40px;
+      position: relative; overflow: hidden;
+    }
+    .prix-justif::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--brown), var(--brown-lt), var(--brown));
+    }
+    .prix-justif-eyebrow {
+      font-size: .68rem; font-weight: 700; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--brown-lt); margin-bottom: 10px;
+    }
+    .prix-justif h3 {
+      font-family: var(--ff-disp); font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+      color: #fff; margin-bottom: 24px; font-weight: 600; line-height: 1.3;
+    }
+    .prix-justif-items { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 24px; }
+    @media (min-width: 600px) { .prix-justif-items { grid-template-columns: 1fr 1fr; } }
+    .prix-justif-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-size: .88rem; color: rgba(255,255,255,.78); line-height: 1.6;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.09);
+      border-radius: 10px; padding: 12px 16px;
+    }
+    .prix-justif-marker {
+      color: var(--brown-lt); font-weight: 700; flex-shrink: 0;
+      font-size: .95rem; line-height: 1.6;
+    }
+    .prix-justif-concl {
+      font-size: .88rem; color: rgba(255,255,255,.45); font-style: italic;
+      border-top: 1px solid rgba(255,255,255,.1); padding-top: 16px; margin: 0; line-height: 1.7;
+    }
+    .prod-limite { font-size: .78rem; color: var(--txt-lt); font-style: italic; text-align: center; margin: 4px 0 32px; }
+    .badge-discover { display: inline-block; background: var(--cream-dark); border: 1px solid var(--cream-bd); color: var(--brown); font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 3px 10px; border-radius: var(--r-pill); margin-bottom: 8px; }
 
     /* ── FOOTER ── */
     footer { background: #0B1A0E; color: rgba(255,255,255,.5); font-size: .85rem; }
@@ -991,7 +1102,7 @@
           {
             "@type": "Question",
             "name": "Comment conserver le vinaigre de cidre ?",
-            "acceptedAnswer": { "@type": "Answer", "text": "À température ambiante, à l'abri de la lumière directe. Une fois ouvert, le vinaigre se conserve indéfiniment — son acidité naturelle l'auto-préserve. Les contenants vrac push-up à robinet vitop se conservent de la même façon." }
+            "acceptedAnswer": { "@type": "Answer", "text": "À température ambiante, à l'abri de la lumière directe. Une fois ouvert, le vinaigre se conserve très longtemps grâce à son acidité naturelle. Les contenants vrac push-up à robinet vitop se conservent de la même façon, à température ambiante, à l'abri de la lumière directe." }
           },
           {
             "@type": "Question",
@@ -1002,6 +1113,36 @@
             "@type": "Question",
             "name": "Le vinaigre en 5 L est-il disponible en ligne ?",
             "acceptedAnswer": { "@type": "Answer", "text": "Le format 5 L n'est pas encore disponible à la commande en ligne en raison de son poids. Contactez-nous directement par WhatsApp ou email — nous trouverons une solution." }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment consommer le vinaigre de cidre BroKa ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Dans l'assiette : vinaigrettes, marinades, légumes, sauces, bouillons. Il peut aussi se boire dilué, en petite quantité, dans un grand verre d'eau." }
+          },
+          {
+            "@type": "Question",
+            "name": "Peut-on boire le vinaigre de cidre pur ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui, ce vinaigre de cidre BroKa se boit pur — une petite quantité directement ou dilué dans un verre d'eau, selon votre goût. Sa fermentation lente lui donne un caractère franc mais doux, sans agressivité." }
+          },
+          {
+            "@type": "Question",
+            "name": "Pourquoi le vinaigre Sagar Ozpina est-il trouble ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Parce qu'il n'est pas filtré. Ce dépôt naturel est lié à la fermentation et à la présence de la mère. Ce n'est pas un défaut : c'est la signature d'un produit brut et vivant." }
+          },
+          {
+            "@type": "Question",
+            "name": "La mère du vinaigre est-elle normale ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui. C'est une formation naturelle issue de la fermentation. Elle peut apparaître sous forme de voile ou de dépôt. Elle est tout à fait inoffensive." }
+          },
+          {
+            "@type": "Question",
+            "name": "Le vinaigre de cidre remplace-t-il un traitement médical ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Non. Sagar Ozpina est un aliment, pas un médicament. Il s'utilise dans le cadre d'une alimentation variée, avec plaisir et bon sens." }
+          },
+          {
+            "@type": "Question",
+            "name": "Qui doit être prudent avec une consommation quotidienne de vinaigre de cidre ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Les personnes souffrant de reflux important, de troubles digestifs sensibles, suivant un traitement médical particulier ou ayant une pathologie chronique devraient demander conseil à un professionnel de santé avant une consommation quotidienne." }
           }
         ]
       },
@@ -1185,7 +1326,7 @@
     <p class="hero-sub">Vinaigre artisanal, Xipister &amp; Guindillas —<br>produits à la ferme depuis trois générations.</p>
     <div class="hero-ctas">
       <a href="#produits" class="btn btn-basque btn-lg">Voir nos produits →</a>
-      <a href="#guide" class="btn btn-outline btn-lg">Guide gratuit</a>
+      <a href="#guide" class="btn btn-outline btn-lg">Recevoir 7 recettes</a>
     </div>
   </div>
 </section>
@@ -1197,6 +1338,19 @@
     <h2 class="fi">Fait avec soin, à la ferme</h2>
     <div class="divider fi"></div>
 
+    <!-- Bloc justification prix -->
+    <div class="prix-justif fi">
+      <p class="prix-justif-eyebrow">Pourquoi 17 € les 500 ml ?</p>
+      <h3>Parce que ce n'est pas un vinaigre standardisé.</h3>
+      <div class="prix-justif-items">
+        <div class="prix-justif-item"><span class="prix-justif-marker">✓</span>Pommes du verger familial &mdash; cultivées en BIO, sans traitement chimique</div>
+        <div class="prix-justif-item"><span class="prix-justif-marker">✓</span>Fermentation lente à l'air libre &mdash; plusieurs mois, pas quelques jours</div>
+        <div class="prix-justif-item"><span class="prix-justif-marker">✓</span>Non filtré, non pasteurisé, avec la mère &mdash; rien n'a été retiré</div>
+        <div class="prix-justif-item"><span class="prix-justif-marker">✓</span>Produit en Soule, Pays Basque &mdash; une origine claire, une seule ferme</div>
+      </div>
+      <p class="prix-justif-concl">On ne vend pas un simple condiment — on vend le temps, le verger et le caractère du Pays Basque.</p>
+    </div>
+
     <!-- Packs (featured) -->
     <!-- Note : les packs BroKa sont des sélections pratiques, sans réduction permanente affichée -->
     <p class="packs-intro fi">Sélections pour découvrir, offrir ou recharger.</p>
@@ -1206,10 +1360,10 @@
       <!-- Photo recommandée : sac 1,5 L posé à côté d'une bouteille 500 ml -->
       <div class="pack-card fi">
         <div class="pack-img">
-          <img src="images/Duo_Recharge_1,5%20L_bouteille_500ml.png" alt="Duo Recharge 1,5 L + bouteille 500 ml BroKa" loading="lazy" style="object-position:center center;">
+          <img src="images/Duo_Recharge_1_5L_bouteille_500ml.png" alt="Duo Recharge 1,5 L + bouteille 500 ml BroKa" loading="lazy" style="object-position:center center;">
         </div>
         <div class="pack-body">
-          <span class="badge-new">Routine</span>
+          <span class="badge-new">Recharger au quotidien</span>
           <h3>Le Quotidien</h3>
           <p class="pack-desc">Vinaigre de cidre BIO 500 ml + vrac 1,5 L. La bouteille du quotidien et sa recharge en sac push-up à robinet vitop.</p>
           <div class="pack-pricing">
@@ -1226,7 +1380,7 @@
           <img src="images/Pack_famille_vinaigre.png" alt="Pack Recharge Famille BroKa — bouteille 500 ml et sac 3 L" loading="lazy" style="object-position:center center;">
         </div>
         <div class="pack-body">
-          <span class="badge-new">Famille</span>
+          <span class="badge-new">Grand format famille</span>
           <h3>La Réserve</h3>
           <p class="pack-desc">Vinaigre de cidre BIO 500 ml + vrac 3 L. Le grand format famille — toujours du vinaigre BIO à portée de main.</p>
           <div class="pack-pricing">
@@ -1242,7 +1396,7 @@
           <img src="images/pack_prestige.png" alt="Le Coffret BroKa — Vinaigre Sagar Ozpina, Xipister, Poudre de Guindillas et Noisettes BIO" loading="lazy" style="object-position:center center;">
         </div>
         <div class="pack-body">
-          <span class="badge-pop">Idéal cadeau</span>
+          <span class="badge-pop">Pour offrir</span>
           <h3>Le Coffret</h3>
           <p class="pack-desc">Vinaigre · Xipister · Poudre de Guindillas · Noisettes BIO. Les quatre saveurs de la ferme, réunies pour offrir.</p>
           <div class="pack-pricing">
@@ -1253,6 +1407,7 @@
       </div>
 
     </div>
+    <p class="prod-limite fi">Production artisanale &mdash; quantités limitées selon les récoltes annuelles du verger.</p>
 
     <!-- Produits individuels -->
     <div class="products-grid">
@@ -1262,8 +1417,9 @@
           <img src="images/broka_bouteille_pommes.jpg" alt="Vinaigre de cidre BIO Sagar Ozpina 500 ml — Ferme Goyhenetxea, Pays Basque" loading="lazy" style="object-position:center 20%;">
         </div>
         <div class="prod-body">
+          <span class="badge-discover">Pour découvrir</span>
           <h4>Vinaigre de cidre BIO 500 ml</h4>
-          <p class="prod-desc">Non sulfité, non pasteurisé, non filtré. Un vinaigre vivant. Certifié Agriculture Biologique FR-BIO-10.</p>
+          <p class="prod-desc">Sans sulfites ajoutés, non pasteurisé, non filtré. Un vinaigre vivant. Certifié Agriculture Biologique FR-BIO-10.</p>
           <div class="prod-footer">
             <div class="prod-price">17 €</div>
             <button class="btn-add" onclick="addToCart('vinaigre_500')">+ Panier</button>
@@ -1371,14 +1527,15 @@
     <div class="divider fi" style="background:var(--brown-lt)"></div>
     <p class="fi" style="color:rgba(255,255,255,.75);max-width:560px;font-size:1rem;line-height:1.8">
       Un vinaigre de cidre BIO issu d'un seul verger en Soule, fermenté lentement à l'air libre,
-      non filtré, non pasteurisé.
+      non filtré, non pasteurisé. En bouche, une acidité franche mais équilibrée, des notes de pomme fermentée
+      et une vraie longueur — il relève une salade, une marinade ou des légumes sans écraser le goût des aliments.
     </p>
 
     <div class="vinaigre-chips fi">
       <span class="vinaigre-chip">BIO · FR-BIO-10</span>
       <span class="vinaigre-chip">Non filtré</span>
       <span class="vinaigre-chip">Non pasteurisé</span>
-      <span class="vinaigre-chip">Pas sulfité</span>
+      <span class="vinaigre-chip">Sans sulfites ajoutés</span>
       <span class="vinaigre-chip">Avec la mère</span>
       <span class="vinaigre-chip">Sans additif</span>
       <span class="vinaigre-chip">Issu des pommes de notre verger</span>
@@ -1396,7 +1553,7 @@
         </div>
 
         <p class="vinaigre-card-label">Ce que c'est</p>
-        <h3 style="margin-bottom:10px">Sagar Ozpina<br>vinaigre artisanal BIO</h3>
+        <h3 style="margin-bottom:10px">Sagar Ozpina<br>Vinaigre artisanal BIO</h3>
         <p style="font-size:.86rem;color:rgba(255,255,255,.62);line-height:1.7;margin-bottom:20px;flex:1">
           Deux fermentations artisanales — alcoolique puis acétique, à l'air libre.
           La mère reste intacte dans le contenant. Toute la richesse du fruit, préservée.
@@ -1421,7 +1578,7 @@
         <!-- Le temps -->
         <div style="padding:12px 16px;border-left:2px solid rgba(201,164,90,.5);background:rgba(201,164,90,.06);border-radius:0 10px 10px 0">
           <p style="font-size:.67rem;color:rgba(201,164,90,.7);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:5px">Le temps qu'il faut</p>
-          <p style="font-size:.88rem;color:rgba(255,255,255,.85);line-height:1.6;margin:0">Plusieurs mois — le temps que le vinaigre prenne son caractère.</p>
+          <p style="font-size:.88rem;color:rgba(255,255,255,.85);line-height:1.6;margin:0">Plusieurs mois — c'est le délai nécessaire pour que le vinaigre prenne son caractère.</p>
         </div>
 
       </div>
@@ -1429,7 +1586,7 @@
       <!-- Colonne Vertus & Cure -->
       <div class="vinaigre-card fi">
         <p class="vinaigre-card-label">Usage &amp; rituel</p>
-        <h3>Un vinaigre vivant<br>la cure de 21 jours</h3>
+        <h3>21 jours pour adopter<br>un vrai vinaigre fermier</h3>
         <p style="margin-bottom:20px">
           Fermenté lentement, conservé tel quel. Ce que Sagar Ozpina est, il le reste.
         </p>
@@ -1448,22 +1605,129 @@
           </div>
         </div>
         <div style="background:rgba(201,164,90,.12);border:1px solid rgba(201,164,90,.3);border-radius:14px;padding:16px 18px">
-          <p style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brown-lt);margin-bottom:8px">La cure de 21 jours</p>
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--brown-lt);margin-bottom:8px">Le rituel de 21 jours</p>
           <p style="font-size:.86rem;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:10px">
-            Chaque matin, diluez <strong style="color:#fff">1 c. à café</strong> dans un grand verre d'eau
-            (200 ml minimum). Peut aussi se déguster pur. Vingt et un jours, un geste simple, inspiré des usages anciens du vinaigre de cidre.
+            Pendant 21 jours, l'idée n'est pas de rechercher un effet miracle, mais d'intégrer un produit brut, vivant et fermier dans une routine simple : pur ou dilué dans l'eau le matin, en vinaigrette, dans une marinade ou avec des légumes tièdes.
           </p>
         </div>
       </div>
 
     </div>
 
+    <div class="usage-quotidien fi">
+      <p class="usage-quotidien-title">7 façons de l'utiliser au quotidien</p>
+      <div class="usage-grid">
+        <div class="usage-item">
+          <span class="usage-label">Le matin</span>
+          <p>Une petite quantité — pure ou diluée dans un grand verre d'eau — selon votre goût.</p>
+        </div>
+        <div class="usage-item">
+          <span class="usage-label">En vinaigrette</span>
+          <p>Avec huile d'olive, moutarde et ail confit — la vinaigrette du verger, en deux coups de fourchette.</p>
+        </div>
+        <div class="usage-item">
+          <span class="usage-label">Sur légumes tièdes</span>
+          <p>Un filet en fin de cuisson sur courgettes, carottes ou haricots verts rôtis.</p>
+        </div>
+        <div class="usage-item">
+          <span class="usage-label">En marinade</span>
+          <p>Avec de l'huile, des herbes, de l'ail ou du piment — pour viandes, poissons ou légumes grillés.</p>
+        </div>
+        <div class="usage-item">
+          <span class="usage-label">En déglaçage</span>
+          <p>Pour déglacer une poêle et obtenir un jus expressif — volaille, veau ou champignons sautés.</p>
+        </div>
+        <div class="usage-item">
+          <span class="usage-label">Dans un bouillon</span>
+          <p>Quelques gouttes pour équilibrer une soupe ou une sauce — une acidité fine qui relève sans dominer.</p>
+        </div>
+        <div class="usage-item">
+          <span class="usage-label">Légumineuses &amp; féculents</span>
+          <p>Pommes de terre tièdes, lentilles, haricots blancs — le vinaigre fait ressortir le goût.</p>
+        </div>
+      </div>
+    </div>
+
     <div class="vinaigre-cta fi">
       <a href="#produits" class="btn btn-brown">Voir nos produits →</a>
       <button class="btn btn-basque" onclick="addToCart('vinaigre_500')" style="gap:10px">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
-        Je commence la cure — 17 €
+        J'adopte le rituel — 17 €
       </button>
+    </div>
+  </div>
+</section>
+
+<!-- ════ POURQUOI UN VINAIGRE VIVANT ════ -->
+<section id="vinaigre-vivant">
+  <div class="container">
+    <p class="sec-label fi">Ce qui fait la différence</p>
+    <h2 class="fi">Pourquoi choisir un vinaigre vivant ?</h2>
+    <div class="divider fi"></div>
+    <p class="fi" style="max-width:600px;margin-bottom:0">Tous les vinaigres ne se ressemblent pas. Sagar Ozpina garde son trouble naturel, son caractère brut et toute la personnalité des pommes du verger. Un produit qui n'a pas été standardisé pour plaire à tous — il est ce qu'il est.</p>
+    <div class="vivant-grid">
+      <div class="vivant-card fi">
+        <div class="vivant-card-icon">✦ Vivant</div>
+        <h3>Avec la mère</h3>
+        <p>Le voile naturel issu de la fermentation est conservé. Il témoigne d'un vinaigre non standardisé, vivant et évolutif.</p>
+      </div>
+      <div class="vivant-card fi">
+        <div class="vivant-card-icon">✦ Brut</div>
+        <h3>Non filtré</h3>
+        <p>Le vinaigre garde sa matière naturelle. Son aspect trouble n'est pas un défaut : c'est la signature d'un produit brut.</p>
+      </div>
+      <div class="vivant-card fi">
+        <div class="vivant-card-icon">✦ Intact</div>
+        <h3>Non pasteurisé</h3>
+        <p>Il n'est pas chauffé après fermentation. Ce choix respecte le produit tel qu'il s'est formé lentement.</p>
+      </div>
+      <div class="vivant-card fi">
+        <div class="vivant-card-icon">✦ Tracé</div>
+        <h3>Issu du verger</h3>
+        <p>Les pommes viennent du verger familial en Soule. Une origine claire, courte, maîtrisée.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ COMPARATIF ════ -->
+<section id="comparatif">
+  <div class="container">
+    <p class="sec-label fi">Artisanal vs standardisé</p>
+    <h2 class="fi">Ce qui change quand on laisse le temps faire</h2>
+    <div class="divider fi"></div>
+    <p class="fi">Un vinaigre conventionnel cherche l'efficacité ; un vinaigre de ferme cherche le caractère. Chez BroKa, la fermentation se fait lentement, à l'air libre, sans filtration excessive, sans pasteurisation et sans sulfites ajoutés. Le résultat : un vinaigre plus brut, plus expressif, moins lissé.</p>
+    <div class="comparatif-grid fi">
+      <div class="comparatif-col std">
+        <span class="comparatif-col-label">Vinaigre standardisé</span>
+        <ul class="comparatif-list">
+          <li>Filtré</li>
+          <li>Pasteurisé</li>
+          <li>Goût standardisé</li>
+          <li>Origine souvent multiple</li>
+          <li>Produit lissé</li>
+        </ul>
+      </div>
+      <div class="comparatif-col artisan">
+        <span class="comparatif-col-label">Sagar Ozpina</span>
+        <ul class="comparatif-list">
+          <li>Non filtré</li>
+          <li>Non pasteurisé</li>
+          <li>Goût vivant et évolutif</li>
+          <li>Pommes du verger familial</li>
+          <li>Produit brut et fermier</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CONFIANCE ════ -->
+<section id="confiance">
+  <div class="container">
+    <div class="confiance-inner">
+      <h2 class="fi">Pas de promesse miracle.<br>Juste un vrai vinaigre.</h2>
+      <p class="fi">Nous ne promettons ni effet détox, ni perte de poids, ni bénéfice médical. Nous faisons un vinaigre de cidre BIO, vivant, non filtré, non pasteurisé, issu de notre verger et fermenté lentement. C'est déjà beaucoup.</p>
     </div>
   </div>
 </section>
@@ -1474,45 +1738,67 @@
     <p class="sec-label fi">Ils nous font confiance</p>
     <h2 class="fi">Ce qu'ils disent</h2>
     <div class="divider fi"></div>
-    <div class="avis-grid">
-      <div class="avis-card fi">
-        <div class="avis-quote">&ldquo;</div>
-        <div class="stars">★★★★★</div>
-        <p class="avis-txt">Un vinaigre d'une qualité exceptionnelle. J'utilise le vrac 3L depuis six mois — je ne peux plus m'en passer pour mes salades et mes marinades.</p>
-        <div class="avis-footer">
-          <div class="avis-avatar">ML</div>
-          <div>
-            <div class="avis-author">Marie L.</div>
-            <div class="avis-source">Pau &middot; Cliente fidèle</div>
+    <div class="avis-carousel fi">
+      <div class="avis-track-outer">
+        <div class="avis-track" id="avis-track">
+          <div class="avis-card">
+            <div class="avis-quote">&ldquo;</div>
+            <div class="stars">★★★★★</div>
+            <p class="avis-txt">Un vinaigre d'une qualité exceptionnelle. J'utilise le vrac 3 L depuis six mois — je ne peux plus m'en passer pour mes salades et mes marinades.</p>
+            <div class="avis-footer">
+              <div class="avis-avatar">ML</div>
+              <div><div class="avis-author">Marie L.</div><div class="avis-source">Pau &middot; Cliente fidèle</div></div>
+            </div>
           </div>
+          <div class="avis-card">
+            <div class="avis-quote">&ldquo;</div>
+            <div class="stars">★★★★★</div>
+            <p class="avis-txt">Le Xipister est un régal sur la plancha. J'en offre à chaque apéro — mes amis me réclament l'adresse depuis !</p>
+            <div class="avis-footer">
+              <div class="avis-avatar">JB</div>
+              <div><div class="avis-author">Jean-Pierre B.</div><div class="avis-source">Biarritz &middot; Acheté au marché</div></div>
+            </div>
+          </div>
+          <div class="avis-card">
+            <div class="avis-quote">&ldquo;</div>
+            <div class="stars">★★★★★</div>
+            <p class="avis-txt">Produit artisanal et authentique, livraison soignée. On sent vraiment le travail fait à la ferme — je recommande sans hésiter.</p>
+            <div class="avis-footer">
+              <div class="avis-avatar">SM</div>
+              <div><div class="avis-author">Sophie M.</div><div class="avis-source">Bayonne &middot; Commande en ligne</div></div>
+            </div>
+          </div>
+          <div class="avis-card">
+            <div class="avis-quote">&ldquo;</div>
+            <div class="stars">★★★★★</div>
+            <p class="avis-txt">Je l'utilise tous les matins dilué dans un verre d'eau. Le goût est franc, naturel, très différent des vinaigres industriels.</p>
+            <div class="avis-footer">
+              <div class="avis-avatar">CA</div>
+              <div><div class="avis-author">Céline A.</div><div class="avis-source">Toulouse &middot; Commande en ligne</div></div>
+            </div>
+          </div>
+          <div class="avis-card">
+            <div class="avis-quote">&ldquo;</div>
+            <div class="stars">★★★★★</div>
+            <p class="avis-txt">On sent tout de suite que c'est un produit vivant. Il est trouble, aromatique, et parfait en vinaigrette.</p>
+            <div class="avis-footer">
+              <div class="avis-avatar">TM</div>
+              <div><div class="avis-author">Thomas M.</div><div class="avis-source">Bordeaux &middot; Acheté au marché</div></div>
+            </div>
+          </div>
+          <!-- Avis dynamiques chargés depuis Redis -->
+          <div id="avis-dynamic"></div>
         </div>
       </div>
-      <div class="avis-card fi">
-        <div class="avis-quote">&ldquo;</div>
-        <div class="stars">★★★★★</div>
-        <p class="avis-txt">Le Xipister est un régal sur la plancha. J'en offre à chaque apéro — mes amis me réclament l'adresse depuis !</p>
-        <div class="avis-footer">
-          <div class="avis-avatar">JB</div>
-          <div>
-            <div class="avis-author">Jean-Pierre B.</div>
-            <div class="avis-source">Biarritz &middot; Acheté au marché</div>
-          </div>
-        </div>
+      <div class="avis-controls">
+        <button class="avis-prev" id="avis-prev" aria-label="Avis précédent">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="avis-dots" id="avis-dots"></div>
+        <button class="avis-next" id="avis-next" aria-label="Avis suivant">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </button>
       </div>
-      <div class="avis-card fi">
-        <div class="avis-quote">&ldquo;</div>
-        <div class="stars">★★★★★</div>
-        <p class="avis-txt">Produit artisanal et authentique, livraison soignée. On sent vraiment le travail fait à la ferme — je recommande sans hésiter.</p>
-        <div class="avis-footer">
-          <div class="avis-avatar">SM</div>
-          <div>
-            <div class="avis-author">Sophie M.</div>
-            <div class="avis-source">Bayonne &middot; Commande en ligne</div>
-          </div>
-        </div>
-      </div>
-      <!-- Avis dynamiques chargés depuis Redis -->
-      <div id="avis-dynamic"></div>
     </div>
     <!-- Bouton laisser un avis -->
     <div class="avis-cta">
@@ -1538,7 +1824,7 @@
           <p class="fi">De ces pommes de caractère naît Sagar Ozpina, leur vinaigre de cidre BIO, élevé lentement à l'air libre, au rythme du vent, du froid et du soleil.</p>
           <p class="fi" style="font-size:.82rem;color:var(--txt-lt);display:flex;align-items:flex-start;gap:8px">
             <span style="color:var(--green-mid);font-weight:700;font-size:.95rem;flex-shrink:0;line-height:1.6">✓</span>
-            <span>Certifié Agriculture Biologique — organisme certificateur <strong style="color:var(--txt-md);white-space:nowrap">FR-BIO-10</strong></span>
+            <span>Certifié Agriculture Biologique par l'organisme certificateur <strong style="color:var(--txt-md);white-space:nowrap">FR-BIO-10</strong></span>
           </p>
           <p class="fi histoire-closing">Ici, le temps fait tout.</p>
         </div>
@@ -1559,7 +1845,7 @@
         <div class="divider"></div>
         <p>Entre les 1&nbsp;500 pommiers de Goyhenetxea, des agneaux basques paissent librement. Pas d'herbicides, pas de moteurs — les animaux tondent, fertilisent et aèrent le sol, naturellement.</p>
         <p>L'écopâturage, c'est l'alliance du troupeau et du verger : chaque espèce nourrit l'autre, au rythme des saisons et du vivant. Le sol s'en souvient. Les pommes aussi.</p>
-        <p>Un sol vivant, nourri par le troupeau, donne des pommes de caractère. Et des pommes de caractère donnent Sagar Ozpina.</p>
+        <p>Un sol vivant, nourri par le troupeau, donne des pommes de caractère. Ce sont ces pommes qui donnent Sagar Ozpina.</p>
       </div>
 
       <!-- Vidéo -->
@@ -1579,7 +1865,7 @@
     <p class="sec-label fi">Nous retrouver</p>
     <h2 class="fi">Sur les marchés</h2>
     <div class="divider fi"></div>
-    <p class="fi">Présents aussi chaque samedi sur l'un de nos deux marchés.</p>
+    <p class="fi">Retrouvez-nous chaque samedi sur l'un de nos deux marchés.</p>
     <div class="marches-grid">
       <div class="marche-card active fi">
         <div class="marche-week">Ce samedi</div>
@@ -1606,7 +1892,7 @@
     <p class="sec-label fi">Cadeau offert</p>
     <h2 class="fi">7 idées de recettes avec<br>le vinaigre de cidre BIO</h2>
     <div class="divider fi"></div>
-    <p class="fi">Recevez notre guide PDF gratuitement — et soyez informé(e) en avant-première de nos nouveautés et présences aux marchés.</p>
+    <p class="fi">Recevez notre guide PDF gratuitement — et soyez informé(e) en avant-première de nos nouveautés et présence sur les marchés.</p>
     <div id="form-wrap" class="fi">
       <form id="lead-form" novalidate>
         <div class="form-2col">
@@ -1682,7 +1968,7 @@
 
       <details class="faq-item fi">
         <summary>Comment conserver le vinaigre de cidre ?</summary>
-        <div class="faq-body">À température ambiante, à l'abri de la lumière directe. Une fois ouvert, le vinaigre se conserve indéfiniment — son acidité naturelle l'auto-préserve. Les contenants vrac push-up à robinet vitop se conservent de la même façon.</div>
+        <div class="faq-body">À température ambiante, à l'abri de la lumière directe. Une fois ouvert, le vinaigre se conserve très longtemps grâce à son acidité naturelle. Les contenants vrac push-up à robinet vitop se conservent de la même façon, à température ambiante, à l'abri de la lumière directe.</div>
       </details>
 
       <details class="faq-item fi">
@@ -1692,7 +1978,37 @@
 
       <details class="faq-item fi">
         <summary>Le vinaigre en 5 L est-il disponible en ligne ?</summary>
-        <div class="faq-body">Le format 5 L n'est pas encore disponible à la commande en ligne en raison de son poids. Si vous êtes intéressé, <a href="https://wa.me/33770012652" target="_blank" rel="noopener">contactez-nous directement</a> — nous trouverons une solution.</div>
+        <div class="faq-body">Le format 5 L n'est pas encore disponible à la commande en ligne en raison de son poids. Si vous êtes intéressé(e), <a href="https://wa.me/33770012652" target="_blank" rel="noopener">contactez-nous directement</a> — nous trouverons une solution.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Comment consommer le vinaigre de cidre BroKa ?</summary>
+        <div class="faq-body">Dans l'assiette : vinaigrettes, marinades, légumes, sauces, bouillons. Il peut aussi se boire dilué, en petite quantité, dans un grand verre d'eau.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Peut-on le boire pur ?</summary>
+        <div class="faq-body">Oui, ce vinaigre de cidre BroKa se boit pur — une petite quantité directement ou dilué dans un verre d'eau, selon votre goût. Sa fermentation lente lui donne un caractère franc mais doux, sans agressivité.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Pourquoi le vinaigre est-il trouble ?</summary>
+        <div class="faq-body">Parce qu'il n'est pas filtré. Ce dépôt naturel est lié à la fermentation et à la présence de la mère. Ce n'est pas un défaut : c'est la signature d'un produit brut et vivant.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>La mère du vinaigre est-elle normale ?</summary>
+        <div class="faq-body">Oui. C'est une formation naturelle issue de la fermentation. Elle peut apparaître sous forme de voile ou de dépôt. Elle est tout à fait inoffensive.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Le vinaigre de cidre remplace-t-il un traitement ou un avis médical ?</summary>
+        <div class="faq-body">Non. Sagar Ozpina est un aliment, pas un médicament. Il s'utilise dans le cadre d'une alimentation variée, avec plaisir et bon sens.</div>
+      </details>
+
+      <details class="faq-item fi">
+        <summary>Qui doit être prudent avec une consommation quotidienne ?</summary>
+        <div class="faq-body">Les personnes souffrant de reflux important, de troubles digestifs sensibles, suivant un traitement médical particulier ou ayant une pathologie chronique devraient demander conseil à un professionnel de santé avant une consommation quotidienne.</div>
       </details>
 
     </div>
@@ -1760,7 +2076,7 @@
     <div class="avis-success" id="avis-success" style="display:none">
       <div class="avis-success-icon">🌿</div>
       <h4>Merci pour votre avis !</h4>
-      <p>Votre témoignage est en cours de modération — il sera publié dans les 24 h si validé.</p>
+      <p>Votre témoignage est en cours de modération — il sera publié sous 24 h si validé.</p>
       <div style="margin-top:20px">
         <button class="btn-avis-cancel" onclick="closeAvisModal()">Fermer</button>
       </div>
@@ -1861,7 +2177,7 @@
     poudre_guindillas:   'images/poudre_de_guindillas.png',
     noisettes_250g:      'images/noisettes.png',
     noisettes_500g:      'images/noisettes.png',
-    duo_recharge_1_5l:   'images/Duo_Recharge_1,5%20L_bouteille_500ml.png',
+    duo_recharge_1_5l:   'images/Duo_Recharge_1_5L_bouteille_500ml.png',
     pack_famille:        'images/Pack_famille_vinaigre.png',
     pack_prestige:       'images/pack_prestige.png',
   };
@@ -1877,10 +2193,10 @@
     noisettes_250g:        { name: 'Noisettes BIO — coques 250 g',           price: 4.90,  weight: 0.30 },
     noisettes_500g:        { name: 'Noisettes BIO — coques 500 g',           price: 8.90,  weight: 0.65 },
     // ── Packs ── (sélections pratiques, prix = somme des produits arrondie, sans remise affichée)
-    duo_recharge_1_5l:     { name: 'Duo Recharge 1,5 L + bouteille 500 ml', price: 56,    weight: 2.50 },
-    pack_famille:          { name: 'Pack Recharge Famille BroKa',           price: 86,    weight: 4.65 },
+    duo_recharge_1_5l:     { name: 'Le Quotidien BroKa',                    price: 56,    weight: 2.50 },
+    pack_famille:          { name: 'La Réserve BroKa',                      price: 86,    weight: 4.65 },
     // ATTENTION : pack_famille > 4 kg emballé → colis lourd, participation livraison maintenue
-    pack_prestige:         { name: 'Pack Prestige BroKa',                   price: 58.80, weight: 2.70 },
+    pack_prestige:         { name: 'Le Coffret BroKa',                      price: 58.80, weight: 2.70 },
   };
 
   // ── Règles produits complémentaires ──
@@ -2550,20 +2866,88 @@
           </div>
         </div>`;
       }).join('');
-      // Trigger scroll fade-in for newly injected cards
-      grid.querySelectorAll('.avis-card').forEach(el => {
-        el.classList.add('fi');
-        obs.observe(el);
-      });
+      // Les cartes sont gérées par le carousel (pas d'animation fi)
     } catch (_) {
       grid.innerHTML = ''; // échec silencieux — les 3 avis statiques restent visibles
     }
+  }
+
+  // ── Carousel avis ──
+  function initAvisCarousel() {
+    const track   = document.getElementById('avis-track');
+    const prevBtn = document.getElementById('avis-prev');
+    const nextBtn = document.getElementById('avis-next');
+    const dotsEl  = document.getElementById('avis-dots');
+    if (!track || !prevBtn) return;
+
+    let idx = 0;
+
+    function perView() {
+      return window.innerWidth < 640 ? 1 : window.innerWidth < 960 ? 2 : 3;
+    }
+
+    function allCards() {
+      return Array.from(track.querySelectorAll('.avis-card'));
+    }
+
+    function render() {
+      const cards = allCards();
+      const pv    = perView();
+      const max   = Math.max(0, cards.length - pv);
+      if (idx > max) idx = max;
+
+      if (cards.length > 0) {
+        const w = cards[0].offsetWidth + 20;
+        track.style.transform = `translateX(-${idx * w}px)`;
+      }
+
+      const pages  = Math.max(1, Math.ceil(cards.length / pv));
+      const curPg  = Math.min(Math.floor(idx / pv), pages - 1);
+      dotsEl.innerHTML = '';
+      for (let i = 0; i < pages; i++) {
+        const d = document.createElement('button');
+        d.className = 'avis-dot' + (i === curPg ? ' active' : '');
+        d.setAttribute('aria-label', 'Page ' + (i + 1));
+        const pi = i;
+        d.onclick = () => { idx = pi * pv; render(); };
+        dotsEl.appendChild(d);
+      }
+
+      prevBtn.disabled = idx <= 0;
+      nextBtn.disabled = idx >= max;
+    }
+
+    prevBtn.onclick = () => { idx = Math.max(0, idx - perView()); render(); };
+    nextBtn.onclick = () => {
+      const max = Math.max(0, allCards().length - perView());
+      idx = Math.min(max, idx + perView());
+      render();
+    };
+
+    // Swipe tactile
+    let tx = 0;
+    track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend',   e => {
+      const dx = tx - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 48) { dx > 0 ? nextBtn.click() : prevBtn.click(); }
+    }, { passive: true });
+
+    // Resize
+    let rt;
+    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 150); });
+
+    // Avis dynamiques : re-render quand le contenu change
+    new MutationObserver(() => requestAnimationFrame(render))
+      .observe(track, { childList: true, subtree: true });
+
+    render();
   }
 
   // Init
   renderCart();
   updateCartBtn();
   loadApprovedReviews();
+  initAvisCarousel();
 </script>
 </body>
 </html>
