@@ -930,6 +930,302 @@
     }
     .footer-bottom a { color: rgba(255,255,255,.28); transition: color .2s; }
     .footer-bottom a:hover { color: rgba(255,255,255,.6); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       REFONTE UI — FONDATIONS  (ajouts non destructifs, surchargent le CSS ci-dessus)
+       Direction artistique : ferme basque authentique — calme, éditorial,
+       lumière naturelle, luxe discret. Vert profond · crème · or patiné · rouge basque.
+       ══════════════════════════════════════════════════════════════════ */
+    :root {
+      /* Courbes de mouvement raffinées */
+      --ease-out: cubic-bezier(.22,.61,.36,1);
+      --ease-inout: cubic-bezier(.65,.05,.36,1);
+      --ease-soft: cubic-bezier(.4,0,.2,1);
+      /* Durées cohérentes */
+      --d-fast: .28s; --d-med: .55s; --d-slow: .9s;
+      /* Ombres chaudes et feuilletées (teintées vert profond plutôt que noir pur) */
+      --sh-warm-sm: 0 1px 2px rgba(28,45,25,.05), 0 2px 8px rgba(28,45,25,.05);
+      --sh-warm-md: 0 4px 12px rgba(28,45,25,.07), 0 12px 28px rgba(28,45,25,.08);
+      --sh-warm-lg: 0 8px 24px rgba(28,45,25,.09), 0 24px 56px rgba(28,45,25,.12);
+      --header-h: 64px;
+      --max-read: 62ch;        /* largeur de lecture confortable */
+    }
+
+    /* Garde-fou : les panneaux hors-canvas (menu mobile, tiroir panier) ne créent pas de scroll horizontal */
+    body { overflow-x: hidden; }
+
+    /* Rythme vertical éditorial : plus de respiration, variable selon l'écran */
+    section { padding: clamp(64px, 9vw, 128px) 0; }
+    .video-section, #confiance { padding: clamp(72px, 11vw, 152px) 0; }
+
+    /* Typographie affinée */
+    h1 { letter-spacing: -.015em; line-height: 1.08; }
+    h2 { letter-spacing: -.01em; line-height: 1.15; font-size: clamp(1.7rem, 4vw, 2.7rem); }
+    h3 { letter-spacing: -.005em; }
+    .sec-label { font-size: .72rem; letter-spacing: .22em; position: relative; }
+    /* Paragraphes courants : largeur de lecture bornée pour le confort */
+    section p:not([class]) { max-width: var(--max-read); }
+
+    /* Divider affiné : dégradé or, légèrement plus fin */
+    .divider {
+      width: 52px; height: 2px; border-radius: 2px;
+      background: linear-gradient(90deg, var(--brown), var(--brown-lt));
+      margin: 16px 0 30px;
+    }
+
+    /* Reveal au scroll — courbe plus douce, translation légèrement plus ample */
+    .fi { transform: translateY(24px); transition: opacity var(--d-med) var(--ease-out), transform var(--d-med) var(--ease-out); will-change: opacity, transform; }
+    .fi.show { will-change: auto; }
+    /* Variante reveal image : léger scale + masque, pour photographies */
+    .reveal-img { overflow: hidden; }
+    .reveal-img img, .reveal-img > .hero-bg { transition: transform 1.4s var(--ease-out), opacity var(--d-slow) var(--ease-out); }
+
+    /* Boutons : accessibilité focus + état actif + flèche animée */
+    .btn { transition: transform var(--d-fast) var(--ease-out), box-shadow var(--d-fast) var(--ease-out), background-color var(--d-fast) var(--ease-out); }
+    .btn:active { transform: translateY(0) scale(.985); }
+    .btn:focus-visible, .btn-add:focus-visible, .cart-btn:focus-visible,
+    a:focus-visible, button:focus-visible, summary:focus-visible {
+      outline: 2px solid var(--brown-lt); outline-offset: 3px; border-radius: 4px;
+    }
+    /* Flèche qui glisse : cibler les CTA dont le libellé se termine par une flèche via .btn-arrow */
+    .btn-arrow .arw { display: inline-block; transition: transform var(--d-fast) var(--ease-out); }
+    .btn-arrow:hover .arw { transform: translateX(4px); }
+
+    /* Cartes produit / pack : hover feuilleté plus chaleureux, easing cohérent */
+    .product-card { transition: transform var(--d-fast) var(--ease-out), box-shadow var(--d-fast) var(--ease-out); box-shadow: var(--sh-warm-sm); }
+    .product-card:hover { transform: translateY(-4px); box-shadow: var(--sh-warm-lg); }
+    .prod-img img, .pack-img img { transition: transform 1s var(--ease-out); }
+    .product-card:hover .prod-img img { transform: scale(1.05); }
+    .pack-card { transition: transform var(--d-fast) var(--ease-out), box-shadow var(--d-fast) var(--ease-out); box-shadow: var(--sh-warm-lg); }
+    .pack-card:hover { transform: translateY(-4px); }
+    .pack-card:hover .pack-img img { transform: scale(1.08); }
+    .marche-card { transition: transform var(--d-fast) var(--ease-out), box-shadow var(--d-fast) var(--ease-out); }
+    .marche-card:not(.active):hover { transform: translateY(-3px); box-shadow: var(--sh-warm-md); }
+    .vivant-card, .vinaigre-card, .comparatif-col { transition: transform var(--d-fast) var(--ease-out), box-shadow var(--d-fast) var(--ease-out); }
+    .vivant-card:hover { transform: translateY(-3px); box-shadow: var(--sh-warm-md); }
+
+    /* Respect du réglage système « réduire les animations » */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important; animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important; scroll-behavior: auto !important;
+      }
+      .fi { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       HEADER STICKY + NAVIGATION  (nouveau — n'existait pas)
+       Transparent au-dessus du hero, se solidifie au scroll.
+       ══════════════════════════════════════════════════════════════════ */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 940;
+      height: var(--header-h);
+      display: flex; align-items: center;
+      transition: background-color var(--d-med) var(--ease-soft),
+                  box-shadow var(--d-med) var(--ease-soft),
+                  height var(--d-med) var(--ease-soft),
+                  backdrop-filter var(--d-med) var(--ease-soft);
+    }
+    .site-header .container {
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      max-width: 1160px;
+    }
+    .site-header.scrolled {
+      background: rgba(244,239,230,.88);
+      -webkit-backdrop-filter: saturate(140%) blur(12px);
+      backdrop-filter: saturate(140%) blur(12px);
+      box-shadow: 0 1px 0 rgba(28,45,25,.06), 0 6px 24px rgba(28,45,25,.06);
+    }
+    /* Marque */
+    .hd-brand { display: flex; flex-direction: column; line-height: 1; text-decoration: none; }
+    .hd-brand-name {
+      font-family: var(--ff-disp); font-weight: 700; font-size: 1.5rem;
+      color: #fff; letter-spacing: .02em; transition: color var(--d-med) var(--ease-soft);
+    }
+    .hd-brand-tag {
+      font-size: .56rem; font-weight: 700; letter-spacing: .24em; text-transform: uppercase;
+      color: rgba(255,255,255,.6); margin-top: 4px; transition: color var(--d-med) var(--ease-soft);
+    }
+    .site-header.scrolled .hd-brand-name { color: var(--green-deep); }
+    .site-header.scrolled .hd-brand-tag  { color: var(--brown); }
+    /* Navigation ancres */
+    .hd-nav { display: none; align-items: center; gap: 30px; }
+    @media (min-width: 900px) { .hd-nav { display: flex; } }
+    .hd-link {
+      position: relative; font-size: .82rem; font-weight: 700;
+      letter-spacing: .04em; color: rgba(255,255,255,.82);
+      padding: 6px 0; transition: color var(--d-fast) var(--ease-soft);
+    }
+    .hd-link::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 1.5px;
+      background: var(--brown-lt); transform: scaleX(0); transform-origin: left;
+      transition: transform var(--d-fast) var(--ease-out);
+    }
+    .hd-link:hover, .hd-link.active { color: #fff; }
+    .hd-link:hover::after, .hd-link.active::after { transform: scaleX(1); }
+    .site-header.scrolled .hd-link { color: var(--txt-md); }
+    .site-header.scrolled .hd-link:hover,
+    .site-header.scrolled .hd-link.active { color: var(--green-deep); }
+    /* Actions (panier + burger) */
+    .hd-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .hd-brand { min-width: 0; }
+    .hd-cart {
+      position: relative; display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; border: 1.5px solid rgba(255,255,255,.4);
+      color: #fff; border-radius: var(--r-pill); padding: 8px 16px 8px 14px;
+      font-family: var(--ff-body); font-size: .8rem; font-weight: 700; cursor: pointer;
+      transition: background-color var(--d-fast) var(--ease-soft), border-color var(--d-fast) var(--ease-soft), color var(--d-fast) var(--ease-soft);
+    }
+    .hd-cart:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.75); }
+    .hd-cart .hd-cart-label { display: none; }
+    @media (min-width: 900px) { .hd-cart .hd-cart-label { display: inline; } }
+    /* Sur mobile/tablette, on masque le tag descriptif pour laisser la place au burger */
+    @media (max-width: 640px) { .hd-brand-tag { display: none; } }
+    .site-header.scrolled .hd-cart {
+      background: var(--green-deep); border-color: var(--green-deep); color: #fff;
+    }
+    .site-header.scrolled .hd-cart:hover { background: var(--green-mid); border-color: var(--green-mid); }
+    .hd-cart-badge {
+      min-width: 19px; height: 19px; padding: 0 5px; border-radius: 100px;
+      background: var(--brown); color: #fff; font-size: .68rem; font-weight: 800;
+      display: none; align-items: center; justify-content: center; line-height: 1;
+    }
+    .hd-cart-badge.visible { display: inline-flex; }
+    /* Burger */
+    .hd-burger {
+      display: inline-flex; flex-direction: column; justify-content: center; gap: 5px;
+      width: 42px; height: 42px; padding: 0 10px; border: none; background: transparent; cursor: pointer;
+    }
+    @media (min-width: 900px) { .hd-burger { display: none; } }
+    .hd-burger span {
+      display: block; height: 2px; width: 100%; border-radius: 2px; background: #fff;
+      transition: transform var(--d-fast) var(--ease-out), opacity var(--d-fast) var(--ease-out), background-color var(--d-med) var(--ease-soft);
+    }
+    .site-header.scrolled .hd-burger span { background: var(--green-deep); }
+    body.nav-open .hd-burger span { background: var(--green-deep); }
+    body.nav-open .hd-burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    body.nav-open .hd-burger span:nth-child(2) { opacity: 0; }
+    body.nav-open .hd-burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Panneau menu mobile */
+    .mnav-overlay {
+      position: fixed; inset: 0; z-index: 990; background: rgba(17,32,21,.5);
+      opacity: 0; pointer-events: none; transition: opacity var(--d-med) var(--ease-soft);
+      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+    }
+    body.nav-open .mnav-overlay { opacity: 1; pointer-events: auto; }
+    .mnav {
+      position: fixed; top: 0; right: 0; bottom: 0; z-index: 995;
+      width: min(340px, 86vw); background: var(--green-deep);
+      transform: translateX(100%); transition: transform var(--d-med) var(--ease-inout);
+      display: flex; flex-direction: column;
+      padding: calc(var(--header-h) + 16px) 32px 40px;
+      box-shadow: -20px 0 60px rgba(0,0,0,.3);
+    }
+    body.nav-open .mnav { transform: translateX(0); }
+    .mnav-link {
+      font-family: var(--ff-disp); font-size: 1.5rem; color: rgba(255,255,255,.9);
+      padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,.08);
+      display: flex; align-items: center; justify-content: space-between;
+      opacity: 0; transform: translateX(16px);
+      transition: color var(--d-fast) var(--ease-soft), opacity var(--d-med) var(--ease-out), transform var(--d-med) var(--ease-out);
+    }
+    .mnav-link::after { content: '→'; color: var(--brown-lt); font-size: 1rem; opacity: 0; transform: translateX(-6px); transition: opacity var(--d-fast), transform var(--d-fast); }
+    .mnav-link:hover { color: #fff; }
+    .mnav-link:hover::after { opacity: 1; transform: translateX(0); }
+    body.nav-open .mnav-link { opacity: 1; transform: none; }
+    body.nav-open .mnav-link:nth-child(1) { transition-delay: .10s; }
+    body.nav-open .mnav-link:nth-child(2) { transition-delay: .15s; }
+    body.nav-open .mnav-link:nth-child(3) { transition-delay: .20s; }
+    body.nav-open .mnav-link:nth-child(4) { transition-delay: .25s; }
+    body.nav-open .mnav-link:nth-child(5) { transition-delay: .30s; }
+    body.nav-open .mnav-link:nth-child(6) { transition-delay: .35s; }
+    .mnav-foot { margin-top: auto; padding-top: 28px; }
+    .mnav-foot-label { font-size: .62rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--brown-lt); margin-bottom: 8px; }
+    .mnav-foot a { color: rgba(255,255,255,.7); font-size: .9rem; display: block; margin-bottom: 6px; transition: color var(--d-fast); }
+    .mnav-foot a:hover { color: #fff; }
+    /* Le body sous le header : le hero passe dessous (transparent), rien d'autre à décaler */
+    body.nav-open { overflow: hidden; }
+    /* Ancrages : compenser le header fixe pour ne pas masquer le haut des sections */
+    section[id] { scroll-margin-top: calc(var(--header-h) + 14px); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       HERO — immersif : ken-burns subtil, entrée du contenu, indice de scroll
+       ══════════════════════════════════════════════════════════════════ */
+    .hero-bg { transform: scale(1.12); animation: heroKen 18s var(--ease-out) forwards; will-change: transform; }
+    @keyframes heroKen { to { transform: scale(1.01); } }
+    /* Gradient un peu plus profond et directionnel pour asseoir le texte */
+    .hero-bg::after {
+      background:
+        linear-gradient(155deg, rgba(17,32,21,.55) 0%, rgba(28,58,31,.32) 45%, transparent 78%),
+        linear-gradient(to top, rgba(14,26,15,.96) 0%, rgba(17,32,21,.55) 40%, rgba(17,32,21,.08) 72%, transparent 100%);
+    }
+    /* Entrée en cascade du contenu du hero */
+    .hero-content > * { opacity: 0; transform: translateY(22px); animation: heroIn .9s var(--ease-out) forwards; }
+    .hero-content > *:nth-child(1) { animation-delay: .15s; }
+    .hero-content > *:nth-child(2) { animation-delay: .28s; }
+    .hero-content > *:nth-child(3) { animation-delay: .40s; }
+    .hero-content > *:nth-child(4) { animation-delay: .52s; }
+    .hero-content > *:nth-child(5) { animation-delay: .64s; }
+    @keyframes heroIn { to { opacity: 1; transform: none; } }
+    #hero h1 { text-shadow: 0 2px 30px rgba(0,0,0,.25); }
+    /* Indice de scroll */
+    .hero-scroll {
+      position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: heroIn .9s var(--ease-out) 1s forwards;
+    }
+    .hero-scroll-label { font-size: .58rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+    .hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(255,255,255,.55), transparent); position: relative; overflow: hidden; }
+    .hero-scroll-line::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 40%; background: var(--brown-lt); animation: scrollDot 2.2s var(--ease-inout) infinite; }
+    @keyframes scrollDot { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(260%); } }
+    @media (max-width: 639px) { .hero-scroll { display: none; } }
+
+    /* ══════════════════════════════════════════════════════════════════
+       PHOTOGRAPHIES — mise en valeur (reveal + zoom doux)
+       ══════════════════════════════════════════════════════════════════ */
+    .histoire-img { box-shadow: var(--sh-warm-lg); }
+    .histoire-img img { transition: transform 1.6s var(--ease-out); transform: scale(1.06); }
+    .histoire-img.show img { transform: scale(1); }        /* réglage doux à l'apparition */
+    .histoire-img:hover img { transform: scale(1.05); transition: transform 1.2s var(--ease-out); }
+    .video-inner { box-shadow: var(--sh-warm-lg); }
+
+    /* Cartes vinaigre & comparatif : liseré or au survol pour la profondeur */
+    .vinaigre-card { transition: border-color var(--d-fast) var(--ease-soft), transform var(--d-fast) var(--ease-out); }
+    .vinaigre-card:hover { border-color: rgba(201,164,90,.4); transform: translateY(-3px); }
+
+    /* Chips & badges : légère élévation cohérente */
+    .badge-pop, .badge-new { transition: transform var(--d-fast) var(--ease-out); }
+
+    /* FAQ : ouverture plus douce */
+    .faq-item { transition: box-shadow var(--d-fast) var(--ease-soft); }
+    .faq-item[open] { box-shadow: var(--sh-warm-md); }
+    .faq-item summary { transition: color var(--d-fast) var(--ease-soft); }
+    .faq-item summary::after { transition: transform var(--d-fast) var(--ease-out); }
+    .faq-item[open] summary::after { transform: rotate(180deg); }
+
+    /* ══════════════════════════════════════════════════════════════════
+       AJUSTEMENTS MOBILE — header compact, respiration, confort tactile
+       ══════════════════════════════════════════════════════════════════ */
+    @media (max-width: 400px) {
+      .hd-brand-name { font-size: 1.3rem; }
+      .hd-brand-tag { letter-spacing: .18em; font-size: .52rem; }
+      .hd-cart { padding: 8px 12px; }
+      .site-header .container { padding: 0 16px; }
+    }
+    @media (max-width: 639px) {
+      /* Cibles tactiles plus généreuses sur les CTA */
+      .btn-lg { padding: 16px 30px; }
+      .hero-content { padding-bottom: 56px; }
+      #hero h1 { font-size: clamp(1.8rem, 7vw, 2.6rem); }
+      .hero-sub { font-size: 1rem; }
+      /* Un peu plus d'air entre les cartes empilées */
+      .packs-grid { gap: 16px; }
+    }
+    /* Le contenu du hero n'est jamais masqué par le header transparent (texte en bas) */
+    @media (min-width: 640px) and (max-width: 899px) {
+      .site-header .container { max-width: 100%; }
+    }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
 
@@ -1162,11 +1458,57 @@
 </head>
 <body>
 
+<!-- Fallback sans JavaScript : le contenu à révélation au scroll reste visible -->
+<noscript><style>.fi{opacity:1!important;transform:none!important}.hero-content>*{opacity:1!important;transform:none!important}.hero-scroll{opacity:1!important}</style></noscript>
+
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- Cart Button -->
-<button class="cart-btn" onclick="openCart()" aria-label="Panier">
+<!-- ════ HEADER STICKY ════ -->
+<header class="site-header" id="site-header">
+  <div class="container">
+    <a href="#hero" class="hd-brand" aria-label="BroKa — accueil">
+      <span class="hd-brand-name">BroKa</span>
+      <span class="hd-brand-tag">Ferme Goyhenetxea · Pays Basque</span>
+    </a>
+    <nav class="hd-nav" aria-label="Navigation principale">
+      <a href="#produits" class="hd-link">Nos produits</a>
+      <a href="#vinaigre" class="hd-link">Le vinaigre</a>
+      <a href="#histoire" class="hd-link">La ferme</a>
+      <a href="#marches" class="hd-link">Marchés</a>
+      <a href="#faq" class="hd-link">FAQ</a>
+    </nav>
+    <div class="hd-actions">
+      <button class="hd-cart" onclick="openCart()" aria-label="Ouvrir le panier">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+        <span class="hd-cart-label">Panier</span>
+        <span class="hd-cart-badge" id="cart-badge-hd">0</span>
+      </button>
+      <button class="hd-burger" id="hd-burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-nav" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ════ MENU MOBILE ════ -->
+<div class="mnav-overlay" id="mnav-overlay" onclick="closeNav()"></div>
+<nav class="mnav" id="mobile-nav" aria-label="Navigation mobile">
+  <a href="#produits" class="mnav-link" onclick="closeNav()">Nos produits</a>
+  <a href="#vinaigre" class="mnav-link" onclick="closeNav()">Le vinaigre</a>
+  <a href="#histoire" class="mnav-link" onclick="closeNav()">La ferme</a>
+  <a href="#marches" class="mnav-link" onclick="closeNav()">Marchés</a>
+  <a href="#guide" class="mnav-link" onclick="closeNav()">7 recettes offertes</a>
+  <a href="#faq" class="mnav-link" onclick="closeNav()">FAQ</a>
+  <div class="mnav-foot">
+    <div class="mnav-foot-label">Nous contacter</div>
+    <a href="https://wa.me/33770012652" target="_blank" rel="noopener">WhatsApp · 07 70 01 26 52</a>
+    <a href="mailto:contact@ferme-broka.fr">contact@ferme-broka.fr</a>
+  </div>
+</nav>
+
+<!-- Cart Button (flottant — masqué, remplacé par le panier du header ; conservé pour compat) -->
+<button class="cart-btn" onclick="openCart()" aria-label="Panier" style="display:none">
   <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
   Panier
   <span class="cart-badge" id="cart-badge">0</span>
@@ -1300,8 +1642,8 @@
     <div style="font-size:.75rem;color:var(--txt-lt);text-align:right;margin:-2px 0 2px" id="cart-home-note"></div>
     <div style="font-size:.73rem;color:var(--brown);font-weight:700;margin-bottom:12px" id="cart-franco-note"></div>
     <div class="cart-row total"><span>Total estimé</span><span id="cart-total">0 €</span></div>
-    <button class="btn btn-brown btn-full btn-lg" id="cart-checkout-btn" onclick="checkoutCart()">
-      Commander →
+    <button class="btn btn-brown btn-full btn-lg btn-arrow" id="cart-checkout-btn" onclick="checkoutCart()">
+      Commander <span class="arw">→</span>
     </button>
   </div>
 </div>
@@ -1325,10 +1667,14 @@
     <h1>Sagar Ozpina<br>Vinaigre de cidre BIO</h1>
     <p class="hero-sub">Vinaigre artisanal, Xipister &amp; Guindillas —<br>produits à la ferme depuis trois générations.</p>
     <div class="hero-ctas">
-      <a href="#produits" class="btn btn-basque btn-lg">Voir nos produits →</a>
+      <a href="#produits" class="btn btn-basque btn-lg btn-arrow">Voir nos produits <span class="arw">→</span></a>
       <a href="#guide" class="btn btn-outline btn-lg">Recevoir 7 recettes</a>
     </div>
   </div>
+  <a href="#produits" class="hero-scroll" aria-label="Découvrir">
+    <span class="hero-scroll-label">Découvrir</span>
+    <span class="hero-scroll-line"></span>
+  </a>
 </section>
 
 <!-- ════ PRODUITS ════ -->
@@ -1649,7 +1995,7 @@
     </div>
 
     <div class="vinaigre-cta fi">
-      <a href="#produits" class="btn btn-brown">Voir nos produits →</a>
+      <a href="#produits" class="btn btn-brown btn-arrow">Voir nos produits <span class="arw">→</span></a>
       <button class="btn btn-basque" onclick="addToCart('vinaigre_500')" style="gap:10px">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
         J'adopte le rituel — 17 €
@@ -2377,6 +2723,8 @@
     const badge = document.getElementById('cart-badge');
     badge.textContent = totalQty;
     badge.classList.toggle('visible', totalQty > 0);
+    const badgeHd = document.getElementById('cart-badge-hd');
+    if (badgeHd) { badgeHd.textContent = totalQty; badgeHd.classList.toggle('visible', totalQty > 0); }
 
     const empty = document.getElementById('cart-empty');
     const items = document.getElementById('cart-items');
@@ -2948,6 +3296,73 @@
   updateCartBtn();
   loadApprovedReviews();
   initAvisCarousel();
+
+  /* ══════════════════════════════════════════════════════════════════
+     REFONTE UI — Interactions (header, menu mobile, scrollspy, reveal)
+     ══════════════════════════════════════════════════════════════════ */
+  (function () {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const header = document.getElementById('site-header');
+
+    // ── Header : état « scrolled » (transparent → solide) ──
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (header) header.classList.toggle('scrolled', window.scrollY > 40);
+        ticking = false;
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ── Menu mobile ──
+    const burger = document.getElementById('hd-burger');
+    window.toggleNav = function () {
+      const open = document.body.classList.toggle('nav-open');
+      if (burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    window.closeNav = function () {
+      document.body.classList.remove('nav-open');
+      if (burger) burger.setAttribute('aria-expanded', 'false');
+    };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') window.closeNav(); });
+
+    // ── Scrollspy : indicateur de section active dans la nav desktop ──
+    const navLinks = Array.from(document.querySelectorAll('.hd-link'));
+    const spyMap = new Map();
+    navLinks.forEach(l => {
+      const id = l.getAttribute('href').slice(1);
+      const sec = document.getElementById(id);
+      if (sec) spyMap.set(sec, l);
+    });
+    if (spyMap.size) {
+      const spy = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            navLinks.forEach(l => l.classList.remove('active'));
+            const link = spyMap.get(e.target);
+            if (link) link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+      spyMap.forEach((_l, sec) => spy.observe(sec));
+    }
+
+    // ── Reveal au scroll : stagger uniquement sur les vraies grilles de cartes ──
+    // (évite d'ajouter du délai à des éléments verticalement éloignés)
+    if (!prefersReduced) {
+      const gridSel = '.packs-grid, .products-grid, .marches-grid, .vivant-grid, .vinaigre-grid, .comparatif-grid, .prix-justif-items, .avis-track';
+      document.querySelectorAll(gridSel).forEach(grid => {
+        Array.from(grid.children).forEach((child, i) => {
+          if (child.classList.contains('fi') && i > 0) {
+            child.style.transitionDelay = Math.min(i * 80, 320) + 'ms';
+          }
+        });
+      });
+    }
+  })();
 </script>
 </body>
 </html>
