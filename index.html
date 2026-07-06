@@ -1226,6 +1226,27 @@
     @media (min-width: 640px) and (max-width: 899px) {
       .site-header .container { max-width: 100%; }
     }
+
+    /* ══════════════════════════════════════════════════════════════════
+       ATTRIBUTS SAGAR OZPINA — liste alignée (remplace le nuage de pastilles)
+       Plus éditorial, parfaitement aligné, premium sur mobile comme desktop.
+       ══════════════════════════════════════════════════════════════════ */
+    .vinaigre-chips {
+      display: grid; grid-template-columns: 1fr 1fr;
+      column-gap: 44px; row-gap: 0; margin: 28px 0 44px;
+    }
+    @media (max-width: 560px) { .vinaigre-chips { grid-template-columns: 1fr; column-gap: 0; } }
+    .vinaigre-chip {
+      display: flex; align-items: center; gap: 11px;
+      background: none; border: 0; border-top: 1px solid rgba(201,164,90,.2);
+      border-radius: 0; padding: 13px 2px; margin: 0;
+      font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+      color: rgba(255,255,255,.82);
+    }
+    .vinaigre-chip::before {
+      content: '✦'; color: var(--brown-lt); font-size: .62rem; opacity: .95;
+      flex-shrink: 0; margin: 0;
+    }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
 
