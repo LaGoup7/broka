@@ -1247,6 +1247,32 @@
       content: '✦'; color: var(--brown-lt); font-size: .62rem; opacity: .95;
       flex-shrink: 0; margin: 0;
     }
+
+    /* ══════════════════════════════════════════════════════════════════
+       PHOTO TERROIR — section Sagar Ozpina (intro texte + photo portrait)
+       ══════════════════════════════════════════════════════════════════ */
+    .vinaigre-lede { margin-top: 4px; }
+    @media (min-width: 760px) {
+      .vinaigre-lede {
+        display: grid; grid-template-columns: 1.25fr .75fr;
+        gap: 52px; align-items: center;
+      }
+      .vinaigre-lede > p { margin: 0; }
+    }
+    .vinaigre-photo {
+      margin: 28px 0 0; border-radius: var(--r-lg); overflow: hidden;
+      box-shadow: var(--sh-warm-lg); aspect-ratio: 4 / 5;
+      border: 1px solid rgba(201,164,90,.18);
+    }
+    @media (min-width: 760px) { .vinaigre-photo { margin: 0; } }
+    .vinaigre-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      transform: scale(1.06); transition: transform 1.6s var(--ease-out);
+    }
+    .vinaigre-photo.show img { transform: scale(1); }
+    .vinaigre-photo:hover img { transform: scale(1.05); transition: transform 1.2s var(--ease-out); }
+    /* Sur très petit écran, éviter une image trop haute */
+    @media (max-width: 480px) { .vinaigre-photo { aspect-ratio: 1 / 1; } }
   </style>
   <script defer src="/_vercel/insights/script.js"></script>
 
@@ -1892,11 +1918,18 @@
     <p class="sec-label fi" style="color:var(--brown-lt)">Notre vinaigre signature</p>
     <h2 class="fi" style="color:#fff">Sagar Ozpina — <em style="color:var(--brown-lt)">ce que c'est vraiment</em></h2>
     <div class="divider fi" style="background:var(--brown-lt)"></div>
-    <p class="fi" style="color:rgba(255,255,255,.75);max-width:560px;font-size:1rem;line-height:1.8">
-      Un vinaigre de cidre BIO issu d'un seul verger en Soule, fermenté lentement à l'air libre,
-      non filtré, non pasteurisé. En bouche, une acidité franche mais équilibrée, des notes de pomme fermentée
-      et une vraie longueur — il relève une salade, une marinade ou des légumes sans écraser le goût des aliments.
-    </p>
+    <div class="vinaigre-lede">
+      <p class="fi" style="color:rgba(255,255,255,.75);max-width:560px;font-size:1rem;line-height:1.8">
+        Un vinaigre de cidre BIO issu d'un seul verger en Soule, fermenté lentement à l'air libre,
+        non filtré, non pasteurisé. En bouche, une acidité franche mais équilibrée, des notes de pomme fermentée
+        et une vraie longueur — il relève une salade, une marinade ou des légumes sans écraser le goût des aliments.
+      </p>
+      <figure class="vinaigre-photo fi">
+        <img src="images/sagar_ozpina_verger.jpg"
+             alt="Bouteille Sagar Ozpina 50 cl posée sur les pommes du verger — vinaigre de cidre BIO, Ferme Goyhenetxea, Xiberoa, Pays Basque"
+             width="900" height="1125" loading="lazy" decoding="async">
+      </figure>
+    </div>
 
     <div class="vinaigre-chips fi">
       <span class="vinaigre-chip">BIO · FR-BIO-10</span>
